@@ -1,0 +1,16 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mavry adaptive icon foreground</title>
+  <desc id="desc">Transparent Android adaptive icon foreground using the Mavry compact circular rayfield symbol.</desc>
+  <defs>
+    <mask id="mavry-adaptive-foreground-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <rect width="1024" height="1024" fill="black"/>
+      <circle cx="512" cy="512" r="320" fill="white"/>
+      <g stroke="black" stroke-width="83.2" stroke-linecap="butt">
+        <path d="M358.4 102.4L921.6 665.6"/>
+        <path d="M102.4 102.4L921.6 921.6"/>
+        <path d="M102.4 358.4L665.6 921.6"/>
+      </g>
+    </mask>
+  </defs>
+  <rect width="1024" height="1024" fill="#FDFDFD" mask="url(#mavry-adaptive-foreground-mask)"/>
+</svg>

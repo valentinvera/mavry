@@ -1,0 +1,16 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mavry app icon</title>
+  <desc id="desc">Mavry app icon with the compact circular rayfield symbol centered on a black field.</desc>
+  <rect width="1024" height="1024" fill="#000000"/>
+  <defs>
+    <clipPath id="mavry-app-icon-cut">
+      <circle cx="512" cy="512" r="320"/>
+    </clipPath>
+  </defs>
+  <circle cx="512" cy="512" r="320" fill="#FDFDFD"/>
+  <g clip-path="url(#mavry-app-icon-cut)" stroke="#000000" stroke-linecap="butt" stroke-width="83.2">
+    <path d="M358.4 102.4L921.6 665.6"/>
+    <path d="M102.4 102.4L921.6 921.6"/>
+    <path d="M102.4 358.4L665.6 921.6"/>
+  </g>
+</svg>

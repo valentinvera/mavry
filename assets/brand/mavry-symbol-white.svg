@@ -1,0 +1,16 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" style="color:#FDFDFD">
+  <title id="title">Mavry symbol</title>
+  <desc id="desc">The Mavry compact circular rayfield symbol with balanced edge-to-edge diagonal cutlines.</desc>
+  <defs>
+    <mask id="mavry-symbol-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="128" height="128">
+      <rect width="128" height="128" fill="black"/>
+      <circle cx="64" cy="64" r="50" fill="white"/>
+      <g stroke="black" stroke-width="13" stroke-linecap="butt">
+        <path d="M40 0L128 88"/>
+        <path d="M0 0L128 128"/>
+        <path d="M0 40L88 128"/>
+      </g>
+    </mask>
+  </defs>
+  <rect width="128" height="128" fill="currentColor" mask="url(#mavry-symbol-mask)"/>
+</svg>

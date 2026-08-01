@@ -1,0 +1,16 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mavry black icon tile</title>
+  <desc id="desc">Mavry compact circular rayfield mark in white with black cutlines on a rounded black tile.</desc>
+  <rect width="128" height="128" rx="28" fill="#000000"/>
+  <defs>
+    <clipPath id="mavry-icon-tile-black-cut">
+      <circle cx="64" cy="64" r="40"/>
+    </clipPath>
+  </defs>
+  <circle cx="64" cy="64" r="40" fill="#FDFDFD"/>
+  <g clip-path="url(#mavry-icon-tile-black-cut)" stroke="#000000" stroke-linecap="butt" stroke-width="10.4">
+    <path d="M44.8 12.8L115.2 83.2"/>
+    <path d="M12.8 12.8L115.2 115.2"/>
+    <path d="M12.8 44.8L83.2 115.2"/>
+  </g>
+</svg>

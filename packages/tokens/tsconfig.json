@@ -1,0 +1,4 @@
+{
+  "extends": "@mavry/ts-config/nestjs-framework",
+  "include": ["src/**/*.ts"]
+}
