@@ -1,5 +1,5 @@
 {
-  "extends": "@new-project/config/tsconfig.base.json",
+  "extends": "@mavry/ts-config/base",
   "compilerOptions": {
     "strictNullChecks": true
   }

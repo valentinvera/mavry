@@ -6,21 +6,22 @@ node_modules
 # Build outputs
 dist
 build
+out
+web-build
 *.tsbuildinfo
 
 # Generated files
 apps/web/src/routeTree.gen.ts
+packages/trpc/src/generated/server.ts
+expo-env.d.ts
+uniwind-env.d.ts
+uniwind-types.d.ts
 
 # Environment variables
 .env
 .env*.local
 
 # IDEs and editors
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 .idea
 *.swp
 *.swo
@@ -30,22 +31,36 @@ apps/web/src/routeTree.gen.ts
 # Logs
 logs
 *.log
+_.log
+report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 npm-debug.log*
+npm-debug.*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Expo and mobile signing
+.expo
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+.metro-health-check*
+
 # Turbo
 .turbo
-.nx
-
-# Better-T-Stack
-.alchemy
 
 # Testing
 coverage
+*.lcov
 .nyc_output
+test-results
+playwright-report
+blob-report
+.playwright-output
 
 # Misc
 *.tgz

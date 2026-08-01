@@ -48,21 +48,15 @@
     }
   },
   "context_servers": {
-    "better-t-stack": {
-      "source": "custom",
-      "command": "bunx",
-      "args": ["create-better-t-stack@latest", "mcp"],
-      "env": {}
-    },
     "context7": {
       "source": "custom",
-      "command": "npx",
+      "command": "bunx",
       "args": ["-y", "@upstash/context7-mcp"],
       "env": {}
     },
     "shadcn": {
       "source": "custom",
-      "command": "npx",
+      "command": "bunx",
       "args": ["-y", "shadcn@latest", "mcp"],
       "env": {}
     },
@@ -83,6 +77,12 @@
       "type": "http",
       "url": "https://mcp.polar.sh/mcp/polar-mcp",
       "headers": {}
-    }
+    },
+     "expo-mcp": {
+            "source": "custom",
+                  "type": "http",
+                        "url": "https://mcp.expo.dev/mcp",
+                              "headers": {}
+                                  }
+     }
   }
-}
