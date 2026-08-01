@@ -249,6 +249,109 @@ No Mavry background or wallpaper assets exist yet. Do not use or invent backgrou
 - Dark backgrounds with subtle depth.
 - Product surfaces should prioritize real UI, roadmaps, decision logs, feature scope, MVP readiness, and product clarity.
 
+## Layout And Composition Rules
+
+Mavry product screens are decision workspaces, not decorative SaaS pages. Design every screen around the product decision it helps the builder make: what to build now, what to leave for later, what to cut, what is blocking launch, or what the next action is.
+
+### Composition Before Components
+
+- Start with the user question before choosing components.
+- Do not default to "heading plus card grid" unless the information truly has peer items.
+- Give each important screen one dominant object:
+  - Project Home: next actions and current product risk.
+  - MVP Scope: the Core, Support, Later, and No for now relationship.
+  - Roadmap: Now, Next, Later, and Not doing sequence.
+  - Launch Readiness: blockers, readiness status, and not-required-yet work.
+  - Cut List: explicit decisions and reasons.
+- Surround the dominant object with only the supporting context needed to act.
+- If every section has equal visual weight, redesign the hierarchy before adding surfaces, color, icons, or borders.
+
+### Decision Geometry
+
+Use geometry to communicate product meaning:
+
+- Priority or importance -> rank, position, or weight.
+- Roadmap sequence -> ordered lanes, timeline, or clear vertical progression.
+- Readiness -> distance from a threshold and visible blockers.
+- Scope creep -> growth, heaviness, or expansion pressure.
+- Cut decisions -> visible separation from MVP scope, not hidden deletion.
+- Dependencies -> connection, sequence, or grouped adjacency.
+
+Do not use charts, bars, or diagrams only because data exists. Use them only when they make the product decision faster to understand.
+
+### Grid And Alignment
+
+- Use a consistent page grid across web product surfaces.
+- Align objects to shared edges, baselines, grid lines, or deliberate optical centers.
+- Equivalent items must share structure: label position, value position, action alignment, row rhythm, and type role.
+- Do not strand important boards, tables, or scope views in narrow tracks when available width would make scanning easier.
+- Let dense product tools use the full content width when lookup, comparison, or drag/reorder behavior benefits from it.
+- On mobile, recompose the layout before shrinking text or hiding useful context.
+
+### Surfaces And Boundaries
+
+- Treat the page as one continuous workspace by default.
+- Use a card, panel, border, or separated surface only when it communicates a real grouping, selected state, warning, interaction zone, or contrast that spacing cannot express.
+- Do not wrap every section, metric, feature, or roadmap item in a card.
+- Do not put cards inside cards or panels inside panels.
+- Do not use borders to compensate for weak hierarchy.
+- Prefer spacing, alignment, density shifts, and typography before adding boxes.
+- Keep radii restrained and consistent with Mavry tokens.
+
+### Rhythm And Density
+
+- Build spacing from relationships, not one uniform gap everywhere.
+- Keep headings close to the content they introduce.
+- Keep labels, values, details, and actions aligned consistently across peer rows.
+- Use larger separation only when the user is moving to a new decision area.
+- Empty space must help the dominant object stand out. Accidental holes, orphaned third columns, and underfilled split layouts are failures.
+- Mavry can be dense because it is an operational product, but density must remain scannable and calm.
+
+### Screen Structure
+
+- Every section must answer a different product question.
+- Remove repeated summaries that say the same thing with different components.
+- Keep one home for each product claim or decision; do not duplicate the same readiness, recommendation, or cut reason at equal prominence.
+- End product flows with a clear implication, saved decision, next action, or unresolved blocker.
+- Mobile screens should optimize for capture, review, and quick classification. Web screens should optimize for deeper product work.
+
+### Responsive Behavior
+
+- Preserve readable type and tappable controls.
+- Give grid and flex children `min-width: 0` so content can reflow safely.
+- Reflow before truncating or shrinking important text.
+- Long tables, ledgers, and boards may scroll locally when preserving lookup is more useful than forcing everything into stacked cards.
+- Light and dark modes should preserve the same hierarchy, not merely invert colors.
+
+### Motion
+
+- Default to stillness.
+- Use motion only to explain a state change, preserve continuity, or confirm an action.
+- Do not use motion as decoration, suspense, or personality.
+- Never gate reading behind animations.
+- Respect reduced-motion preferences.
+
+## Reject Patterns
+
+Do not ship these patterns in Mavry:
+
+- Generic centered hero copy followed by a card grid.
+- Cards inside cards, panels inside panels, or nested bordered boxes.
+- Border gradients, gradient text, glows, blobs, bokeh, glass effects, fake depth, decorative shadows, or ornamental textures.
+- Decorative grid backgrounds, stripes, side rails, or noisy abstract backgrounds.
+- Repeated metric cards when one composed relationship would explain the product state better.
+- Badges, pills, or rounded capsules for ordinary labels, metadata, or every status.
+- Icons as decoration, oversized icons, mixed icon styles, or arbitrary icon tiles.
+- A dark rounded rectangle around every chart, board, or tool.
+- Identical section silhouettes across unrelated product questions.
+- Tiny muted copy used to make overcrowded UI fit.
+- Tables or boards compressed into narrow columns while useful width is empty.
+- Color-only meaning for status, risk, priority, or readiness.
+- Fake product screenshots, stock imagery, generic AI illustrations, or visual assets that do not explain the product.
+- Repeated recommendation, summary, rationale, and conclusion blocks that say the same thing.
+- Authoring-process copy such as "this section shows" or "we organized this by".
+- Visible theme toggles in formal marketing or brand pages unless the product context actually requires one.
+
 ## Design Principles
 
 1. Dark-first design philosophy
