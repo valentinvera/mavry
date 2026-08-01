@@ -1,6 +1,4 @@
 {
-  "extends": "@new-project/config/tsconfig.base.json",
-  "compilerOptions": {
-    "strictNullChecks": true
-  }
+  "extends": "@mavry/ts-config/nestjs-framework",
+  "include": ["src/**/*.ts"]
 }

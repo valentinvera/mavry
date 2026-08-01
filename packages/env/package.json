@@ -1,11 +1,19 @@
 {
-  "name": "@new-project/env",
+  "name": "@mavry/env",
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "exports": {
-    "./server": "./src/server.ts",
-    "./web": "./src/web.ts"
+    "./*": {
+      "types": "./dist/*.d.mts",
+      "import": "./dist/*.mjs",
+      "default": "./dist/*.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@t3-oss/env-core": "^0.13.1",
@@ -13,7 +21,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@new-project/config": "workspace:*",
+    "@mavry/ts-config": "workspace:*",
     "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
