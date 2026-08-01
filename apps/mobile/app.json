@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Mavry",
+    "slug": "mavry",
+    "version": "0.0.0",
+    "scheme": "mavry",
+    "orientation": "default",
+    "icon": "./assets/brand/mavry-app-icon-1024.png",
+    "userInterfaceStyle": "automatic",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "ios": {
+      "bundleIdentifier": "com.mavry.app",
+      "icon": "./assets/brand/mavry-app-icon-1024.png"
+    },
+    "android": {
+      "package": "com.mavry.app",
+      "icon": "./assets/brand/mavry-app-icon-1024.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/brand/mavry-app-icon-foreground.png",
+        "monochromeImage": "./assets/brand/mavry-app-icon-monochrome.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/brand/mavry-favicon-32.png"
+    },
+    "plugins": ["expo-font", "expo-updates", "expo-router"],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "owner": "valenvera-team",
+    "extra": {
+      "eas": {
+        "projectId": "1bc55ef3-2fe6-4223-9270-5f0f58870d46"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1bc55ef3-2fe6-4223-9270-5f0f58870d46"
+    }
+  }
+}
