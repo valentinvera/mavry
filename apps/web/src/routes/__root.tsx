@@ -1,17 +1,19 @@
-import type { AppRouter } from "@new-project/api/routers/index";
-import { Toaster } from "@new-project/ui/components/sonner";
-import type { QueryClient } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query";
+import type { AppRouter } from "@mavry/trpc/generated/server"
+import type { QueryClient } from "@tanstack/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+  Scripts,
+} from "@tanstack/react-router"
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
+import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query"
+import appCss from "../styles/globals.css?url"
 
-import Header from "../components/header";
-
-import appCss from "../index.css?url";
 export interface RouterAppContext {
-  trpc: TRPCOptionsProxy<AppRouter>;
-  queryClient: QueryClient;
+  queryClient: QueryClient
+  trpc: TRPCOptionsProxy<AppRouter>
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
@@ -25,7 +27,23 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "My App",
+        title: "Mavry",
+      },
+      {
+        name: "description",
+        content: "Product clarity for focused builders.",
+      },
+      {
+        name: "theme-color",
+        content: "#000000",
+      },
+      {
+        name: "application-name",
+        content: "Mavry",
+      },
+      {
+        name: "apple-mobile-web-app-title",
+        content: "Mavry",
       },
     ],
     links: [
@@ -33,28 +51,52 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         rel: "stylesheet",
         href: appCss,
       },
+      {
+        rel: "icon",
+        href: "/brand/mavry-favicon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        rel: "icon",
+        href: "/brand/mavry-favicon-32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        rel: "icon",
+        href: "/brand/mavry-favicon-16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/brand/mavry-touch-icon-180.png",
+        sizes: "180x180",
+      },
+      {
+        rel: "manifest",
+        href: "/manifest.webmanifest",
+      },
     ],
   }),
 
   component: RootDocument,
-});
+})
 
 function RootDocument() {
   return (
-    <html lang="en" className="dark">
+    <html className="dark" lang="en">
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="grid h-svh grid-rows-[auto_1fr]">
-          <Header />
+        <div className="min-h-svh">
           <Outlet />
         </div>
-        <Toaster richColors />
         <TanStackRouterDevtools position="bottom-left" />
-        <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+        <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
         <Scripts />
       </body>
     </html>
-  );
+  )
 }

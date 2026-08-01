@@ -1,14 +1,11 @@
 {
-  "extends": "@new-project/config/tsconfig.base.json",
+  "extends": "@mavry/ts-config/react-library",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "types": [],
     "paths": {
-      "@new-project/ui/*": ["./src/*"]
-    },
-    "strictNullChecks": true
+      "@mavry/*": ["./src/*"],
+      "@mavry/ui/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
