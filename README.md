@@ -1,6 +1,6 @@
-# new-project
+# mavry
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Start, Hono, TRPC, and more.
+This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Start, NestJS, TRPC, and more.
 
 ## Features
 
@@ -8,7 +8,7 @@ This project was created with [Better-T-Stack](https://github.com/AmanVarshney01
 - **TanStack Start** - SSR framework with TanStack Router
 - **TailwindCSS** - Utility-first CSS for rapid UI development
 - **Shared UI package** - shadcn/ui primitives live in `packages/ui`
-- **Hono** - Lightweight, performant server framework
+- **NestJS** - Structured backend API framework
 - **tRPC** - End-to-end type-safe APIs
 - **Bun** - Runtime environment
 - **Drizzle** - TypeScript-first ORM
@@ -30,7 +30,7 @@ bun install
 This project uses PostgreSQL with Drizzle ORM.
 
 1. Make sure you have a PostgreSQL database set up.
-2. Update your `apps/server/.env` file with your PostgreSQL connection details.
+2. Update your `apps/api/.env` file with your PostgreSQL connection details.
 
 3. Apply the schema to your database:
 
@@ -44,8 +44,9 @@ Then, run the development server:
 bun run dev
 ```
 
-Open [http://localhost:3001](http://localhost:3001) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:8080](http://localhost:8080) in your browser to see the web application.
+From Tailscale devices, use `http://<tailscale-ip>:8080`.
+The API is running at [http://localhost:4040](http://localhost:4040), or `http://<tailscale-ip>:4040` from Tailscale devices.
 
 ## UI Customization
 
@@ -66,7 +67,7 @@ npx shadcn@latest add accordion dialog popover sheet table -c packages/ui
 Import shared components like this:
 
 ```tsx
-import { Button } from "@new-project/ui/components/button";
+import { Button } from "@mavry/ui/components/button";
 ```
 
 ### Add app-specific blocks
@@ -80,13 +81,13 @@ If you want to add app-specific blocks instead of shared primitives, run the sha
 ## Project Structure
 
 ```
-new-project/
+mavry/
 ├── apps/
 │   ├── web/         # Frontend application (React + TanStack Start)
-│   └── server/      # Backend API (Hono, TRPC)
+│   └── api/         # Backend API (NestJS, TRPC)
 ├── packages/
 │   ├── ui/          # Shared shadcn/ui components and styles
-│   ├── api/         # API layer / business logic
+│   ├── trpc/        # Shared NestJS tRPC module and generated router types
 │   ├── auth/        # Authentication configuration & logic
 │   └── db/          # Database schema & queries
 ```
@@ -96,7 +97,8 @@ new-project/
 - `bun run dev`: Start all applications in development mode
 - `bun run build`: Build all applications
 - `bun run dev:web`: Start only the web application
-- `bun run dev:server`: Start only the server
+- `bun run dev:api`: Start only the API
+- `bun run dev:server`: Start only the API (compatibility alias)
 - `bun run check-types`: Check TypeScript types across all apps
 - `bun run db:push`: Push schema changes to database
 - `bun run db:generate`: Generate database client/types

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mavry Design Skills"
+  short_description: "Brand and design guidance for Mavry."
+  default_prompt: "Use Mavry brand and design guidelines for this task."
