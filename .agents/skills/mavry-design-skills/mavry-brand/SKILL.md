@@ -229,6 +229,27 @@ No Mavry texture assets exist yet. Do not use or invent texture assets.
 
 No Mavry background or wallpaper assets exist yet. Do not use or invent background asset URLs.
 
+## Reference Quality Bar
+
+Mavry should reach the product and brand quality level of Vercel, Linear, Resend, and Raycast without copying their logos, exact layouts, marketing claims, colors, animations, or component silhouettes. Treat them as calibration references for taste, precision, restraint, and product clarity.
+
+Use these references as quality signals:
+
+- Vercel: crisp hierarchy, technical confidence, restrained surfaces, fast scanning, and product-led proof.
+- Linear: focused workflows, calm density, explicit state, strong alignment, and operational elegance.
+- Resend: monochrome discipline, sharp typography, clear developer-product positioning, and minimal ornament.
+- Raycast: compact productivity surfaces, decisive shortcuts/actions, polished details, and strong brand memory.
+
+Mavry should feel equally intentional: not a generic SaaS template, not an AI landing page, not a decorative dashboard. The product should feel like a serious decision workspace for builders who need to reduce scope and ship.
+
+Do not interpret this as "make it look like Vercel/Linear/Resend/Raycast." Interpret it as:
+
+- Every screen needs a clear product idea, not just a beautiful arrangement.
+- Every visual object should explain scope, readiness, roadmap, cuts, blockers, or next action.
+- Every section should have a distinct composition, not repeated cards with different copy.
+- Every component should feel precise, quiet, and necessary.
+- Every landing/product surface should look good enough to sit next to those products without feeling like a clone.
+
 ## Layout Patterns
 
 | Name | Description |
@@ -331,6 +352,72 @@ Do not use charts, bars, or diagrams only because data exists. Use them only whe
 - Never gate reading behind animations.
 - Respect reduced-motion preferences.
 
+## Web UI Construction Rules
+
+In `apps/web`, use shadcn/ui as the default component foundation through `packages/ui`. The agent should compose Mavry-specific screens from shadcn primitives and shared tokens before creating custom component markup.
+
+### shadcn First
+
+Before creating or editing visible web UI:
+
+- Use the `shadcn` skill together with this Mavry skill.
+- Inspect the project's shadcn context from `components.json` when component APIs, aliases, install paths, or monorepo behavior matter.
+- Check existing components in `packages/ui/src/components`.
+- If a needed shadcn component is missing, add it from `apps/web` with `bunx --bun shadcn@latest add <component>` so the CLI installs files into the correct monorepo locations.
+- Import web UI primitives from `@mavry/ui/components/*`.
+- Use `@mavry/ui/lib/utils` for `cn` and shared UI helpers when available.
+- Use `@mavry/tokens` through the configured Tailwind CSS variables. Do not write raw hex colors, duplicate token values, or app-local design variables.
+
+### Component Selection
+
+| Need | Use |
+| ---- | --- |
+| Primary or secondary action | `Button` |
+| Email capture, waitlist, settings, or product forms | `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Switch`, `Button` |
+| Inline warning, blocker, risk, or cut rationale | `Alert` |
+| Status, stage, or small metadata with real semantic meaning | `Badge` |
+| Product decision rows, feature lists, readiness ledgers | `Table`, `Item`, or composed rows from shadcn primitives |
+| Product sections with a real boundary | `Card` only when the boundary means something |
+| Separating unrelated regions | `Separator` |
+| Navigation modes, product views, scope categories | `Tabs` or `ToggleGroup` |
+| Empty project, no decisions, no blockers | `Empty` |
+| Loading states | `Skeleton` or `Spinner` |
+| Dialogs, command flows, destructive confirmation | `Dialog`, `AlertDialog`, `Sheet`, or `Command` |
+| Explanatory hover affordances | `Tooltip`, `HoverCard`, or `Popover` |
+
+### Custom UI Policy
+
+Custom web components are allowed when they represent Mavry-specific product composition: MVP scope maps, cut lists, readiness objects, roadmap lanes, decision ledgers, launch blockers, product-loop diagrams, or brand-specific landing compositions.
+
+Custom web components are not allowed for generic primitives that shadcn already covers: buttons, inputs, cards, badges, alerts, dialogs, dropdowns, tabs, tables, separators, skeletons, tooltips, forms, and command palettes.
+
+If custom UI is necessary, it must still use Mavry tokens, shadcn composition conventions, accessible HTML, and restrained Mavry layout rules.
+
+## AI Design Workflow
+
+For AI-assisted UI work, treat the first generated result as a structure draft, not a finished design. Before shipping or handing off UI, run this design pass:
+
+1. Product pass: name the product decision each section or screen helps the user make.
+2. Composition pass: remove repeated card grids, equal-weight sections, generic hero patterns, and fake product visuals.
+3. Component pass: replace hand-rolled primitives with shadcn components in web and HeroUI Native components in mobile.
+4. Token pass: remove raw colors, one-off spacing, one-off radii, and app-local design variables.
+5. Density pass: adjust alignment, rhythm, hierarchy, and whitespace so the screen feels designed, not evenly distributed.
+6. Responsive pass: verify desktop, tablet, and mobile with Playwright screenshots for web.
+
+## AI Generic Detection Checklist
+
+If any of these are true, revise the UI before calling it done:
+
+- The page could work unchanged for any AI productivity SaaS.
+- The hero says a broad promise but does not show Mavry's scope, cut, readiness, or roadmap logic.
+- The page is mostly a centered headline, email box, logos, feature cards, and FAQ.
+- Every section uses the same card/grid silhouette.
+- The UI relies on gradients, glow, blur, icon tiles, pills, or decorative dashboards to feel polished.
+- A product screenshot or panel looks impressive but does not encode a real decision a builder would make.
+- The code creates local primitives instead of using shadcn components already available in `packages/ui`.
+- The screen copies a reference brand instead of translating Mavry's own product idea into a distinct composition.
+- The design looks acceptable in one viewport but loses hierarchy, spacing, or useful context in tablet/mobile.
+
 ## Reject Patterns
 
 Do not ship these patterns in Mavry:
@@ -351,6 +438,8 @@ Do not ship these patterns in Mavry:
 - Repeated recommendation, summary, rationale, and conclusion blocks that say the same thing.
 - Authoring-process copy such as "this section shows" or "we organized this by".
 - Visible theme toggles in formal marketing or brand pages unless the product context actually requires one.
+- Hand-rolled web buttons, inputs, badges, alerts, dialogs, tabs, tables, forms, skeletons, or tooltips when a shadcn component exists.
+- Marketing pages that imitate Vercel, Linear, Resend, or Raycast directly instead of using them as a quality bar.
 
 ## Design Principles
 
