@@ -28,6 +28,7 @@
     "PLAYWRIGHT_WEB_PORT",
     "POLAR_ACCESS_TOKEN",
     "POLAR_SUCCESS_URL",
+    "NODE_ENV",
     "PORT",
     "VITE_API_URL",
     "VITE_HOST",

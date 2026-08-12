@@ -53,18 +53,19 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       },
       {
         rel: "icon",
-        href: "/brand/mavry-favicon.svg",
+        href: "/brand/mavry-favicon.svg?v=3",
+        sizes: "any",
         type: "image/svg+xml",
       },
       {
         rel: "icon",
-        href: "/brand/mavry-favicon-32.png",
+        href: "/brand/mavry-favicon-32.png?v=3",
         sizes: "32x32",
         type: "image/png",
       },
       {
         rel: "icon",
-        href: "/brand/mavry-favicon-16.png",
+        href: "/brand/mavry-favicon-16.png?v=3",
         sizes: "16x16",
         type: "image/png",
       },
@@ -93,8 +94,15 @@ function RootDocument() {
         <div className="min-h-svh">
           <Outlet />
         </div>
-        <TanStackRouterDevtools position="bottom-left" />
-        <ReactQueryDevtools buttonPosition="bottom-right" position="bottom" />
+        {process.env.NODE_ENV === "development" ? (
+          <>
+            <TanStackRouterDevtools position="bottom-left" />
+            <ReactQueryDevtools
+              buttonPosition="bottom-right"
+              position="bottom"
+            />
+          </>
+        ) : null}
         <Scripts />
       </body>
     </html>
