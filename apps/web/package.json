@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite -m dev",
     "build": "vite build",
+    "check-types": "tsc --noEmit",
     "preview": "vite preview",
     "prod": "vite preview",
     "sitemap": "bun run scripts/generate-sitemap.mjs"
@@ -30,6 +31,7 @@
     "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "recharts": "3.8.0",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
     "zod": "catalog:"

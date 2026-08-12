@@ -78,11 +78,11 @@
       "url": "https://mcp.polar.sh/mcp/polar-mcp",
       "headers": {}
     },
-     "expo-mcp": {
-            "source": "custom",
-                  "type": "http",
-                        "url": "https://mcp.expo.dev/mcp",
-                              "headers": {}
-                                  }
-     }
+    "expo-mcp": {
+      "source": "custom",
+      "type": "http",
+      "url": "https://mcp.expo.dev/mcp",
+      "headers": {}
+    }
   }
+}

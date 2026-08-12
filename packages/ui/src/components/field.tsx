@@ -27,7 +27,7 @@ function FieldLegend({
   return (
     <legend
       className={cn(
-        "mb-2.5 font-medium data-[variant=label]:text-xs data-[variant=legend]:text-sm",
+        "mb-2.5 font-medium data-[variant=label]:text-small data-[variant=legend]:text-medium",
         className
       )}
       data-slot="field-legend"
@@ -116,7 +116,7 @@ function FieldTitle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "flex w-fit items-center gap-2 text-xs/relaxed group-data-[disabled=true]/field:opacity-50",
+        "flex w-fit items-center gap-2 text-caption group-data-[disabled=true]/field:opacity-50",
         className
       )}
       data-slot="field-label"
@@ -129,7 +129,7 @@ function FieldDescription({ className, ...props }: ComponentProps<"p">) {
   return (
     <p
       className={cn(
-        "text-left font-normal text-muted-foreground text-xs/relaxed leading-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
+        "text-left font-normal text-caption text-muted-foreground leading-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
         "nth-last-2:-mt-1 last:mt-0",
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
@@ -150,7 +150,7 @@ function FieldSeparator({
   return (
     <div
       className={cn(
-        "relative -my-2 h-5 text-xs group-data-[variant=outline]/field-group:-mb-2",
+        "relative -my-2 h-5 text-caption group-data-[variant=outline]/field-group:-mb-2",
         className
       )}
       data-content={!!children}
@@ -214,7 +214,7 @@ function FieldError({
 
   return (
     <div
-      className={cn("font-normal text-destructive text-xs", className)}
+      className={cn("font-normal text-caption text-destructive", className)}
       data-slot="field-error"
       role="alert"
       {...props}
