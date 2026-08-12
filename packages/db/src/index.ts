@@ -11,6 +11,7 @@ import {
   userRelations,
   verification,
 } from "./schema/auth"
+import { waitlistEntry } from "./schema/waitlist"
 
 const schema = {
   account,
@@ -20,6 +21,7 @@ const schema = {
   user,
   userRelations,
   verification,
+  waitlistEntry,
 }
 
 export function createDb() {
