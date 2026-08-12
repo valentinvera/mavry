@@ -60,24 +60,47 @@ Use **Inter for everything** in Mavry: product UI, marketing, docs, headings, bo
 
 ### Typography Scale
 
-**Display**
+Mavry's type scale is calibrated from compact product typography and precise marketing hierarchy. Use the named tokens from `@mavry/tokens`; avoid raw `text-[...]` values unless a one-off visual proof needs measurement before becoming a token.
+
+**Dense Product UI**
+
+| Style | Font | Weight | Size/Line | Letter Spacing | Use |
+| ----- | ---- | ------ | --------- | -------------- | --- |
+| micro | Inter | Regular/Medium | 10/15 | 0 | Dense chart ticks, tiny metadata, compact IDs |
+| compact | Inter | Regular/Medium | 11/15.4 | 0 | Secondary dense labels, timestamps, compact sidebar metadata |
+| caption | Inter | Regular/Medium | 12/16.8 | 0 | Tables, descriptions, form help, compact product copy |
+| small | Inter | Regular/Medium | 13/19.5 | 0 | Navigation, badges, buttons, interactive labels |
+| medium | Inter | Regular/Medium/Semi Bold | 14/21 | 0 | Card titles, row titles, small section labels |
+| large | Inter | Regular/Medium | 15/24 | 0 | Mobile paragraphs and standard landing body |
+| body | Inter | Regular/Medium/Semi Bold | 16/24 | 0 | Product UI body where more readability is needed |
+| emphasis | Inter | Medium/Semi Bold | 17/27.2 | 0 | Compact emphasized status copy |
+
+**Marketing And Editorial**
+
+| Style | Font | Weight | Size/Line | Letter Spacing | Use |
+| ----- | ---- | ------ | --------- | -------------- | --- |
+| xlarge | Inter | Regular/Medium | 20/26.6 | 0 | Tablet/desktop intro paragraphs |
+| section | Inter | Regular/Medium/Semi Bold | 24/31.92 | 0 | Mobile section titles, desktop large body |
+| subtitle | Inter | Regular/Medium/Semi Bold | 32/36 | 0 | Supporting headlines and quote-scale text |
+| hero | Inter | Bold | 38/41.8 | 0 | Mobile hero headlines |
+| section-lg | Inter | Semi Bold/Bold | 40/44 | 0 | Tablet section titles |
+| title | Inter | Semi Bold/Bold | 48/48 | 0 | Desktop section titles |
+| display | Inter | Bold | 56/61.6 | 0 | Tablet/desktop hero headlines and large numeric values |
+| display-lg | Inter | Bold | 64/64 | 0 | Wide hero headlines and primary display moments |
+| display-xl | Inter | Bold | 72/72 | 0 | Rare maximum-impact desktop headline only |
+
+**Responsive Landing Roles**
 
 | Style | Font | Weight | Size/Line | Letter Spacing |
 | ----- | ---- | ------ | --------- | -------------- |
-| display/large | Inter | Bold | 88/92 | 0 |
-| title | Inter | Semi Bold | 56/64 | 0 |
-| small | Inter | Semi Bold | 64/72 | 0 |
-
-**Body**
-
-| Style | Font | Weight | Size/Line |
-| ----- | ---- | ------ | --------- |
-| xlarge | Inter | Regular/Medium | 24/32 |
-| large | Inter | Regular/Medium | 18/28 |
-| medium | Inter | Regular/Medium/Semi Bold | 16/24 |
-| small | Inter | Regular/Medium | 14/20 |
-| caption | Inter | Regular/Medium | 12/16 |
-| code | System monospace | Regular | 14/20 |
+| Hero title | Inter | Bold | base `hero` 38/41.8, md `display` 56/61.6, xl `display-lg` 64/64 | 0 |
+| Hero subtitle | Inter | Regular/Medium | `large` 15/24 at every breakpoint | 0 |
+| Section title | Inter | Semi Bold/Bold | base `section` 24/31.92, md `section-lg` 40/44, xl `title` 48/48 | 0 |
+| Section paragraph | Inter | Regular/Medium | base `large` 15/24, md `xlarge` 20/26.6, xl `section` 24/31.92 | 0 |
+| Badge/button/nav | Inter | Medium | `small` 13/19.5 | 0 |
+| Product UI title | Inter | Medium/Semi Bold | `medium` 14/21 or `body` 16/24 | 0 |
+| Product UI metadata | Inter | Regular/Medium | `caption` 12/16.8, `compact` 11/15.4, or `micro` 10/15 | 0 |
+| Code | System monospace | Regular | 14/21 | 0 |
 
 ## Logo
 
