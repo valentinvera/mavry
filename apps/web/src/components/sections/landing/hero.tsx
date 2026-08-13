@@ -9,50 +9,45 @@ import {
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { cn } from "@mavry/ui/lib/utils"
+import { useMutation } from "@tanstack/react-query"
 import { type FormEvent, useState } from "react"
 import { HeroDemo } from "@/components/landing/demo"
+import { validateWaitlistInput, type WaitlistSubmit } from "@/lib/waitlist"
+import { useTRPC } from "@/utils/trpc"
 
 export const FOCUS_EVENT = "mavry:focus-waitlist-email"
 
 const INPUT_ID = "hero-waitlist-email"
 const STATUS_ID = "hero-waitlist-status"
-const MOCK_FAILURE_DOMAIN = ".invalid"
-const MOCK_SUBMIT_DELAY = 650
 const UNLOCK_DELAY = 350
 
-type WaitlistStatus = "error" | "idle" | "loading" | "success"
+type WaitlistStatus =
+  | "duplicate"
+  | "error"
+  | "idle"
+  | "submitting"
+  | "success"
+  | "validating"
+  | "validation-error"
 
 const BUTTON_LABELS: Record<WaitlistStatus, string> = {
+  duplicate: "Already joined",
   error: "Join waitlist",
   idle: "Join waitlist",
-  loading: "Joining...",
+  submitting: "Joining...",
   success: "Joined",
+  validating: "Validating...",
+  "validation-error": "Join waitlist",
 }
 
 const STATUS_MESSAGES: Record<WaitlistStatus, string> = {
+  duplicate: "You’re already on the waitlist.",
   error: "Could not join the waitlist. Try again.",
   idle: "Early access for founders shaping a focused first release.",
-  loading: "Joining the waitlist…",
+  submitting: "Joining the waitlist…",
   success: "You’re on the waitlist.",
-}
-
-export type WaitlistSubmit = (email: string) => Promise<void>
-
-interface HeroProps {
-  onJoinWaitlist?: WaitlistSubmit
-}
-
-const waitForMockSubmit = () =>
-  new Promise<void>((resolve) => {
-    window.setTimeout(resolve, MOCK_SUBMIT_DELAY)
-  })
-
-export const mockJoinWaitlist: WaitlistSubmit = async (email) => {
-  await waitForMockSubmit()
-
-  if (email.endsWith(MOCK_FAILURE_DOMAIN)) {
-    throw new Error("Mock waitlist submission failed")
-  }
+  validating: "Checking your email…",
+  "validation-error": "Enter a valid email address.",
 }
 
 const focusEmail = () => {
@@ -80,7 +75,7 @@ export const requestEmailFocus = () => {
   }, focusDelay)
 }
 
-export const Hero = ({ onJoinWaitlist = mockJoinWaitlist }: HeroProps) => (
+export const Hero = () => (
   <section className="relative isolate flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center gap-10 pt-16 pb-8 text-center sm:scroll-mt-8 sm:gap-12 sm:pt-24 sm:pb-0 md:pt-28 lg:pt-24">
     <div className="relative flex max-w-5xl flex-col items-center gap-6 sm:gap-7">
       <div className="flex flex-col items-center gap-5">
@@ -93,13 +88,20 @@ export const Hero = ({ onJoinWaitlist = mockJoinWaitlist }: HeroProps) => (
           blockers visible before the backlog grows.
         </p>
       </div>
-      <WaitlistForm onSubmit={onJoinWaitlist} />
+      <ConnectedWaitlistForm />
     </div>
     <div className="relative w-full max-w-7xl text-left">
       <HeroDemo />
     </div>
   </section>
 )
+
+const ConnectedWaitlistForm = () => {
+  const trpc = useTRPC()
+  const joinWaitlist = useMutation(trpc.waitlist.join.mutationOptions())
+
+  return <WaitlistForm onSubmit={joinWaitlist.mutateAsync} />
+}
 
 interface WaitlistFormProps {
   onSubmit: WaitlistSubmit
@@ -110,9 +112,10 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
   const [status, setStatus] = useState<WaitlistStatus>("idle")
 
   const isError = status === "error"
-  const isLoading = status === "loading"
-  const isSuccess = status === "success"
-  const isInputDisabled = isLoading || isSuccess
+  const isValidationError = status === "validation-error"
+  const isPending = status === "submitting" || status === "validating"
+  const isComplete = status === "duplicate" || status === "success"
+  const isInputDisabled = isPending || isComplete
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -121,11 +124,20 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
       return
     }
 
-    setStatus("loading")
+    setStatus("validating")
+
+    const validationResult = await validateWaitlistInput(email)
+
+    if (!validationResult.success) {
+      setStatus("validation-error")
+      return
+    }
+
+    setStatus("submitting")
 
     try {
-      await onSubmit(email.trim())
-      setStatus("success")
+      const result = await onSubmit(validationResult.data)
+      setStatus(result.status === "already_joined" ? "duplicate" : "success")
     } catch {
       setStatus("error")
     }
@@ -134,22 +146,23 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
   const handleEmailChange = (value: string) => {
     setEmail(value)
 
-    if (isError) {
+    if (isError || isValidationError) {
       setStatus("idle")
     }
   }
 
   return (
     <form
-      aria-busy={isLoading}
+      aria-busy={isPending}
       aria-label="Join the Mavry waitlist"
       className="w-full max-w-md"
+      noValidate
       onSubmit={handleSubmit}
     >
       <FieldGroup className="gap-2">
         <Field
           data-disabled={isInputDisabled || undefined}
-          data-invalid={isError || undefined}
+          data-invalid={isValidationError || undefined}
         >
           <FieldLabel className="sr-only" htmlFor={INPUT_ID}>
             Email
@@ -157,7 +170,7 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
           <div className="flex min-w-0 items-center justify-center gap-2">
             <Input
               aria-describedby={STATUS_ID}
-              aria-invalid={isError || undefined}
+              aria-invalid={isValidationError || undefined}
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
@@ -179,7 +192,7 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
               size="sm"
               type="submit"
             >
-              {isLoading ? (
+              {isPending ? (
                 <Spinner aria-hidden="true" data-icon="inline-start" />
               ) : null}
               {BUTTON_LABELS[status]}
@@ -191,15 +204,15 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
             className="min-h-5"
             id={STATUS_ID}
           >
-            {isError ? (
+            {isError || isValidationError ? (
               <FieldError className="text-center">
-                {STATUS_MESSAGES.error}
+                {STATUS_MESSAGES[status]}
               </FieldError>
             ) : (
               <FieldDescription
                 className={cn(
                   "text-center",
-                  isSuccess && "text-success-foreground"
+                  isComplete && "text-success-foreground"
                 )}
               >
                 {STATUS_MESSAGES[status]}
