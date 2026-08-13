@@ -1,8 +1,8 @@
 # Mavry Logo System
 
-Mavry's logo system is built around a compact circular rayfield mark: a solid circle cut by three balanced, edge-to-edge diagonal lines. The mark represents scattered product ideas becoming a clear direction.
+Mavry's logo system is built around the **decision aperture**: two product planes separated by a precise diagonal channel. The channel narrows at one explicit decision point, then opens into a focused direction.
 
-The logo should feel sharp, calm, product-led, and systematic. Use it as a brand signature, not as decoration.
+The surrounding planes hold the broader product field while the negative space expresses the judgment that turns many possibilities into one next step. The shape is abstract by design. It is not a letter, arrow, checklist, filter, link, or task-management metaphor. The logo should feel sharp, calm, product-led, and systematic. Use it as a brand signature, not as decoration.
 
 ## Final Assets
 
@@ -46,9 +46,9 @@ The logo should feel sharp, calm, product-led, and systematic. Use it as a brand
 
 ## Product Integration
 
-Web app icon assets are copied into `apps/web/public/brand/` so the browser can serve them directly. The web app manifest lives at `apps/web/public/manifest.webmanifest`, and the root document links the favicon, PNG fallbacks, Apple touch icon, and manifest.
+Web app icon assets are copied into `apps/web/public/brand/` so the browser can serve them directly. `assets/brand` contains only the canonical source files without version suffixes; runtime copies may retain their configured filenames.
 
-Mobile app icon assets are copied into `apps/mobile/assets/brand/` and configured in `apps/mobile/app.json`. Expo uses `mavry-app-icon-1024.png` for the top-level, iOS, and Android legacy icon. Android adaptive icons use `mavry-app-icon-foreground.png`, `mavry-app-icon-monochrome.png`, and a `#000000` background.
+Mobile app icon assets are copied into `apps/mobile/assets/brand/` and configured in `apps/mobile/app.json`. The source-of-truth files in `assets/brand` always use the canonical names listed above.
 
 ## Naming
 
@@ -92,7 +92,7 @@ Preferred minimum rendered height: `24px`.
 
 Extreme minimum rendered height: `16px`, only for dense UI, favicons, and compact metadata surfaces.
 
-If the diagonal cuts collapse visually, use a larger size.
+If the diagonal aperture closes visually, use a larger size.
 
 ## Correct Use
 
@@ -113,9 +113,9 @@ Never:
 - Use multiple colors inside the logo.
 - Place the logo on low-contrast backgrounds.
 - Combine the compact mark with the wordmark in custom layouts.
-- Replace the compact mark with an old concept variant.
-- Modify the internal cutline spacing, angle, thickness, or circle radius.
+- Replace the Decision Aperture geometry inside any canonical asset.
+- Modify the plane proportions, diagonal channel, center aperture, or internal spacing.
 
 ## Source Of Truth
 
-The final symbol source is `concepts/mavry-symbol-final-circular-rayfield-v70.svg`. The `concepts/` folder should only keep concept files that are still part of the final logo system.
+The final symbol source is `mavry-symbol.svg`. Files in `assets/brand` use canonical names without version suffixes.

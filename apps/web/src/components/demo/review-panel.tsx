@@ -41,7 +41,7 @@ export const ReviewPanel = ({ activePageId }: Props) => {
             aria-hidden="true"
             className="size-4 shrink-0"
             height={128}
-            src="/brand/mavry-symbol-white.svg?v=2"
+            src="/brand/mavry-symbol-white.svg"
             width={128}
           />
           <p className="truncate font-medium text-caption">Mavry</p>

@@ -1,17 +1,5 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" style="color:currentColor">
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Mavry compact mark</title>
-  <desc id="desc">The Mavry compact routefield mark: several short decision paths resolving into one clear direction.</desc>
-
-  <defs>
-    <mask id="mavry-routefield-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="128" height="128">
-      <rect width="128" height="128" fill="black"/>
-      <circle cx="64" cy="64" r="50" fill="white"/>
-      <g stroke="black" stroke-width="11" stroke-linecap="butt" stroke-linejoin="miter">
-        <path d="M14 42H50L66 64"/>
-        <path d="M8 64H116"/>
-        <path d="M14 86H50L66 64"/>
-      </g>
-    </mask>
-  </defs>
-  <rect width="128" height="128" fill="currentColor" mask="url(#mavry-routefield-mask)"/>
+  <desc id="desc">Two product planes narrow around one clear decision point, then open into a focused direction.</desc>
+  <path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z" fill="currentColor"/>
 </svg>
