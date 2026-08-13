@@ -1,5 +1,5 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Mavry black compact mark</title>
+  <title id="title">Mavry decision aperture</title>
   <desc id="desc">Two product planes narrow around one clear decision point, then open into a focused direction.</desc>
-  <path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z" fill="#000000"/>
+  <path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z" fill="currentColor"/>
 </svg>

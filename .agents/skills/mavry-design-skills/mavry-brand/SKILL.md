@@ -106,7 +106,9 @@ Mavry's type scale is calibrated from compact product typography and precise mar
 
 The Mavry logo system exists in two forms: primary wordmark and compact mark.
 
-The final mark is the **circular rayfield**: an abstract, non-letter symbol made from a solid circle cut by three balanced, edge-to-edge diagonal lines. It represents scattered product ideas becoming a clear product direction. The mark should feel systematic, compact, monochrome, sharp, calm, and recognizable at small sizes.
+The final mark is the **decision aperture**: an abstract, non-letter symbol made from two product planes separated by a precise diagonal channel. The channel narrows at one explicit decision point, then opens into a focused direction. The surrounding planes retain the broader product field while the negative space expresses the judgment that turns many possibilities into one next step. The mark should feel systematic, compact, monochrome, sharp, calm, and recognizable at small sizes.
+
+Decision Aperture is the active identity. Canonical assets use filenames without version suffixes, and the final symbol source is `assets/brand/mavry-symbol.svg`.
 
 Use the primary wordmark as the main expression of the brand wherever space allows. Use the compact mark in the lettermark slot for favicons, app icons, avatars, small navigation surfaces, or dense UI. Do not force the symbol to become a letter M.
 
@@ -199,7 +201,7 @@ Never place text, icons, badges, UI chrome, page edges, image edges, or other lo
 - Extreme cases: 16px height minimum
 - Use the wordmark above 24px rendered height whenever horizontal space allows.
 - Use the compact mark for 16px dense UI, favicons, app icons, metadata surfaces, and small navigation.
-- If the internal diagonal cuts collapse visually, increase the rendered size.
+- If the diagonal aperture closes visually, increase the rendered size.
 
 ### Logo Restrictions
 
@@ -211,8 +213,8 @@ Never:
 - Use multiple colors inside the logo.
 - Use low-resolution exports when SVG is available.
 - Combine the symbol and wordmark in custom layouts.
-- Modify proportions, cutline spacing, line angle, line thickness, or circle radius.
-- Replace the final circular rayfield mark with old concept variants.
+- Modify the plane proportions, diagonal channel, center aperture, or internal spacing.
+- Replace the final Decision Aperture geometry inside any logo asset.
 - Put the logo on low-contrast, noisy, or visually busy backgrounds.
 
 ## Cube Element

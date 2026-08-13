@@ -1,113 +1,21 @@
-<svg width="1280" height="1040" viewBox="0 0 1280 1040" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Mavry final circular rayfield preview</title>
-  <desc id="desc">Preview sheet showing final-candidate circular Mavry rayfield logo iterations focused on internal line rhythm.</desc>
-  <rect width="1280" height="1040" fill="#FDFDFD"/>
-
+<svg width="1280" height="960" viewBox="0 0 1280 960" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Mavry decision aperture logo preview</title>
+  <desc id="desc">Preview of the Mavry wordmark and compact decision aperture on dark, light, and small-format surfaces.</desc>
+  <rect width="1280" height="960" fill="#FDFDFD"/>
   <rect x="56" y="56" width="1168" height="284" fill="#000000"/>
-  <text x="96" y="112" fill="#FDFEFFA6" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500">Final circular rayfield on dark: v70</text>
-  <g transform="translate(96 148)" style="color:#FDFDFD">
-    <g transform="translate(8 0)">
-      <defs>
-      <clipPath id="dark-active"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="#FDFDFD"/>
-    <g clip-path="url(#dark-active)" stroke="#000000" stroke-width="13" stroke-linecap="butt">
-      <path d="M40 0L128 88"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 40L88 128"/>
-    </g>
-    </g>
-    <text x="152" y="87" fill="currentColor" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="650" letter-spacing="0">Mavry</text>
-  </g>
-  <g transform="translate(1016 134)">
-    <defs>
-      <clipPath id="dark-small"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="#FDFDFD"/>
-    <g clip-path="url(#dark-small)" stroke="#000000" stroke-width="13" stroke-linecap="butt">
-      <path d="M40 0L128 88"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 40L88 128"/>
-    </g>
-  </g>
-
+  <text x="96" y="112" fill="#FDFEFFA6" font-family="Inter, sans-serif" font-size="18" font-weight="500">Decision aperture on dark</text>
+  <g transform="translate(104 148)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
+  <text x="248" y="235" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="72" font-weight="650">Mavry</text>
+  <g transform="translate(1032 134)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
   <rect x="56" y="390" width="1168" height="284" fill="#FDFDFD" stroke="#16171A" stroke-opacity="0.12"/>
-  <text x="96" y="446" fill="#16171A" fill-opacity="0.64" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="500">Final circular rayfield on light: v70</text>
-  <g transform="translate(96 482)" style="color:#000000">
-    <g transform="translate(8 0)">
-      <defs>
-      <clipPath id="light-active"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="#000000"/>
-    <g clip-path="url(#light-active)" stroke="#FDFDFD" stroke-width="13" stroke-linecap="butt">
-      <path d="M40 0L128 88"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 40L88 128"/>
-    </g>
-    </g>
-    <text x="152" y="87" fill="currentColor" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="650" letter-spacing="0">Mavry</text>
-  </g>
-  <g transform="translate(1016 468)">
-    <defs>
-      <clipPath id="light-small"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="#000000"/>
-    <g clip-path="url(#light-small)" stroke="#FDFDFD" stroke-width="13" stroke-linecap="butt">
-      <path d="M40 0L128 88"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 40L88 128"/>
-    </g>
-  </g>
-
-  <text x="56" y="740" fill="#16171A" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="650">Final polish: same circle, tuned inner lines</text>
-  <text x="56" y="770" fill="#16171A" fill-opacity="0.64" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="15" font-weight="500">The shape is unchanged. This only tunes the internal line thickness and spacing.</text>
-
-  <g transform="translate(86 820)" opacity="1">
-    <defs>
-      <clipPath id="compare-v70"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="black"/>
-    <g clip-path="url(#compare-v70)" stroke="white" stroke-width="13" stroke-linecap="butt">
-      <path d="M40 0L128 88"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 40L88 128"/>
-    </g>
-    <text x="0" y="164" fill="#16171A" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="650">Active. Final circular v70</text>
-  </g>
-  <g transform="translate(386 820)" opacity="1">
-    <defs>
-      <clipPath id="compare-v71"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="black"/>
-    <g clip-path="url(#compare-v71)" stroke="white" stroke-width="12" stroke-linecap="butt">
-      <path d="M44 0L128 84"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 44L84 128"/>
-    </g>
-    <text x="0" y="164" fill="#16171A" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="650">Option. Airy v71</text>
-  </g>
-  <g transform="translate(686 820)" opacity="1">
-    <defs>
-      <clipPath id="compare-v72"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="black"/>
-    <g clip-path="url(#compare-v72)" stroke="white" stroke-width="15" stroke-linecap="butt">
-      <path d="M41 0L128 87"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 41L87 128"/>
-    </g>
-    <text x="0" y="164" fill="#16171A" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="650">Option. Bold v72</text>
-  </g>
-  <g transform="translate(986 820)" opacity="0.25">
-    <defs>
-      <clipPath id="compare-v67"><circle cx="64" cy="64" r="50"/></clipPath>
-    </defs>
-    <circle cx="64" cy="64" r="50" fill="black"/>
-    <g clip-path="url(#compare-v67)" stroke="white" stroke-width="14" stroke-linecap="butt">
-      <path d="M42 0L128 86"/>
-      <path d="M0 0L128 128"/>
-      <path d="M0 42L86 128"/>
-    </g>
-    <text x="0" y="164" fill="#16171A" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="650">Previous. Balanced v67</text>
-  </g>
+  <text x="96" y="446" fill="#16171A" fill-opacity="0.64" font-family="Inter, sans-serif" font-size="18" font-weight="500">Decision aperture on light</text>
+  <g transform="translate(104 482)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
+  <text x="248" y="569" fill="#000000" font-family="Inter, sans-serif" font-size="72" font-weight="650">Mavry</text>
+  <g transform="translate(1032 468)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
+  <text x="56" y="748" fill="#16171A" font-family="Inter, sans-serif" font-size="22" font-weight="650">Narrow the field. Keep the direction.</text>
+  <text x="56" y="780" fill="#16171A" fill-opacity="0.64" font-family="Inter, sans-serif" font-size="15" font-weight="500">Two product planes converge on one decision point, then open into a focused path.</text>
+  <g transform="translate(56 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(24 24) scale(0.25)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">32 px compact mark</text></g>
+  <g transform="translate(344 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(28 28) scale(0.1875)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">24 px compact mark</text></g>
+  <g transform="translate(632 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(32 32) scale(0.125)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">16 px compact mark</text></g>
+  <g transform="translate(920 824)"><rect width="304" height="80" fill="#FDFDFD" stroke="#16171A" stroke-opacity="0.12"/><g transform="translate(28 28) scale(0.1875)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#16171A" font-family="Inter, sans-serif" font-size="14">Monochrome on light</text></g>
 </svg>
