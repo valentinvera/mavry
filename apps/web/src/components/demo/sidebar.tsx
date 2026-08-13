@@ -65,7 +65,7 @@ export const Sidebar = ({
             alt="Mavry"
             className="size-5 shrink-0"
             height={128}
-            src="/brand/mavry-symbol-white.svg?v=2"
+            src="/brand/mavry-symbol-white.svg"
             width={128}
           />
           <span className="truncate font-semibold text-medium">Mavry</span>
