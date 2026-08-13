@@ -47,6 +47,35 @@ test("loads the app and checks the API", async ({
   expect(failedRequests).toEqual([])
 })
 
+test("reveals landing sections after React replaces their DOM nodes", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await page.setViewportSize({ height: 600, width: 1280 })
+  await page.goto("/")
+  await page.waitForLoadState("networkidle")
+
+  const firstSection = page.locator("[data-section-reveal]").first()
+
+  await expect(firstSection).not.toHaveAttribute("data-revealed", "true")
+  await expect(firstSection).toHaveCSS("opacity", "0")
+
+  await firstSection.evaluate((section) => {
+    const replacement = section.cloneNode(true)
+
+    if (replacement instanceof HTMLElement) {
+      replacement.removeAttribute("data-revealed")
+      section.replaceWith(replacement)
+    }
+  })
+
+  const replacementSection = page.locator("[data-section-reveal]").first()
+
+  await replacementSection.scrollIntoViewIfNeeded()
+  await expect(replacementSection).toHaveAttribute("data-revealed", "true")
+  await expect(replacementSection).toHaveCSS("opacity", "1")
+})
+
 test("submits the waitlist through tRPC and exposes submitting and success", async ({
   page,
 }) => {

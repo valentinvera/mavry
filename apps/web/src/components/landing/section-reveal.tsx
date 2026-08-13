@@ -2,25 +2,51 @@
 
 import { useEffect } from "react"
 
+const SECTION_SELECTOR = "[data-section-reveal]"
+
+const getRevealSections = (root: ParentNode): HTMLElement[] => {
+  const sections = Array.from(
+    root.querySelectorAll<HTMLElement>(SECTION_SELECTOR)
+  )
+
+  if (root instanceof HTMLElement && root.matches(SECTION_SELECTOR)) {
+    sections.unshift(root)
+  }
+
+  return sections
+}
+
 export const SectionReveal = () => {
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-section-reveal]")
-    )
-
-    if (sections.length === 0) {
-      return
-    }
-
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches
 
     if (prefersReducedMotion) {
-      for (const section of sections) {
-        section.dataset.revealed = "true"
+      const revealSections = (root: ParentNode) => {
+        for (const section of getRevealSections(root)) {
+          section.dataset.revealed = "true"
+        }
       }
-      return
+
+      revealSections(document)
+
+      const mutationObserver = new MutationObserver((records) => {
+        for (const record of records) {
+          for (const node of record.addedNodes) {
+            if (node instanceof HTMLElement) {
+              revealSections(node)
+            }
+          }
+        }
+      })
+
+      mutationObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+      })
+
+      return () => mutationObserver.disconnect()
     }
 
     const isMobileViewport = window.matchMedia("(max-width: 767px)").matches
@@ -43,11 +69,32 @@ export const SectionReveal = () => {
       }
     )
 
-    for (const section of sections) {
-      observer.observe(section)
+    const observeSections = (root: ParentNode) => {
+      for (const section of getRevealSections(root)) {
+        if (section.dataset.revealed !== "true") {
+          observer.observe(section)
+        }
+      }
     }
 
-    return () => observer.disconnect()
+    observeSections(document)
+
+    const mutationObserver = new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (node instanceof HTMLElement) {
+            observeSections(node)
+          }
+        }
+      }
+    })
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      mutationObserver.disconnect()
+      observer.disconnect()
+    }
   }, [])
 
   return (
