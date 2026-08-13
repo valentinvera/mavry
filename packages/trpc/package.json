@@ -15,6 +15,11 @@
       "import": "./dist/context.mjs",
       "default": "./dist/context.mjs"
     },
+    "./contracts/*": {
+      "types": "./dist/contracts/*.d.mts",
+      "import": "./dist/contracts/*.mjs",
+      "default": "./dist/contracts/*.mjs"
+    },
     "./module": {
       "types": "./dist/module.d.mts",
       "import": "./dist/module.mjs",
