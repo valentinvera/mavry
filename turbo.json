@@ -30,6 +30,8 @@
     "POLAR_SUCCESS_URL",
     "NODE_ENV",
     "PORT",
+    "VITE_PROXY_COOKIE_DOMAIN_REWRITE",
+    "VITE_PROXY_SECURE",
     "VITE_API_URL",
     "VITE_HOST",
     "VITE_PORT"
@@ -38,7 +40,7 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", ".output/**", ".vercel/output/**"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
