@@ -48,6 +48,20 @@ Open [http://localhost:8080](http://localhost:8080) in your browser to see the w
 From Tailscale devices, use `http://<tailscale-ip>:8080`.
 The API is running at [http://localhost:4040](http://localhost:4040), or `http://<tailscale-ip>:4040` from Tailscale devices.
 
+## Waitlist Email Confirmation
+
+The API sends waitlist confirmation emails through Plunk when the provider is enabled. Configure `apps/api/.env` with:
+
+```dotenv
+WAITLIST_EMAIL_PROVIDER=plunk
+PLUNK_SECRET_KEY=sk_replace_me
+WAITLIST_FROM_EMAIL=waitlist@your-verified-domain.com
+WAITLIST_CONFIRMATION_URL=https://api.your-domain.com/api/waitlist/confirm
+WAITLIST_CONFIRMATION_REDIRECT_URL=https://your-domain.com/waitlist/confirmation
+```
+
+Create the secret key in Plunk under Settings → API Keys and verify the domain used by `WAITLIST_FROM_EMAIL` before sending. Use `WAITLIST_EMAIL_PROVIDER=noop` only when email delivery should be explicitly disabled, such as local development without provider credentials.
+
 ## UI Customization
 
 React web apps in this stack share shadcn/ui primitives through `packages/ui`.
