@@ -8,9 +8,15 @@ import { Method } from "@/components/sections/landing/method"
 import { Problem } from "@/components/sections/landing/problem"
 import { Readiness } from "@/components/sections/landing/readiness"
 import { Waitlist } from "@/components/sections/landing/waitlist"
+import { getWaitlistConfirmedCountQueryOptions } from "@/lib/waitlist"
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
+  loader: async ({ context }) => {
+    await context.queryClient.prefetchQuery(
+      getWaitlistConfirmedCountQueryOptions(context.trpc)
+    )
+  },
 })
 
 function HomeComponent() {

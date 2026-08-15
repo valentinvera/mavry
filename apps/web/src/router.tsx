@@ -13,6 +13,10 @@ function createQueryClient() {
   return new QueryClient({
     queryCache: new QueryCache({
       onError: (error, query) => {
+        if (query.meta?.suppressGlobalError === true) {
+          return
+        }
+
         toast.error(error.message, {
           action: {
             label: "retry",
