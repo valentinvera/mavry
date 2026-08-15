@@ -77,6 +77,10 @@ const localApiEnv = [
   envAssignment("BETTER_AUTH_URL", apiBaseUrl),
   envAssignment("POLAR_SUCCESS_URL", `${webBaseUrl}/success`),
   envAssignment("CORS_ORIGIN", webBaseUrl),
+  envAssignment(
+    "WAITLIST_CONFIRMATION_REDIRECT_URL",
+    `${webBaseUrl}/waitlist/confirmation`
+  ),
 ].join(" ")
 
 const localWebEnv = [
