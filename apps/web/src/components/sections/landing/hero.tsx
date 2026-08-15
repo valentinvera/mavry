@@ -8,46 +8,57 @@ import {
 } from "@mavry/ui/components/field"
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
-import { cn } from "@mavry/ui/lib/utils"
-import { useMutation } from "@tanstack/react-query"
-import { type FormEvent, useState } from "react"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { type FormEvent, useEffect, useRef, useState } from "react"
 import { HeroDemo } from "@/components/landing/demo"
-import { validateWaitlistInput, type WaitlistSubmit } from "@/lib/waitlist"
+import {
+  getWaitlistConfirmedCountQueryOptions,
+  validateWaitlistInput,
+  type WaitlistSubmit,
+} from "@/lib/waitlist"
 import { useTRPC } from "@/utils/trpc"
 
 export const FOCUS_EVENT = "mavry:focus-waitlist-email"
 
 const INPUT_ID = "hero-waitlist-email"
 const STATUS_ID = "hero-waitlist-status"
+const SUCCESS_RESET_DELAY = 2000
 const UNLOCK_DELAY = 350
 
 type WaitlistStatus =
-  | "duplicate"
   | "error"
   | "idle"
   | "submitting"
   | "success"
-  | "validating"
   | "validation-error"
 
 const BUTTON_LABELS: Record<WaitlistStatus, string> = {
-  duplicate: "Already joined",
   error: "Join waitlist",
   idle: "Join waitlist",
   submitting: "Joining...",
   success: "Joined",
-  validating: "Validating...",
   "validation-error": "Join waitlist",
 }
 
-const STATUS_MESSAGES: Record<WaitlistStatus, string> = {
-  duplicate: "You’re already on the waitlist.",
-  error: "Could not join the waitlist. Try again.",
-  idle: "Early access for founders shaping a focused first release.",
-  submitting: "Joining the waitlist…",
-  success: "You’re on the waitlist.",
-  validating: "Checking your email…",
-  "validation-error": "Enter a valid email address.",
+const COUNT_UNAVAILABLE_DESCRIPTION =
+  "Join founders shaping focused first releases."
+const CONFIRMATION_PENDING_MESSAGE =
+  "Confirmation email sent. Check your inbox to confirm your email."
+const SUBMISSION_ERROR_MESSAGE = "Could not join the waitlist. Try again."
+const VALIDATION_ERROR_MESSAGE = "Enter a valid email address."
+
+const founderCountFormatter = new Intl.NumberFormat("en-US")
+
+const getFounderCountDescription = (confirmedCount?: number): string => {
+  if (!confirmedCount) {
+    return COUNT_UNAVAILABLE_DESCRIPTION
+  }
+
+  if (confirmedCount === 1) {
+    return "Join 1 founder shaping a focused first release."
+  }
+
+  return `Join ${founderCountFormatter.format(confirmedCount)} founders shaping focused first releases.`
 }
 
 const focusEmail = () => {
@@ -118,24 +129,44 @@ export const Hero = () => (
 
 const ConnectedWaitlistForm = () => {
   const trpc = useTRPC()
+  const confirmedCount = useQuery(getWaitlistConfirmedCountQueryOptions(trpc))
   const joinWaitlist = useMutation(trpc.waitlist.join.mutationOptions())
 
-  return <WaitlistForm onSubmit={joinWaitlist.mutateAsync} />
+  return (
+    <WaitlistForm
+      confirmedCount={confirmedCount.data?.count}
+      onSubmit={joinWaitlist.mutateAsync}
+    />
+  )
 }
 
 interface WaitlistFormProps {
+  confirmedCount?: number
   onSubmit: WaitlistSubmit
 }
 
-export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
+export const WaitlistForm = ({
+  confirmedCount,
+  onSubmit,
+}: WaitlistFormProps) => {
   const [email, setEmail] = useState("")
   const [status, setStatus] = useState<WaitlistStatus>("idle")
+  const successResetTimeout = useRef<number | null>(null)
 
   const isError = status === "error"
   const isValidationError = status === "validation-error"
-  const isPending = status === "submitting" || status === "validating"
-  const isComplete = status === "duplicate" || status === "success"
-  const isInputDisabled = isPending || isComplete
+  const isPending = status === "submitting"
+  const isSuccess = status === "success"
+  const isInputDisabled = isPending || isSuccess
+
+  useEffect(
+    () => () => {
+      if (successResetTimeout.current !== null) {
+        window.clearTimeout(successResetTimeout.current)
+      }
+    },
+    []
+  )
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -144,9 +175,7 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
       return
     }
 
-    setStatus("validating")
-
-    const validationResult = await validateWaitlistInput(email)
+    const validationResult = validateWaitlistInput(email)
 
     if (!validationResult.success) {
       setStatus("validation-error")
@@ -156,8 +185,15 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
     setStatus("submitting")
 
     try {
-      const result = await onSubmit(validationResult.data)
-      setStatus(result.status === "already_joined" ? "duplicate" : "success")
+      await onSubmit(validationResult.data)
+      setEmail(validationResult.data.email)
+      setStatus("success")
+
+      successResetTimeout.current = window.setTimeout(() => {
+        setEmail("")
+        setStatus("idle")
+        successResetTimeout.current = null
+      }, SUCCESS_RESET_DELAY)
     } catch {
       setStatus("error")
     }
@@ -195,6 +231,7 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
               autoComplete="email"
               autoCorrect="off"
               className="h-8 min-w-0 flex-1 rounded-md bg-background/70 text-small sm:w-60 sm:flex-none"
+              data-waitlist-email
               disabled={isInputDisabled}
               id={INPUT_ID}
               inputMode="email"
@@ -221,21 +258,21 @@ export const WaitlistForm = ({ onSubmit }: WaitlistFormProps) => {
           <div
             aria-atomic="true"
             aria-live="polite"
-            className="min-h-5"
+            className="flex min-h-5 flex-col items-center"
             id={STATUS_ID}
           >
+            {isSuccess ? (
+              <span className="sr-only">{CONFIRMATION_PENDING_MESSAGE}</span>
+            ) : null}
             {isError || isValidationError ? (
               <FieldError className="text-center">
-                {STATUS_MESSAGES[status]}
+                {isValidationError
+                  ? VALIDATION_ERROR_MESSAGE
+                  : SUBMISSION_ERROR_MESSAGE}
               </FieldError>
             ) : (
-              <FieldDescription
-                className={cn(
-                  "text-center",
-                  isComplete && "text-success-foreground"
-                )}
-              >
-                {STATUS_MESSAGES[status]}
+              <FieldDescription className="text-center">
+                {getFounderCountDescription(confirmedCount)}
               </FieldDescription>
             )}
           </div>

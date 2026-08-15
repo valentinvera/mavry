@@ -12,6 +12,7 @@ export class AppContext implements TRPCContext {
 
     return {
       auth: null,
+      clientAddress: req.socket.remoteAddress ?? "unknown",
       session,
     }
   }
