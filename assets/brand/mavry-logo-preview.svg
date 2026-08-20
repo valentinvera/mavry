@@ -3,19 +3,19 @@
   <desc id="desc">Preview of the Mavry wordmark and compact decision aperture on dark, light, and small-format surfaces.</desc>
   <rect width="1280" height="960" fill="#FDFDFD"/>
   <rect x="56" y="56" width="1168" height="284" fill="#000000"/>
-  <text x="96" y="112" fill="#FDFEFFA6" font-family="Inter, sans-serif" font-size="18" font-weight="500">Decision aperture on dark</text>
+  <text x="96" y="112" fill="#FDFEFFA6" font-family="Geist Variable, Geist, sans-serif" font-size="18" font-weight="500">Decision aperture on dark</text>
   <g transform="translate(104 148)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
-  <text x="248" y="235" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="72" font-weight="650">Mavry</text>
+  <text x="248" y="235" fill="#FDFDFD" font-family="Geist Variable, Geist, sans-serif" font-size="72" font-weight="650">Mavry</text>
   <g transform="translate(1032 134)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
   <rect x="56" y="390" width="1168" height="284" fill="#FDFDFD" stroke="#16171A" stroke-opacity="0.12"/>
-  <text x="96" y="446" fill="#16171A" fill-opacity="0.64" font-family="Inter, sans-serif" font-size="18" font-weight="500">Decision aperture on light</text>
+  <text x="96" y="446" fill="#16171A" fill-opacity="0.64" font-family="Geist Variable, Geist, sans-serif" font-size="18" font-weight="500">Decision aperture on light</text>
   <g transform="translate(104 482)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
-  <text x="248" y="569" fill="#000000" font-family="Inter, sans-serif" font-size="72" font-weight="650">Mavry</text>
+  <text x="248" y="569" fill="#000000" font-family="Geist Variable, Geist, sans-serif" font-size="72" font-weight="650">Mavry</text>
   <g transform="translate(1032 468)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g>
-  <text x="56" y="748" fill="#16171A" font-family="Inter, sans-serif" font-size="22" font-weight="650">Narrow the field. Keep the direction.</text>
-  <text x="56" y="780" fill="#16171A" fill-opacity="0.64" font-family="Inter, sans-serif" font-size="15" font-weight="500">Two product planes converge on one decision point, then open into a focused path.</text>
-  <g transform="translate(56 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(24 24) scale(0.25)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">32 px compact mark</text></g>
-  <g transform="translate(344 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(28 28) scale(0.1875)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">24 px compact mark</text></g>
-  <g transform="translate(632 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(32 32) scale(0.125)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Inter, sans-serif" font-size="14">16 px compact mark</text></g>
-  <g transform="translate(920 824)"><rect width="304" height="80" fill="#FDFDFD" stroke="#16171A" stroke-opacity="0.12"/><g transform="translate(28 28) scale(0.1875)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#16171A" font-family="Inter, sans-serif" font-size="14">Monochrome on light</text></g>
+  <text x="56" y="748" fill="#16171A" font-family="Geist Variable, Geist, sans-serif" font-size="22" font-weight="650">Narrow the field. Keep the direction.</text>
+  <text x="56" y="780" fill="#16171A" fill-opacity="0.64" font-family="Geist Variable, Geist, sans-serif" font-size="15" font-weight="500">Two product planes converge on one decision point, then open into a focused path.</text>
+  <g transform="translate(56 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(24 24) scale(0.25)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Geist Variable, Geist, sans-serif" font-size="14">32 px compact mark</text></g>
+  <g transform="translate(344 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(28 28) scale(0.1875)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Geist Variable, Geist, sans-serif" font-size="14">24 px compact mark</text></g>
+  <g transform="translate(632 824)"><rect width="264" height="80" fill="#000000"/><g transform="translate(32 32) scale(0.125)" fill="#FDFDFD"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#FDFDFD" font-family="Geist Variable, Geist, sans-serif" font-size="14">16 px compact mark</text></g>
+  <g transform="translate(920 824)"><rect width="304" height="80" fill="#FDFDFD" stroke="#16171A" stroke-opacity="0.12"/><g transform="translate(28 28) scale(0.1875)" fill="#000000"><path d="M16 16H112V40H80L56 64H16V16ZM16 88H48L72 64H112V112H16V88Z"/></g><text x="80" y="49" fill="#16171A" font-family="Geist Variable, Geist, sans-serif" font-size="14">Monochrome on light</text></g>
 </svg>

@@ -10,6 +10,7 @@ import { cn } from "@mavry/ui/lib/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { CircleCheckIcon, CircleXIcon } from "lucide-react"
 import { z } from "zod"
+import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import { getWaitlistConfirmedCountQueryOptions } from "@/lib/waitlist"
 
 const INVALID_CONFIRMATION_STATUS = "invalid_or_expired"
@@ -138,13 +139,7 @@ function WaitlistConfirmationPage() {
               className="inline-flex rounded-md"
               to="/"
             >
-              <img
-                alt="Mavry"
-                className="h-8 w-auto"
-                height={128}
-                src="/brand/mavry-logo-white.svg"
-                width={392}
-              />
+              <MavryWordmark />
             </Link>
           </div>
         </div>

@@ -20,7 +20,7 @@ import { ImageResponse } from 'next/og'
 export async function GET(request: Request) {
   // Runs on EVERY request - expensive!
   const fontData = await fetch(
-    new URL('./fonts/Inter.ttf', import.meta.url)
+    new URL('./fonts/GeistVariable.ttf', import.meta.url)
   ).then(res => res.arrayBuffer())
 
   const logoData = await fetch(
@@ -28,11 +28,11 @@ export async function GET(request: Request) {
   ).then(res => res.arrayBuffer())
 
   return new ImageResponse(
-    <div style={{ fontFamily: 'Inter' }}>
+    <div style={{ fontFamily: 'Geist Variable' }}>
       <img src={logoData} />
       Hello World
     </div>,
-    { fonts: [{ name: 'Inter', data: fontData }] }
+    { fonts: [{ name: 'Geist Variable', data: fontData }] }
   )
 }
 ```
@@ -45,7 +45,7 @@ import { ImageResponse } from 'next/og'
 
 // Module-level: runs ONCE when module is first imported
 const fontData = fetch(
-  new URL('./fonts/Inter.ttf', import.meta.url)
+  new URL('./fonts/GeistVariable.ttf', import.meta.url)
 ).then(res => res.arrayBuffer())
 
 const logoData = fetch(
@@ -57,11 +57,11 @@ export async function GET(request: Request) {
   const [font, logo] = await Promise.all([fontData, logoData])
 
   return new ImageResponse(
-    <div style={{ fontFamily: 'Inter' }}>
+    <div style={{ fontFamily: 'Geist Variable' }}>
       <img src={logo} />
       Hello World
     </div>,
-    { fonts: [{ name: 'Inter', data: font }] }
+    { fonts: [{ name: 'Geist Variable', data: font }] }
   )
 }
 ```
@@ -76,7 +76,7 @@ import { join } from 'path'
 
 // Synchronous read at module level - blocks only during module init
 const fontData = readFileSync(
-  join(process.cwd(), 'public/fonts/Inter.ttf')
+  join(process.cwd(), 'public/fonts/GeistVariable.ttf')
 )
 
 const logoData = readFileSync(
@@ -85,11 +85,11 @@ const logoData = readFileSync(
 
 export async function GET(request: Request) {
   return new ImageResponse(
-    <div style={{ fontFamily: 'Inter' }}>
+    <div style={{ fontFamily: 'Geist Variable' }}>
       <img src={logoData} />
       Hello World
     </div>,
-    { fonts: [{ name: 'Inter', data: fontData }] }
+    { fonts: [{ name: 'Geist Variable', data: fontData }] }
   )
 }
 ```
