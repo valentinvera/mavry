@@ -6,6 +6,7 @@ const links = [
   ["Readiness", "#readiness"],
   ["Review", "#review"],
   ["GitHub", "https://github.com/valentinvera/mavry"],
+  ["X", "https://x.com/mavry_app"],
 ] as const
 
 export const Footer = () => (
