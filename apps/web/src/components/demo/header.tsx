@@ -38,7 +38,7 @@ export const Header = ({
       <PanelLeftIcon />
     </Button>
     <div className="flex min-w-0 flex-1 items-center gap-2">
-      <p className="truncate font-medium text-caption">{pageTitle}</p>
+      <p className="truncate font-medium text-demo-metadata!">{pageTitle}</p>
       <Button
         aria-label="Open decision menu"
         className="rounded-md text-muted-foreground"
@@ -51,14 +51,14 @@ export const Header = ({
       <Separator className="h-4 bg-border/80" orientation="vertical" />
       <button className="rounded-md active:translate-y-px" type="button">
         <Badge
-          className="rounded-md border-border/80 bg-background/60 text-caption"
+          className="rounded-md border-border/80 bg-background/60 text-demo-metadata!"
           variant="outline"
         >
           {pageCode}
         </Badge>
       </button>
     </div>
-    <div className="hidden items-center gap-1 text-caption text-muted-foreground lg:flex">
+    <div className="hidden items-center gap-1 text-demo-metadata! text-muted-foreground lg:flex">
       <span>03 / 18</span>
       <Button
         aria-label="Previous decision"
@@ -80,7 +80,7 @@ export const Header = ({
       </Button>
     </div>
     <button
-      className="hidden h-7 min-w-44 items-center gap-2 rounded-md border border-border/80 bg-background/60 px-2 text-left text-caption text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px xl:flex"
+      className="hidden h-7 min-w-44 items-center gap-2 rounded-md border border-border/80 bg-background/60 px-2 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px xl:flex"
       onClick={onSearchOpen}
       type="button"
     >

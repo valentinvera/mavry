@@ -12,11 +12,11 @@ export const Readiness = ({ content }: { content: Content }) => (
         <div className="absolute bottom-12 left-[74%] h-48 w-px bg-success/40" />
         <div className="relative flex min-h-[24rem] flex-col justify-end">
           <div className="mb-6 max-w-md">
-            <p className="text-caption text-muted-foreground">
+            <p className="text-demo-metadata! text-muted-foreground">
               Launch threshold
             </p>
-            <p className="mt-2 font-bold text-display">74</p>
-            <p className="mt-3 text-large text-muted-foreground">
+            <p className="mt-2 font-bold text-demo-score!">74</p>
+            <p className="mt-3 text-demo-body! text-muted-foreground">
               Almost ready. The score is not blocked by more features; it is
               blocked by ownership.
             </p>
@@ -24,7 +24,7 @@ export const Readiness = ({ content }: { content: Content }) => (
           <div className="relative h-16 rounded-full border border-border/70 bg-card/55">
             <div className="h-full w-[74%] rounded-full bg-success/70" />
             <button
-              className="absolute top-1/2 left-[74%] size-11 -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/70 bg-background font-medium text-caption transition-colors hover:bg-muted/35 active:translate-y-px"
+              className="absolute top-1/2 left-[74%] size-11 -translate-x-1/2 -translate-y-1/2 rounded-full border border-foreground/70 bg-background font-medium text-demo-control! transition-colors hover:bg-muted/35 active:translate-y-px"
               type="button"
             >
               74
@@ -33,7 +33,7 @@ export const Readiness = ({ content }: { content: Content }) => (
         </div>
       </section>
       <aside className="border-border/70 border-t p-4 lg:border-t-0 lg:border-l">
-        <p className="font-medium text-caption">Readiness evidence</p>
+        <p className="font-medium text-demo-metadata!">Readiness evidence</p>
         <div className="mt-4 divide-y divide-border/70">
           {checks.map(([title, description, status]) => (
             <button
@@ -42,10 +42,10 @@ export const Readiness = ({ content }: { content: Content }) => (
               type="button"
             >
               <span className="flex items-center justify-between gap-3">
-                <span className="font-medium text-small">{title}</span>
+                <span className="font-medium text-demo-control!">{title}</span>
                 <Badge
                   className={cn(
-                    "rounded-md text-caption",
+                    "rounded-md text-demo-metadata!",
                     status === "Blocked" &&
                       "bg-warning text-warning-foreground",
                     status === "Done" && "bg-success text-success-foreground"
@@ -55,7 +55,7 @@ export const Readiness = ({ content }: { content: Content }) => (
                   {status}
                 </Badge>
               </span>
-              <span className="mt-1 block text-caption text-muted-foreground">
+              <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                 {description}
               </span>
             </button>

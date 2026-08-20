@@ -16,14 +16,14 @@ export const CutList = ({ content }: { content: Content }) => (
               aria-hidden="true"
               className="size-4 text-muted-foreground"
             />
-            <p className="font-medium text-caption text-muted-foreground">
+            <p className="font-medium text-demo-metadata! text-muted-foreground">
               Not in MVP
             </p>
           </div>
           <h3 className="mt-6 max-w-md font-semibold text-subtitle">
             Hidden cuts come back when the reason disappears.
           </h3>
-          <p className="mt-4 max-w-md text-large text-muted-foreground">
+          <p className="mt-4 max-w-md text-demo-body! text-muted-foreground">
             Cut work is still product knowledge. It stays out of Now, but it
             keeps its reason and return condition.
           </p>
@@ -35,13 +35,18 @@ export const CutList = ({ content }: { content: Content }) => (
               key={title}
               type="button"
             >
-              <span className="block font-medium text-small">{title}</span>
-              <span className="mt-2 block text-caption text-muted-foreground">
+              <span className="block font-medium text-demo-control!">
+                {title}
+              </span>
+              <span className="mt-2 block text-demo-metadata! text-muted-foreground">
                 {reason}
               </span>
-              <span className="mt-4 flex items-center justify-between gap-3 border-border/70 border-t pt-3 text-caption">
+              <span className="mt-4 flex items-center justify-between gap-3 border-border/70 border-t pt-3 text-demo-metadata!">
                 <span className="text-muted-foreground">Reconsider when</span>
-                <Badge className="rounded-md text-caption" variant="outline">
+                <Badge
+                  className="rounded-md text-demo-metadata!"
+                  variant="outline"
+                >
                   {condition}
                 </Badge>
               </span>

@@ -4,7 +4,7 @@ export const inboxItems = [
   {
     id: "mobile-capture",
     title: "Mobile capture stays lightweight",
-    source: "Voice note",
+    source: "Mobile capture",
     status: "Needs clarity",
     detail: "Can this capture an idea without committing it to build?",
   },
@@ -187,58 +187,6 @@ export const launchPath = [
       "New requests pass through review before they change the product direction.",
   },
 ] as const
-
-export const qrGridSize = 13
-export const qrActiveCells = new Set([
-  "0-5",
-  "0-7",
-  "1-4",
-  "1-8",
-  "2-5",
-  "2-7",
-  "3-3",
-  "3-6",
-  "3-9",
-  "4-1",
-  "4-4",
-  "4-7",
-  "4-10",
-  "5-0",
-  "5-2",
-  "5-5",
-  "5-8",
-  "5-11",
-  "6-3",
-  "6-6",
-  "6-9",
-  "6-12",
-  "7-0",
-  "7-4",
-  "7-7",
-  "7-10",
-  "8-2",
-  "8-5",
-  "8-8",
-  "8-11",
-  "9-4",
-  "9-7",
-  "9-12",
-  "10-5",
-  "10-9",
-  "11-4",
-  "11-6",
-  "11-10",
-  "12-5",
-  "12-8",
-  "12-11",
-])
-export const qrCells = Array.from(
-  { length: qrGridSize * qrGridSize },
-  (_, index) => ({
-    column: index % qrGridSize,
-    row: Math.floor(index / qrGridSize),
-  })
-)
 
 export const homeDecisionSignals = [
   {

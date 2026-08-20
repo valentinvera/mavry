@@ -18,7 +18,7 @@ export const Roadmap = ({
 }) => (
   <Frame content={content}>
     <div className="min-h-[29rem] overflow-hidden">
-      <div className="grid grid-cols-7 border-border/70 border-b text-center text-caption text-muted-foreground">
+      <div className="grid grid-cols-7 border-border/70 border-b text-center text-demo-metadata! text-muted-foreground">
         {["Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"].map((month) => (
           <span
             className="border-border/70 border-r py-3 last:border-r-0"
@@ -42,10 +42,10 @@ export const Roadmap = ({
               type="button"
             >
               <span>
-                <span className="block font-medium text-caption">
+                <span className="block font-medium text-demo-metadata!">
                   {lane.label}
                 </span>
-                <span className="mt-1 block text-caption text-muted-foreground">
+                <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                   0{index + 1}
                 </span>
               </span>
@@ -55,10 +55,10 @@ export const Roadmap = ({
                   lane.id === selectedLaneId && "border-foreground/60"
                 )}
               >
-                <span className="block font-medium text-small">
+                <span className="block font-medium text-demo-control!">
                   {lane.summary}
                 </span>
-                <span className="mt-1 block text-caption text-muted-foreground">
+                <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                   {lane.detail}
                 </span>
               </span>
@@ -72,10 +72,10 @@ export const Roadmap = ({
               key={step.id}
               type="button"
             >
-              <span className="text-caption text-muted-foreground">
+              <span className="text-demo-metadata! text-muted-foreground">
                 {String(index + 1).padStart(2, "0")} {step.label}
               </span>
-              <span className="mt-2 block font-medium text-small">
+              <span className="mt-2 block font-medium text-demo-control!">
                 {step.title}
               </span>
             </button>
@@ -84,7 +84,7 @@ export const Roadmap = ({
         <div className="mt-5 flex flex-wrap gap-2">
           {["Cut drift", "Assign feedback", "Open beta"].map((item) => (
             <button
-              className="flex items-center gap-2 rounded-md border border-border/70 bg-card/55 px-3 py-2 text-caption transition-colors hover:bg-muted/35 active:translate-y-px"
+              className="flex items-center gap-2 rounded-md border border-border/70 bg-card/55 px-3 py-2 text-demo-control! transition-colors hover:bg-muted/35 active:translate-y-px"
               key={item}
               type="button"
             >

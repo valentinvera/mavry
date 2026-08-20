@@ -20,7 +20,7 @@ export const ProjectSearch = ({ content }: { content: Content }) => (
               className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
             />
             <Input
-              className="h-10 rounded-md border-border/80 bg-card/65 pl-9 text-small"
+              className="h-10 rounded-md border-border/80 bg-card/65 pl-9 text-demo-control!"
               id="project-search-preview"
               readOnly
               value="feedback route"
@@ -36,18 +36,23 @@ export const ProjectSearch = ({ content }: { content: Content }) => (
             >
               <span className="min-w-0">
                 <span className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-small">{result.title}</span>
-                  <Badge className="rounded-md text-caption" variant="outline">
+                  <span className="font-medium text-demo-control!">
+                    {result.title}
+                  </span>
+                  <Badge
+                    className="rounded-md text-demo-metadata!"
+                    variant="outline"
+                  >
                     {result.area}
                   </Badge>
                 </span>
-                <span className="mt-2 block text-caption text-muted-foreground">
+                <span className="mt-2 block text-demo-metadata! text-muted-foreground">
                   {result.detail}
                 </span>
               </span>
               <Badge
                 className={cn(
-                  "w-fit rounded-md text-caption",
+                  "w-fit rounded-md text-demo-control!",
                   statusClassNames[result.status]
                 )}
               >
@@ -58,8 +63,8 @@ export const ProjectSearch = ({ content }: { content: Content }) => (
         </div>
       </section>
       <aside className="border-border/70 border-t p-4 lg:border-t-0 lg:border-l">
-        <p className="font-medium text-caption">Decision trail</p>
-        <p className="mt-2 text-caption text-muted-foreground">
+        <p className="font-medium text-demo-metadata!">Decision trail</p>
+        <p className="mt-2 text-demo-metadata! text-muted-foreground">
           Search results keep the feature, decision, and reason connected.
         </p>
         <div className="mt-4 divide-y divide-border/70">
@@ -69,7 +74,7 @@ export const ProjectSearch = ({ content }: { content: Content }) => (
               key={chip}
               type="button"
             >
-              <span className="text-caption">{chip}</span>
+              <span className="text-demo-metadata!">{chip}</span>
               <ArrowRightIcon
                 aria-hidden="true"
                 className="size-3.5 text-muted-foreground"

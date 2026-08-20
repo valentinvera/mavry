@@ -87,33 +87,13 @@ export const requestEmailFocus = () => {
 }
 
 export const Hero = () => (
-  <section className="relative isolate flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center gap-10 pt-16 pb-8 text-center sm:scroll-mt-8 sm:gap-12 sm:pt-24 sm:pb-0 md:pt-28 lg:pt-24">
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-x-1/2 top-[44%] -z-10 h-[62%] w-screen -translate-x-1/2 sm:top-[38%]"
-      style={{
-        background:
-          "radial-gradient(ellipse 86% 42% at 50% 24%, color-mix(in oklch, var(--foreground) 18%, transparent) 0%, color-mix(in oklch, var(--muted) 35%, transparent) 42%, transparent 78%), radial-gradient(ellipse 90% 48% at 50% 78%, color-mix(in oklch, var(--foreground) 20%, transparent) 0%, color-mix(in oklch, var(--muted) 42%, transparent) 38%, transparent 76%), linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--foreground) 6%, transparent) 28%, color-mix(in oklch, var(--muted) 18%, transparent) 72%, var(--background) 100%)",
-        maskImage:
-          "linear-gradient(180deg, transparent 0%, black 10%, black 84%, transparent 100%)",
-      }}
-    />
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-x-1/2 -bottom-16 -z-10 h-[40%] w-screen -translate-x-1/2"
-      style={{
-        background:
-          "linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--foreground) 9%, transparent) 42%, color-mix(in oklch, var(--muted) 36%, transparent) 100%)",
-        maskImage:
-          "radial-gradient(ellipse 78% 106% at 50% 52%, black 0%, black 38%, transparent 86%)",
-      }}
-    />
+  <section className="relative isolate flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center gap-10 pt-12 pb-8 text-center sm:scroll-mt-8 sm:gap-12 sm:pt-20 sm:pb-0 md:pt-24 lg:pt-20">
     <div className="relative flex max-w-5xl flex-col items-center gap-6 sm:gap-7">
       <div className="flex flex-col items-center gap-5">
-        <h1 className="text-balance font-bold text-hero tracking-normal md:text-display xl:text-display-lg">
+        <h1 className="text-balance font-medium text-hero-title tracking-normal md:text-display-lg xl:text-hero-title-xl">
           Know what belongs in your first release.
         </h1>
-        <p className="max-w-3xl text-large text-muted-foreground">
+        <p className="max-w-3xl text-body text-muted-foreground md:text-paragraph-md xl:text-paragraph-xl">
           Mavry helps builders capture product ideas, clarify what each feature
           proves, decide what belongs in the first version, and keep launch
           blockers visible before the backlog grows.
@@ -121,8 +101,16 @@ export const Hero = () => (
       </div>
       <ConnectedWaitlistForm />
     </div>
-    <div className="relative w-full max-w-7xl text-left">
-      <HeroDemo />
+    <div
+      className="relative w-full max-w-7xl overflow-hidden rounded-2xl bg-center bg-cover p-3 text-left shadow-[0_24px_120px_rgba(0,0,0,0.42)] sm:p-5 md:p-7"
+      style={{
+        backgroundImage: "url('/landing/hero-demo-madeira-cliffs.png')",
+      }}
+    >
+      <div className="absolute inset-0 bg-background/45" />
+      <div className="relative">
+        <HeroDemo />
+      </div>
     </div>
   </section>
 )
@@ -230,7 +218,7 @@ export const WaitlistForm = ({
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              className="h-8 min-w-0 flex-1 rounded-md bg-background/70 text-small sm:w-60 sm:flex-none"
+              className="h-8 min-w-0 flex-1 rounded-md bg-background/70 text-control! sm:w-60 sm:flex-none"
               data-waitlist-email
               disabled={isInputDisabled}
               id={INPUT_ID}
@@ -244,7 +232,7 @@ export const WaitlistForm = ({
               value={email}
             />
             <Button
-              className="h-8 min-w-24 rounded-md text-small"
+              className="h-8 min-w-24 rounded-md text-action!"
               disabled={isInputDisabled}
               size="sm"
               type="submit"
