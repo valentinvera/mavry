@@ -57,7 +57,6 @@ export const getRouter = () => {
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
     context: { trpc, queryClient },
-    defaultPendingComponent: () => <div>Loading...</div>,
     defaultNotFoundComponent: () => <div>Not Found</div>,
     Wrap: ({ children }) => (
       <TRPCProvider queryClient={queryClient} trpcClient={trpcClient}>
