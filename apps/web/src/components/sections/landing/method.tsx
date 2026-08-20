@@ -1,4 +1,5 @@
 import { Loop } from "@/components/demo/method-loop"
+import { LandscapeDemoContainer } from "@/components/landing/landscape-demo-container"
 
 export const Method = () => (
   <section
@@ -8,20 +9,28 @@ export const Method = () => (
   >
     <div className="mb-12 grid gap-8 sm:mb-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-end">
       <div className="max-w-xl">
-        <h2 className="font-semibold text-section tracking-normal md:text-section-lg xl:text-title">
+        <h2
+          className="font-medium text-subtitle tracking-normal md:text-section-lg xl:text-title"
+          data-landing-section-title=""
+        >
           A product loop for moving from
           <span className="block text-muted-foreground">
             capture to next action.
           </span>
         </h2>
       </div>
-      <p className="max-w-2xl text-large text-muted-foreground md:text-xlarge lg:justify-self-end">
+      <p
+        className="max-w-2xl text-body text-muted-foreground md:text-paragraph-md lg:justify-self-end xl:text-paragraph-xl"
+        data-landing-section-copy=""
+      >
         Each idea moves through the same sequence: capture it, clarify the user
         problem, classify its place in the MVP, record the cut when it does not
         belong, then review the next step.
       </p>
     </div>
 
-    <Loop />
+    <LandscapeDemoContainer variant="ridgePath">
+      <Loop />
+    </LandscapeDemoContainer>
   </section>
 )

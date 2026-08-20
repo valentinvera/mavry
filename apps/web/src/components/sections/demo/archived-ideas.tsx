@@ -12,7 +12,7 @@ export const ArchivedIdeas = ({ content }: { content: Content }) => (
           aria-hidden="true"
           className="size-4 text-muted-foreground"
         />
-        <p className="font-medium text-caption">Archived ideas</p>
+        <p className="font-medium text-demo-metadata!">Archived ideas</p>
       </div>
       <div className="relative mt-6 min-h-[22rem]">
         <div className="absolute inset-x-0 top-16 h-px bg-border/70" />
@@ -30,17 +30,17 @@ export const ArchivedIdeas = ({ content }: { content: Content }) => (
             type="button"
           >
             <span>
-              <span className="flex size-8 items-center justify-center rounded-full border border-border/70 bg-background/70 text-caption">
+              <span className="flex size-8 items-center justify-center rounded-full border border-border/70 bg-background/70 text-demo-metadata!">
                 {index + 1}
               </span>
-              <span className="mt-5 block font-medium text-medium">
+              <span className="mt-5 block font-medium text-demo-control!">
                 {title}
               </span>
-              <span className="mt-3 block text-caption text-muted-foreground">
+              <span className="mt-3 block text-demo-metadata! text-muted-foreground">
                 {reason}
               </span>
             </span>
-            <span className="border-border/70 border-t pt-3 text-caption text-muted-foreground">
+            <span className="border-border/70 border-t pt-3 text-demo-metadata! text-muted-foreground">
               Revisit: {condition}
             </span>
           </button>

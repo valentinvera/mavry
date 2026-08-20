@@ -23,15 +23,15 @@ export const LaunchReview = ({ content }: { content: Content }) => (
               key={label}
               type="button"
             >
-              <span className="flex size-7 items-center justify-center rounded-full border border-border/70 bg-card text-caption">
+              <span className="flex size-7 items-center justify-center rounded-full border border-border/70 bg-card text-demo-metadata!">
                 {index + 1}
               </span>
-              <span className="mt-5 block min-h-10 font-medium text-small">
+              <span className="mt-5 block min-h-10 font-medium text-demo-control!">
                 {label}
               </span>
               <Badge
                 className={cn(
-                  "mt-3 rounded-md text-caption",
+                  "mt-3 rounded-md text-demo-control!",
                   status === "Blocked"
                     ? "bg-warning text-warning-foreground"
                     : "bg-success text-success-foreground"
@@ -48,25 +48,25 @@ export const LaunchReview = ({ content }: { content: Content }) => (
               aria-hidden="true"
               className="size-4 text-warning-foreground"
             />
-            <p className="font-medium text-caption text-warning-foreground">
+            <p className="font-medium text-demo-metadata! text-warning-foreground">
               Launch blocker
             </p>
           </div>
-          <h3 className="mt-3 font-semibold text-xlarge">
+          <h3 className="mt-3 font-semibold text-demo-title!">
             Feedback route needs an owner
           </h3>
-          <p className="mt-3 max-w-xl text-large text-muted-foreground">
+          <p className="mt-3 max-w-xl text-demo-body! text-muted-foreground">
             Do not build the feedback hub. Assign one person and one channel,
             then open beta.
           </p>
         </div>
       </section>
       <aside className="border-warning/35 border-t p-4 lg:border-t-0 lg:border-l">
-        <p className="font-medium text-caption">Next launch actions</p>
+        <p className="font-medium text-demo-metadata!">Next launch actions</p>
         <div className="mt-4 flex flex-col gap-2">
           {["Assign owner", "Pick channel", "Ship beta"].map((action) => (
             <Button
-              className="justify-between rounded-md text-caption"
+              className="justify-between rounded-md text-demo-control!"
               key={action}
               size="sm"
               type="button"

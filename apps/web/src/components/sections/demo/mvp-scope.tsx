@@ -32,12 +32,17 @@ export const MvpScope = ({
           >
             <div className="mb-3 flex items-center justify-between gap-3">
               <div>
-                <p className="font-medium text-caption">{column.title}</p>
-                <p className="mt-1 text-caption text-muted-foreground">
+                <p className="font-medium text-demo-metadata!">
+                  {column.title}
+                </p>
+                <p className="mt-1 text-demo-metadata! text-muted-foreground">
                   {column.description}
                 </p>
               </div>
-              <Badge className="rounded-md text-caption" variant="outline">
+              <Badge
+                className="rounded-md text-demo-metadata!"
+                variant="outline"
+              >
                 {column.rows.length}
               </Badge>
             </div>
@@ -54,10 +59,10 @@ export const MvpScope = ({
                   onClick={() => onSelectedRowChange(row.id)}
                   type="button"
                 >
-                  <span className="block font-medium text-small">
+                  <span className="block font-medium text-demo-control!">
                     {row.feature}
                   </span>
-                  <span className="mt-1 block text-caption text-muted-foreground">
+                  <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                     {row.question}
                   </span>
                 </button>
@@ -68,8 +73,10 @@ export const MvpScope = ({
       </div>
       <div className="pointer-events-none absolute top-1/2 left-1/2 hidden size-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-border/80 bg-card text-center shadow-2xl shadow-background/70 md:flex">
         <div>
-          <p className="font-semibold text-small">MVP</p>
-          <p className="mt-1 text-caption text-muted-foreground">scope</p>
+          <p className="font-semibold text-demo-control!">MVP</p>
+          <p className="mt-1 text-demo-metadata! text-muted-foreground">
+            scope
+          </p>
         </div>
       </div>
     </div>

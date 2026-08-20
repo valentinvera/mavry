@@ -55,8 +55,10 @@ export const Charts = ({
     <Card className="rounded-lg border-border/80 bg-card/70">
       <CardHeader className="border-border/80 border-b">
         <div>
-          <CardTitle className="text-medium">Readiness trajectory</CardTitle>
-          <CardDescription className="text-caption">
+          <CardTitle className="text-demo-control!">
+            Readiness trajectory
+          </CardTitle>
+          <CardDescription className="text-demo-metadata!">
             Readiness increases as intake, scope, cut review, blocker review,
             and launch preparation become clearer.
           </CardDescription>
@@ -105,15 +107,15 @@ export const Charts = ({
           </ChartContainer>
           <div className="flex flex-wrap items-center justify-between gap-3 border-border/70 border-t pt-3">
             <div>
-              <p className="font-medium text-caption">
+              <p className="font-medium text-demo-metadata!">
                 Current decision window
               </p>
-              <p className="text-caption text-muted-foreground">
+              <p className="text-demo-metadata! text-muted-foreground">
                 Review the cut list first, then resolve the feedback owner
                 blocking beta.
               </p>
             </div>
-            <Badge className="rounded-md bg-warning text-caption text-warning-foreground">
+            <Badge className="rounded-md bg-warning text-demo-metadata! text-warning-foreground">
               1 blocker
             </Badge>
           </div>
@@ -136,27 +138,31 @@ export const Charts = ({
                 type="button"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium text-caption">{lane.label}</p>
+                  <p className="font-medium text-demo-metadata!">
+                    {lane.label}
+                  </p>
                   {isSelected && (
                     <Badge
-                      className="rounded-md text-caption"
+                      className="rounded-md text-demo-metadata!"
                       variant="outline"
                     >
                       Selected
                     </Badge>
                   )}
                 </div>
-                <p className="mt-2 text-caption">{lane.summary}</p>
+                <p className="mt-2 text-demo-metadata!">{lane.summary}</p>
               </button>
             )
           })}
           <div className="rounded-md border bg-muted/30 p-3">
-            <p className="font-medium text-caption">{selectedLane.label}</p>
-            <p className="mt-1 text-caption text-muted-foreground">
+            <p className="font-medium text-demo-metadata!">
+              {selectedLane.label}
+            </p>
+            <p className="mt-1 text-demo-metadata! text-muted-foreground">
               {selectedLane.detail}
             </p>
             <Button
-              className="mt-3 rounded-md text-caption"
+              className="mt-3 rounded-md text-demo-control!"
               size="sm"
               type="button"
             >

@@ -14,30 +14,30 @@ export const Document = ({ activePageId }: Props) => {
       <header className="flex items-center justify-between gap-4 border-border/80 border-b px-4 py-3">
         <div className="flex min-w-0 items-center gap-2">
           <Badge
-            className="rounded-md border-border/80 bg-background/60 text-caption"
+            className="rounded-md border-border/80 bg-background/60 text-demo-metadata!"
             variant="outline"
           >
             {pageContent.code}
           </Badge>
-          <span className="text-caption text-muted-foreground">
+          <span className="text-demo-metadata! text-muted-foreground">
             {pageContent.context}
           </span>
         </div>
-        <Badge className="rounded-md bg-success text-caption text-success-foreground">
+        <Badge className="rounded-md bg-success text-demo-metadata! text-success-foreground">
           74 readiness
         </Badge>
       </header>
 
       <div className="px-4 py-6 md:px-6 md:py-7">
         <div className="max-w-3xl">
-          <h2 className="font-semibold text-section">{pageContent.title}</h2>
-          <p className="mt-3 text-large text-muted-foreground">
+          <h2 className="font-semibold text-demo-stat!">{pageContent.title}</h2>
+          <p className="mt-3 text-demo-body! text-muted-foreground">
             {pageContent.description}
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {pageContent.chips.map((chip) => (
               <button
-                className="rounded-md border border-border/70 bg-background/60 px-2 py-1 text-caption transition-colors hover:bg-muted/50 active:translate-y-px"
+                className="rounded-md border border-border/70 bg-background/60 px-2 py-1 text-demo-control! transition-colors hover:bg-muted/50 active:translate-y-px"
                 key={chip}
                 type="button"
               >
@@ -49,7 +49,9 @@ export const Document = ({ activePageId }: Props) => {
 
         <section className="mt-7 rounded-lg border border-border/70 bg-background/45">
           <div className="border-border/70 border-b px-4 py-3">
-            <p className="font-medium text-caption">Recent product decisions</p>
+            <p className="font-medium text-demo-metadata!">
+              Recent product decisions
+            </p>
           </div>
           <div className="divide-y divide-border/70">
             {pageContent.activities.map((item) => {
@@ -65,17 +67,17 @@ export const Document = ({ activePageId }: Props) => {
                     <Icon aria-hidden="true" className="size-3.5" />
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-caption text-muted-foreground">
+                    <span className="block text-demo-metadata! text-muted-foreground">
                       {item.actor}
                     </span>
-                    <span className="mt-0.5 block font-medium text-small">
+                    <span className="mt-0.5 block font-medium text-demo-control!">
                       {item.title}
                     </span>
-                    <span className="mt-1 block text-caption text-muted-foreground">
+                    <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                       {item.description}
                     </span>
                   </span>
-                  <span className="hidden text-caption text-muted-foreground sm:block">
+                  <span className="hidden text-demo-metadata! text-muted-foreground sm:block">
                     {item.time}
                   </span>
                 </button>

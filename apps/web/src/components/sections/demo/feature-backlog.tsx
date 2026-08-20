@@ -34,9 +34,9 @@ export const FeatureBacklog = ({
     <div className="grid min-h-[29rem] overflow-hidden lg:grid-cols-[14rem_minmax(0,1fr)]">
       <aside className="border-border/70 border-b p-4 lg:border-r lg:border-b-0">
         <div className="flex items-center justify-between gap-3">
-          <p className="font-medium text-caption">Risk lens</p>
+          <p className="font-medium text-demo-metadata!">Risk lens</p>
           <Button
-            className="rounded-md text-caption"
+            className="rounded-md text-demo-control!"
             size="sm"
             type="button"
             variant="outline"
@@ -53,14 +53,17 @@ export const FeatureBacklog = ({
               type="button"
             >
               <span className="flex items-center justify-between gap-3">
-                <span className="text-caption text-muted-foreground">
+                <span className="text-demo-metadata! text-muted-foreground">
                   {label}
                 </span>
-                <Badge className="rounded-md text-caption" variant="outline">
+                <Badge
+                  className="rounded-md text-demo-metadata!"
+                  variant="outline"
+                >
                   {value}
                 </Badge>
               </span>
-              <span className="mt-2 block font-medium text-small">
+              <span className="mt-2 block font-medium text-demo-control!">
                 {detail}
               </span>
             </button>
@@ -69,8 +72,10 @@ export const FeatureBacklog = ({
       </aside>
       <section>
         <div className="border-border/70 border-b px-4 py-3">
-          <p className="font-medium text-caption">Feature decision matrix</p>
-          <p className="mt-1 text-caption text-muted-foreground">
+          <p className="font-medium text-demo-metadata!">
+            Feature decision matrix
+          </p>
+          <p className="mt-1 text-demo-metadata! text-muted-foreground">
             Classification stays visible next to the product question.
           </p>
         </div>
@@ -104,28 +109,28 @@ export const FeatureBacklog = ({
                       onClick={() => onSelectedRowChange(row.id)}
                       type="button"
                     >
-                      <span className="block font-medium text-small">
+                      <span className="block font-medium text-demo-control!">
                         {row.feature}
                       </span>
-                      <span className="mt-1 block truncate text-caption text-muted-foreground md:hidden">
+                      <span className="mt-1 block truncate text-demo-metadata! text-muted-foreground md:hidden">
                         {row.question}
                       </span>
                     </button>
                   </TableCell>
-                  <TableCell className="hidden max-w-0 truncate text-caption text-muted-foreground md:table-cell">
+                  <TableCell className="hidden max-w-0 truncate text-demo-metadata! text-muted-foreground md:table-cell">
                     <span className="block truncate">{row.question}</span>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Badge
                       className={cn(
-                        "w-fit rounded-md px-2 text-caption",
+                        "w-fit rounded-md px-2 text-demo-metadata!",
                         decisionClassNames[row.decision]
                       )}
                     >
                       {row.decision}
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden truncate text-caption text-muted-foreground lg:table-cell">
+                  <TableCell className="hidden truncate text-demo-metadata! text-muted-foreground lg:table-cell">
                     {row.owner}
                   </TableCell>
                 </TableRow>

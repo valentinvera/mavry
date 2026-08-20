@@ -68,7 +68,9 @@ export const Sidebar = ({
             src="/brand/mavry-symbol-white.svg"
             width={128}
           />
-          <span className="truncate font-semibold text-medium">Mavry</span>
+          <span className="truncate font-semibold text-demo-control!">
+            Mavry
+          </span>
           <ChevronDownIcon
             aria-hidden="true"
             className={cn(
@@ -99,7 +101,7 @@ export const Sidebar = ({
 
         {isProjectMenuOpen ? (
           <div className="absolute top-[calc(100%+0.375rem)] right-2 left-2 z-30 rounded-lg border border-border/80 bg-background/95 p-1 shadow-xl backdrop-blur-glass">
-            <div className="px-2 py-1.5 font-medium text-caption text-muted-foreground">
+            <div className="px-2 py-1.5 font-medium text-demo-metadata! text-muted-foreground">
               Switch project
             </div>
             <div className="flex flex-col gap-1">
@@ -115,10 +117,10 @@ export const Sidebar = ({
                     key={project.id}
                     type="button"
                   >
-                    <span className="block truncate font-medium text-small">
+                    <span className="block truncate font-medium text-demo-control!">
                       {project.name}
                     </span>
-                    <span className="block truncate text-caption text-muted-foreground">
+                    <span className="block truncate text-demo-metadata! text-muted-foreground">
                       {project.description}
                     </span>
                   </button>
@@ -145,7 +147,7 @@ export const Sidebar = ({
               <button
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-caption text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
+                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
                   isActive && activeItemClass
                 )}
                 key={item.id}
@@ -160,7 +162,7 @@ export const Sidebar = ({
         </nav>
 
         <div className="flex flex-col gap-2">
-          <p className="px-2 font-medium text-caption text-muted-foreground">
+          <p className="px-2 font-medium text-demo-metadata! text-muted-foreground">
             Documents
           </p>
           <nav
@@ -175,7 +177,7 @@ export const Sidebar = ({
                 <button
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "grid grid-cols-[1rem_minmax(0,1fr)] gap-2 rounded-md px-2 py-1.5 text-left text-caption text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
+                    "grid grid-cols-[1rem_minmax(0,1fr)] gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
                     isActive && activeItemClass
                   )}
                   key={item.id}
@@ -206,7 +208,7 @@ export const Sidebar = ({
               <Button
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "justify-start rounded-md text-caption",
+                  "justify-start rounded-md text-demo-control!",
                   isActive && activeItemClass
                 )}
                 key={item.id}

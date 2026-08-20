@@ -1,4 +1,5 @@
 import { Stack } from "@/components/demo/layered-decision-stack"
+import { LandscapeDemoContainer } from "@/components/landing/landscape-demo-container"
 
 export const Problem = () => (
   <section
@@ -8,20 +9,28 @@ export const Problem = () => (
   >
     <div className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-end">
       <div className="max-w-xl">
-        <h2 className="font-semibold text-section tracking-normal md:text-section-lg xl:text-title">
+        <h2
+          className="font-medium text-subtitle tracking-normal md:text-section-lg xl:text-title"
+          data-landing-section-title=""
+        >
           Most early products collect ideas faster
           <span className="block text-muted-foreground">
             than they make decisions.
           </span>
         </h2>
       </div>
-      <p className="max-w-2xl text-large text-muted-foreground md:text-xlarge lg:justify-self-end">
+      <p
+        className="max-w-2xl text-body text-muted-foreground md:text-paragraph-md lg:justify-self-end xl:text-paragraph-xl"
+        data-landing-section-copy=""
+      >
         Mavry turns a crowded feature list into a decision map: which items
         prove the product hypothesis, which support the launch, which should
         wait, and which should be cut with a reason.
       </p>
     </div>
 
-    <Stack />
+    <LandscapeDemoContainer variant="cliffFace">
+      <Stack />
+    </LandscapeDemoContainer>
   </section>
 )

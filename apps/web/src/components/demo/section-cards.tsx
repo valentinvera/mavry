@@ -31,19 +31,19 @@ export const SectionCards = () => (
           size="sm"
         >
           <CardHeader>
-            <CardDescription className="text-caption">
+            <CardDescription className="text-demo-metadata!">
               {card.label}
             </CardDescription>
-            <CardTitle className="flex items-end gap-1 text-section">
+            <CardTitle className="flex items-end gap-1 text-demo-stat!">
               {card.value}
-              <span className="pb-0.5 font-normal text-caption text-muted-foreground">
+              <span className="pb-0.5 font-normal text-demo-metadata! text-muted-foreground">
                 {card.suffix}
               </span>
             </CardTitle>
             <CardAction>
               <Badge
                 className={cn(
-                  "rounded-md text-caption",
+                  "rounded-md text-demo-metadata!",
                   badgeClassNames[card.id]
                 )}
               >
@@ -53,7 +53,7 @@ export const SectionCards = () => (
             </CardAction>
           </CardHeader>
           <CardContent>
-            <p className="text-caption text-muted-foreground">
+            <p className="text-demo-metadata! text-muted-foreground">
               {card.description}
             </p>
           </CardContent>

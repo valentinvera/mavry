@@ -17,16 +17,18 @@ export const Projects = ({ content }: { content: Content }) => (
             type="button"
           >
             <span>
-              <span className="block font-medium text-medium">{name}</span>
-              <span className="mt-1 block text-caption text-muted-foreground">
+              <span className="block font-medium text-demo-control!">
+                {name}
+              </span>
+              <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                 {stage}
               </span>
             </span>
             <span>
-              <span className="block font-semibold text-section">
+              <span className="block font-semibold text-demo-stat!">
                 {readiness}
               </span>
-              <span className="mt-1 block text-caption text-muted-foreground">
+              <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                 {blocker}
               </span>
             </span>
@@ -34,7 +36,7 @@ export const Projects = ({ content }: { content: Content }) => (
         ))}
       </section>
       <aside className="border-border/70 border-t p-4 lg:border-t-0 lg:border-l">
-        <p className="font-medium text-caption">Where attention goes</p>
+        <p className="font-medium text-demo-metadata!">Where attention goes</p>
         <div className="mt-5 divide-y divide-border/70">
           {projectRows.map(([name, stage, readiness, blocker]) => (
             <button
@@ -43,10 +45,12 @@ export const Projects = ({ content }: { content: Content }) => (
               type="button"
             >
               <span className="flex items-center justify-between gap-3">
-                <span className="text-caption">{stage}</span>
-                <span className="font-medium text-caption">{readiness}</span>
+                <span className="text-demo-metadata!">{stage}</span>
+                <span className="font-medium text-demo-metadata!">
+                  {readiness}
+                </span>
               </span>
-              <span className="mt-2 block text-caption text-muted-foreground">
+              <span className="mt-2 block text-demo-metadata! text-muted-foreground">
                 {blocker}
               </span>
             </button>

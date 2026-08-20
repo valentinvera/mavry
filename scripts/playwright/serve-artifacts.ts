@@ -27,7 +27,7 @@ function getKind(path: string): Artifact["kind"] {
 
   const extension = extname(path)
 
-  if (extension === ".webm") {
+  if (extension === ".mp4" || extension === ".webm") {
     return "video"
   }
 
@@ -105,6 +105,8 @@ function getContentType(path: string): string {
       return "application/json; charset=utf-8"
     case ".png":
       return "image/png"
+    case ".mp4":
+      return "video/mp4"
     case ".svg":
       return "image/svg+xml; charset=utf-8"
     case ".webm":

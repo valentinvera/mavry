@@ -3,13 +3,14 @@ import { Separator } from "@mavry/ui/components/separator"
 import { cn } from "@mavry/ui/lib/utils"
 import { MenuIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
+import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import {
   FOCUS_EVENT,
   requestEmailFocus,
 } from "@/components/sections/landing/hero"
 
 const ANIMATION_DURATION = 300
-const ctaClassName = "rounded-md text-small"
+const ctaClassName = "rounded-md text-action!"
 
 const items = [
   { id: "workspace", label: "Workspace", href: "#workspace" },
@@ -33,17 +34,11 @@ export const Navbar = () => (
       className="relative z-10 col-start-1 inline-flex justify-self-start rounded-md"
       href="/"
     >
-      <img
-        alt="Mavry"
-        className="h-8 w-auto"
-        height={128}
-        src="/brand/mavry-logo-white.svg"
-        width={392}
-      />
+      <MavryWordmark />
     </a>
     <nav
       aria-label="Landing sections"
-      className="relative z-10 col-start-2 hidden items-center gap-6 justify-self-center text-muted-foreground text-small md:flex"
+      className="relative z-10 col-start-2 hidden items-center gap-6 justify-self-center text-muted-foreground text-nav md:flex"
     >
       {items.map((item) => (
         <a

@@ -52,21 +52,24 @@ export const Table = ({
           className="min-w-0 rounded-md bg-background/70"
           variant="line"
         >
-          <TabsTrigger className="text-caption" value="scope">
+          <TabsTrigger className="text-demo-control!" value="scope">
             {activePageId === "feature-backlog"
               ? "Feature backlog"
               : "MVP scope"}
           </TabsTrigger>
-          <TabsTrigger className="text-caption" value="cuts">
+          <TabsTrigger className="text-demo-control!" value="cuts">
             Cuts
-            <Badge className="rounded-full text-caption" variant="secondary">
+            <Badge
+              className="rounded-full text-demo-metadata!"
+              variant="secondary"
+            >
               {cutRows.length}
             </Badge>
           </TabsTrigger>
         </TabsList>
         <div className="flex shrink-0 items-center justify-end gap-2">
           <Button
-            className="hidden rounded-md text-caption sm:inline-flex"
+            className="hidden rounded-md text-demo-control! sm:inline-flex"
             size="sm"
             type="button"
             variant="outline"
@@ -75,7 +78,11 @@ export const Table = ({
             Columns
             <ChevronDownIcon data-icon="inline-end" />
           </Button>
-          <Button className="rounded-md text-caption" size="sm" type="button">
+          <Button
+            className="rounded-md text-demo-control!"
+            size="sm"
+            type="button"
+          >
             <PlusIcon data-icon="inline-start" />
             Add idea
           </Button>
@@ -86,21 +93,21 @@ export const Table = ({
         className="overflow-hidden rounded-lg border border-border/80"
         value="scope"
       >
-        <TablePrimitive className="text-caption">
+        <TablePrimitive className="text-demo-metadata!">
           <TableHeader className="bg-background/70">
             <TableRow>
-              <TableHead className="text-caption">Feature</TableHead>
-              <TableHead className="hidden min-w-72 text-caption sm:table-cell">
+              <TableHead className="text-demo-metadata!">Feature</TableHead>
+              <TableHead className="hidden min-w-72 text-demo-metadata! sm:table-cell">
                 Decision question
               </TableHead>
-              <TableHead className="text-caption">Decision</TableHead>
-              <TableHead className="hidden text-caption md:table-cell">
+              <TableHead className="text-demo-metadata!">Decision</TableHead>
+              <TableHead className="hidden text-demo-metadata! md:table-cell">
                 Lane
               </TableHead>
-              <TableHead className="hidden text-caption sm:table-cell">
+              <TableHead className="hidden text-demo-metadata! sm:table-cell">
                 Readiness
               </TableHead>
-              <TableHead className="hidden text-caption lg:table-cell">
+              <TableHead className="hidden text-demo-metadata! lg:table-cell">
                 Owner
               </TableHead>
             </TableRow>
@@ -118,9 +125,9 @@ export const Table = ({
                   data-state={isSelected ? "selected" : undefined}
                   key={row.id}
                 >
-                  <TableCell className="whitespace-normal text-caption">
+                  <TableCell className="whitespace-normal text-demo-metadata!">
                     <button
-                      className="text-left font-medium text-caption text-foreground underline-offset-4 transition-transform hover:underline active:translate-y-px disabled:pointer-events-none"
+                      className="text-left font-medium text-demo-control! text-foreground underline-offset-4 transition-transform hover:underline active:translate-y-px disabled:pointer-events-none"
                       disabled={!interactive}
                       onClick={() => onSelectedRowChange(row.id)}
                       type="button"
@@ -128,33 +135,33 @@ export const Table = ({
                       {row.feature}
                     </button>
                   </TableCell>
-                  <TableCell className="hidden text-caption text-muted-foreground sm:table-cell">
+                  <TableCell className="hidden text-demo-metadata! text-muted-foreground sm:table-cell">
                     {row.question}
                   </TableCell>
-                  <TableCell className="text-caption">
+                  <TableCell className="text-demo-metadata!">
                     <Badge
                       className={cn(
-                        "rounded-md text-caption",
+                        "rounded-md text-demo-metadata!",
                         decisionClassNames[row.decision]
                       )}
                     >
                       {row.decision}
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden text-caption md:table-cell">
+                  <TableCell className="hidden text-demo-metadata! md:table-cell">
                     {row.lane}
                   </TableCell>
-                  <TableCell className="hidden text-caption sm:table-cell">
+                  <TableCell className="hidden text-demo-metadata! sm:table-cell">
                     <Badge
                       className={cn(
-                        "rounded-md text-caption",
+                        "rounded-md text-demo-metadata!",
                         readinessClassNames[row.readiness]
                       )}
                     >
                       {row.readiness}
                     </Badge>
                   </TableCell>
-                  <TableCell className="hidden text-caption lg:table-cell">
+                  <TableCell className="hidden text-demo-metadata! lg:table-cell">
                     {row.owner}
                   </TableCell>
                 </TableRow>
@@ -162,7 +169,7 @@ export const Table = ({
             })}
           </TableBody>
         </TablePrimitive>
-        <div className="flex flex-col items-start justify-between gap-1 border-border/80 border-t px-3 py-2 text-caption text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
+        <div className="flex flex-col items-start justify-between gap-1 border-border/80 border-t px-3 py-2 text-demo-metadata! text-muted-foreground sm:flex-row sm:items-center sm:gap-3">
           <p>{selectedRows.length} MVP rows selected for launch review.</p>
           <p>Page 1 of 1</p>
         </div>
@@ -172,7 +179,7 @@ export const Table = ({
         className="rounded-lg border border-border/80 border-dashed bg-background/40 p-3"
         value="cuts"
       >
-        <p className="font-medium text-caption">Cut list</p>
+        <p className="font-medium text-demo-metadata!">Cut list</p>
         <div className="mt-3 grid gap-2">
           {cutRows.map((row) => (
             <button
@@ -180,10 +187,10 @@ export const Table = ({
               key={row.id}
               type="button"
             >
-              <span className="block font-medium text-caption">
+              <span className="block font-medium text-demo-metadata!">
                 {row.feature}
               </span>
-              <span className="mt-1 block text-caption text-muted-foreground">
+              <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                 {row.question}
               </span>
             </button>

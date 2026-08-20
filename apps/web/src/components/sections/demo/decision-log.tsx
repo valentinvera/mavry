@@ -5,11 +5,11 @@ export const DecisionLog = ({ content }: { content: Content }) => (
   <Frame content={content}>
     <div className="grid min-h-[29rem] overflow-hidden lg:grid-cols-[13rem_minmax(0,1fr)]">
       <aside className="border-border/70 border-b p-4 lg:border-r lg:border-b-0">
-        <p className="font-medium text-caption">Decision types</p>
+        <p className="font-medium text-demo-metadata!">Decision types</p>
         <div className="mt-4 divide-y divide-border/70">
           {content.chips.map((chip) => (
             <button
-              className="w-full py-3 text-left text-caption transition-colors hover:text-foreground active:translate-y-px"
+              className="w-full py-3 text-left text-demo-control! transition-colors hover:text-foreground active:translate-y-px"
               key={chip}
               type="button"
             >
@@ -37,17 +37,17 @@ export const DecisionLog = ({ content }: { content: Content }) => (
                   />
                 </span>
                 <span>
-                  <span className="block text-caption text-muted-foreground">
+                  <span className="block text-demo-metadata! text-muted-foreground">
                     Decision {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="mt-1 block font-medium text-small">
+                  <span className="mt-1 block font-medium text-demo-control!">
                     {item.title}
                   </span>
-                  <span className="mt-1 block text-caption text-muted-foreground">
+                  <span className="mt-1 block text-demo-metadata! text-muted-foreground">
                     {item.description}
                   </span>
                 </span>
-                <span className="text-caption text-muted-foreground">
+                <span className="text-demo-metadata! text-muted-foreground">
                   {item.time}
                 </span>
               </button>

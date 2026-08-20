@@ -7,22 +7,22 @@ export const Header = ({ content }: { content: Content }) => (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="flex min-w-0 items-center gap-2">
         <Badge
-          className="rounded-md border-border/80 bg-background/60 text-caption"
+          className="rounded-md border-border/80 bg-background/60 text-demo-metadata!"
           variant="outline"
         >
           {content.code}
         </Badge>
-        <span className="text-caption text-muted-foreground">
+        <span className="text-demo-metadata! text-muted-foreground">
           {content.context}
         </span>
       </div>
-      <Badge className="rounded-md bg-success text-caption text-success-foreground">
+      <Badge className="rounded-md bg-success text-demo-metadata! text-success-foreground">
         74 readiness
       </Badge>
     </div>
     <div className="max-w-2xl">
-      <h2 className="font-semibold text-xlarge">{content.title}</h2>
-      <p className="mt-2 text-muted-foreground text-small leading-relaxed">
+      <h2 className="font-semibold text-demo-title!">{content.title}</h2>
+      <p className="mt-2 text-demo-body! text-muted-foreground">
         {content.description}
       </p>
     </div>

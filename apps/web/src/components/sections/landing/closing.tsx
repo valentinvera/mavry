@@ -8,7 +8,7 @@ export const Closing = () => (
     data-section-reveal=""
   >
     <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-      <h2 className="max-w-4xl font-semibold text-hero tracking-normal md:text-section-lg xl:text-display-lg">
+      <h2 className="max-w-4xl font-medium text-section-lg tracking-normal md:text-title xl:text-display">
         Build from a scope you understand.
         <span className="block text-muted-foreground">
           Keep the rest visible, but out of the MVP.
@@ -16,14 +16,14 @@ export const Closing = () => (
       </h2>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Button
-          className="h-8 rounded-md text-small"
+          className="h-8 rounded-md text-action!"
           onClick={requestEmailFocus}
           type="button"
         >
           Join waitlist
         </Button>
         <Button
-          className="h-8 rounded-md text-small"
+          className="h-8 rounded-md text-action!"
           onClick={requestOpen}
           type="button"
           variant="outline"

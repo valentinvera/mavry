@@ -21,6 +21,10 @@ export const ReviewPanel = ({ activePageId }: Props) => {
   const [isMinimized, setIsMinimized] = useState(false)
   const pageContent = contentByPage[activePageId]
 
+  if (activePageId === "mobile-capture") {
+    return null
+  }
+
   return (
     <section
       aria-label="Mavry launch review panel"
@@ -44,9 +48,9 @@ export const ReviewPanel = ({ activePageId }: Props) => {
             src="/brand/mavry-symbol-white.svg"
             width={128}
           />
-          <p className="truncate font-medium text-caption">Mavry</p>
+          <p className="truncate font-medium text-demo-metadata!">Mavry</p>
           <Badge
-            className="rounded-md border-border/80 bg-background/60 text-caption"
+            className="rounded-md border-border/80 bg-background/60 text-demo-metadata!"
             variant="outline"
           >
             {pageContent.context}
@@ -95,11 +99,13 @@ export const ReviewPanel = ({ activePageId }: Props) => {
                 <CircleDotDashedIcon aria-hidden="true" className="size-3.5" />
               </span>
               <div className="min-w-0">
-                <p className="text-caption text-muted-foreground">
+                <p className="text-demo-metadata! text-muted-foreground">
                   Mavry connected to {pageContent.code}
                 </p>
-                <p className="mt-3 text-caption">{pageContent.description}</p>
-                <p className="mt-3 text-caption text-muted-foreground">
+                <p className="mt-3 text-demo-metadata!">
+                  {pageContent.description}
+                </p>
+                <p className="mt-3 text-demo-metadata! text-muted-foreground">
                   Thinking through launch risk...
                 </p>
               </div>
@@ -108,7 +114,7 @@ export const ReviewPanel = ({ activePageId }: Props) => {
 
           <div className="border-border/80 border-t p-3">
             <div className="rounded-md border border-border/80 bg-background/60 p-2">
-              <p className="px-1 py-2 text-caption text-muted-foreground">
+              <p className="px-1 py-2 text-demo-metadata! text-muted-foreground">
                 {pageContent.reviewPrompt}
               </p>
               <div className="flex items-center justify-end gap-1">

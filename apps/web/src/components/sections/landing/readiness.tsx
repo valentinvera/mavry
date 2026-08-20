@@ -1,4 +1,5 @@
 import { DirectionPanel } from "@/components/demo/direction-panel"
+import { LandscapeDemoContainer } from "@/components/landing/landscape-demo-container"
 
 export const Readiness = () => (
   <section
@@ -9,21 +10,29 @@ export const Readiness = () => (
     <div className="grid gap-12">
       <div className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)] lg:items-end">
         <div className="max-w-xl">
-          <h2 className="font-semibold text-section tracking-normal md:text-section-lg xl:text-title">
+          <h2
+            className="font-medium text-subtitle tracking-normal md:text-section-lg xl:text-title"
+            data-landing-section-title=""
+          >
             Readiness is based on what is clear,
             <span className="block text-muted-foreground">
               blocked, and intentionally left out.
             </span>
           </h2>
         </div>
-        <p className="max-w-2xl text-large text-muted-foreground md:text-xlarge lg:justify-self-end">
+        <p
+          className="max-w-2xl text-body text-muted-foreground md:text-paragraph-md lg:justify-self-end xl:text-paragraph-xl"
+          data-landing-section-copy=""
+        >
           Mavry shows whether the product hypothesis, core scope, cut list,
           roadmap, feedback route, and next actions are ready enough for the
           next release.
         </p>
       </div>
 
-      <DirectionPanel />
+      <LandscapeDemoContainer variant="coastline">
+        <DirectionPanel />
+      </LandscapeDemoContainer>
     </div>
   </section>
 )

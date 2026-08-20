@@ -78,7 +78,7 @@ export const HeroDemo = () => {
             render={
               <Button
                 aria-label="Open full Mavry dashboard demo"
-                className="rounded-md text-small"
+                className="rounded-md text-demo-control!"
                 size="sm"
                 type="button"
               />

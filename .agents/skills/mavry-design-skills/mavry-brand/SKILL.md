@@ -40,17 +40,17 @@ Technical source of truth: use `@mavry/tokens` for design tokens in code. Web/Ta
 
 ## Typography
 
-Use **Inter for everything** in Mavry: product UI, marketing, docs, headings, body text, labels, buttons, and code-like product surfaces unless a real code block requires the system monospace stack.
+Use **Geist Variable for everything** in Mavry: product UI, marketing, docs, headings, body text, labels, buttons, and code-like product surfaces unless a real code block requires the system monospace stack. Native surfaces may use the equivalent static Geist cuts when the platform package does not expose a variable font file.
 
 | Font | Role |
 | ---- | ---- |
-| **Inter** | Display, headings, titles, body, labels, navigation, product UI, and marketing copy |
+| **Geist Variable** | Display, headings, titles, body, labels, navigation, product UI, and marketing copy |
 
 ### Typography Rules
 
 - Use sentence case everywhere: headings, buttons, labels, and navigation.
-- Use Inter for all brand and product typography.
-- Use Inter weights intentionally: Regular, Medium, Semi Bold, and Bold.
+- Use Geist Variable for all brand and product typography.
+- Use Geist Variable weights intentionally: Regular, Medium, Semi Bold, and Bold.
 - Use Bold only for strong hierarchy, not decoration.
 - Never use decorative display fonts, multiple brand fonts, or novelty typefaces.
 - Never use monospace for titles, body copy, labels, or marketing copy.
@@ -66,40 +66,69 @@ Mavry's type scale is calibrated from compact product typography and precise mar
 
 | Style | Font | Weight | Size/Line | Letter Spacing | Use |
 | ----- | ---- | ------ | --------- | -------------- | --- |
-| micro | Inter | Regular/Medium | 10/15 | 0 | Dense chart ticks, tiny metadata, compact IDs |
-| compact | Inter | Regular/Medium | 11/15.4 | 0 | Secondary dense labels, timestamps, compact sidebar metadata |
-| caption | Inter | Regular/Medium | 12/16.8 | 0 | Tables, descriptions, form help, compact product copy |
-| small | Inter | Regular/Medium | 13/19.5 | 0 | Navigation, badges, buttons, interactive labels |
-| medium | Inter | Regular/Medium/Semi Bold | 14/21 | 0 | Card titles, row titles, small section labels |
-| large | Inter | Regular/Medium | 15/24 | 0 | Mobile paragraphs and standard landing body |
-| body | Inter | Regular/Medium/Semi Bold | 16/24 | 0 | Product UI body where more readability is needed |
-| emphasis | Inter | Medium/Semi Bold | 17/27.2 | 0 | Compact emphasized status copy |
+| micro | Geist Variable | Regular/Medium | 10/15 | 0 | Dense chart ticks, tiny metadata, compact IDs |
+| compact | Geist Variable | Regular/Medium | 11/15.4 | 0 | Secondary dense labels, timestamps, compact sidebar metadata |
+| caption | Geist Variable | Regular/Medium | 12/16.8 | 0 | Tables, descriptions, form help, compact product copy |
+| small | Geist Variable | Regular/Medium | 13/19.5 | 0 | Navigation, badges, buttons, interactive labels |
+| medium | Geist Variable | Regular/Medium/Semi Bold | 14/21 | 0 | Card titles, row titles, small section labels |
+| nav | Geist Variable | Regular/Medium | 14/20 | 0 | Desktop landing navigation links |
+| action | Geist Variable | Medium | 14/20 | 0 | Compact landing actions and waitlist buttons |
+| control | Geist Variable | Regular/Medium | 14/20 | 0 | Compact landing form inputs and placeholders |
+| footer | Geist Variable | Regular/Medium | 14/20 | 0 | Footer description and navigation links |
+| large | Geist Variable | Regular/Medium | 15/24 | 0 | Mobile paragraphs and standard landing body |
+| body | Geist Variable | Regular/Medium/Semi Bold | 16/24 | 0 | Product UI body where more readability is needed |
+| emphasis | Geist Variable | Medium/Semi Bold | 17/27.2 | 0 | Compact emphasized status copy |
+
+**Landing Product Demos**
+
+Product demos use a stable interface scale at every breakpoint. Responsive behavior should recompose or hide secondary content instead of scaling the typography.
+
+| Style | Font | Weight | Size/Line | Letter Spacing | Use |
+| ----- | ---- | ------ | --------- | -------------- | --- |
+| demo-metadata | Geist Variable | Regular/Medium | 12/18 | 0 | Codes, context, compact labels, badges, and supporting metadata |
+| demo-control | Geist Variable | Medium/Semi Bold | 14/20 | Buttons, inputs, navigation, and interactive row titles |
+| demo-body | Geist Variable | Regular/Medium | 16/24 | Product explanations and decision copy |
+| demo-title | Geist Variable | Semi Bold | 20/28 | Primary title inside each demo surface |
+| demo-stat | Geist Variable | Semi Bold | 24/32 | Supporting review metrics |
+| demo-score | Geist Variable | Bold | 56/64 | Primary readiness score |
 
 **Marketing And Editorial**
 
 | Style | Font | Weight | Size/Line | Letter Spacing | Use |
 | ----- | ---- | ------ | --------- | -------------- | --- |
-| xlarge | Inter | Regular/Medium | 20/26.6 | 0 | Tablet/desktop intro paragraphs |
-| section | Inter | Regular/Medium/Semi Bold | 24/31.92 | 0 | Mobile section titles, desktop large body |
-| subtitle | Inter | Regular/Medium/Semi Bold | 32/36 | 0 | Supporting headlines and quote-scale text |
-| hero | Inter | Bold | 38/41.8 | 0 | Mobile hero headlines |
-| section-lg | Inter | Semi Bold/Bold | 40/44 | 0 | Tablet section titles |
-| title | Inter | Semi Bold/Bold | 48/48 | 0 | Desktop section titles |
-| display | Inter | Bold | 56/61.6 | 0 | Tablet/desktop hero headlines and large numeric values |
-| display-lg | Inter | Bold | 64/64 | 0 | Wide hero headlines and primary display moments |
-| display-xl | Inter | Bold | 72/72 | 0 | Rare maximum-impact desktop headline only |
+| paragraph-md | Geist Variable | Regular/Medium | 18/28 | 0 | Landing paragraphs on medium and large viewports |
+| xlarge | Geist Variable | Regular/Medium | 20/26.6 | 0 | Tablet/desktop intro paragraphs |
+| paragraph-xl | Geist Variable | Regular/Medium | 20/30 | 0 | Landing paragraphs on wide viewports |
+| section | Geist Variable | Regular/Medium/Semi Bold | 24/31.92 | 0 | Mobile section titles, desktop large body |
+| subtitle | Geist Variable | Regular/Medium/Semi Bold | 32/36 | 0 | Supporting headlines and quote-scale text |
+| hero | Geist Variable | Medium | 38/41.8 | 0 | Mobile hero headlines |
+| section-lg | Geist Variable | Medium/Semi Bold/Bold | 40/44 | 0 | Tablet section titles |
+| hero-title | Geist Variable | Medium | 46/51 | 0 | Landing hero title on mobile and small viewports |
+| title | Geist Variable | Medium/Semi Bold/Bold | 48/48 | 0 | Desktop section titles |
+| display | Geist Variable | Medium/Bold | 56/62 | 0 | Tablet/desktop hero headlines and large numeric values |
+| display-lg | Geist Variable | Medium/Bold | 64/64 | 0 | Wide hero headlines and primary display moments |
+| display-xl | Geist Variable | Bold | 72/72 | 0 | Rare maximum-impact desktop headline only |
+| hero-title-xl | Geist Variable | Medium | 96/96 | 0 | Landing hero title on wide viewports |
 
 **Responsive Landing Roles**
 
 | Style | Font | Weight | Size/Line | Letter Spacing |
 | ----- | ---- | ------ | --------- | -------------- |
-| Hero title | Inter | Bold | base `hero` 38/41.8, md `display` 56/61.6, xl `display-lg` 64/64 | 0 |
-| Hero subtitle | Inter | Regular/Medium | `large` 15/24 at every breakpoint | 0 |
-| Section title | Inter | Semi Bold/Bold | base `section` 24/31.92, md `section-lg` 40/44, xl `title` 48/48 | 0 |
-| Section paragraph | Inter | Regular/Medium | base `large` 15/24, md `xlarge` 20/26.6, xl `section` 24/31.92 | 0 |
-| Badge/button/nav | Inter | Medium | `small` 13/19.5 | 0 |
-| Product UI title | Inter | Medium/Semi Bold | `medium` 14/21 or `body` 16/24 | 0 |
-| Product UI metadata | Inter | Regular/Medium | `caption` 12/16.8, `compact` 11/15.4, or `micro` 10/15 | 0 |
+| Hero title | Geist Variable | Medium | base `hero-title` 46/51, md `display-lg` 64/64, xl `hero-title-xl` 96/96 | 0 |
+| Hero subtitle | Geist Variable | Regular/Medium | base `body` 16/24, md `paragraph-md` 18/28, xl `paragraph-xl` 20/30 | 0 |
+| Section title | Geist Variable | Medium | base `subtitle` 32/36, md `section-lg` 40/44, xl `title` 48/48 | 0 |
+| Section paragraph | Geist Variable | Regular/Medium | base `body` 16/24, md `paragraph-md` 18/28, xl `paragraph-xl` 20/30 | 0 |
+| Closing title | Geist Variable | Medium | base `section-lg` 40/44, md `title` 48/48, xl `display` 56/62 | 0 |
+| Badge/button | Geist Variable | Medium | `small` 13/19.5 | 0 |
+| Desktop nav link | Geist Variable | Regular/Medium | `nav` 14/20 | 0 |
+| Mobile nav link | Geist Variable | Regular/Medium | `body` 16/24 | 0 |
+| Navbar CTA | Geist Variable | Medium | `action` 14/20 at every breakpoint | 0 |
+| Hero waitlist CTA | Geist Variable | Medium | `action` 14/20 at every breakpoint | 0 |
+| Closing actions | Geist Variable | Medium | `action` 14/20 at every breakpoint | 0 |
+| Hero waitlist input | Geist Variable | Regular | `control` 14/20 at every breakpoint | 0 |
+| Footer description/link | Geist Variable | Regular | `footer` 14/20 at every breakpoint | 0 |
+| Product UI title | Geist Variable | Medium/Semi Bold | `medium` 14/21 or `body` 16/24 | 0 |
+| Product UI metadata | Geist Variable | Regular/Medium | `caption` 12/16.8, `compact` 11/15.4, or `micro` 10/15 | 0 |
 | Code | System monospace | Regular | 14/21 | 0 |
 
 ## Logo

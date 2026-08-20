@@ -25,7 +25,7 @@ const colors = {
 
 const typography = {
   fontFamily: {
-    sans: '"Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif',
+    sans: '"Geist Variable", Geist, ui-sans-serif, system-ui, sans-serif',
     mono: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },
   fontWeight: {
@@ -40,18 +40,32 @@ const typography = {
     caption: { fontSize: "0.75rem", lineHeight: "1.05rem" },
     small: { fontSize: "0.8125rem", lineHeight: "1.21875rem" },
     medium: { fontSize: "0.875rem", lineHeight: "1.3125rem" },
+    nav: { fontSize: "0.875rem", lineHeight: "1.25rem" },
+    action: { fontSize: "0.875rem", lineHeight: "1.25rem" },
+    control: { fontSize: "0.875rem", lineHeight: "1.25rem" },
+    footer: { fontSize: "0.875rem", lineHeight: "1.25rem" },
+    demoMetadata: { fontSize: "0.75rem", lineHeight: "1.125rem" },
+    demoControl: { fontSize: "0.875rem", lineHeight: "1.25rem" },
+    demoBody: { fontSize: "1rem", lineHeight: "1.5rem" },
+    demoTitle: { fontSize: "1.25rem", lineHeight: "1.75rem" },
+    demoStat: { fontSize: "1.5rem", lineHeight: "2rem" },
+    demoScore: { fontSize: "3.5rem", lineHeight: "4rem" },
     large: { fontSize: "0.9375rem", lineHeight: "1.5rem" },
     body: { fontSize: "1rem", lineHeight: "1.5rem" },
     emphasis: { fontSize: "1.0625rem", lineHeight: "1.7rem" },
+    paragraphMd: { fontSize: "1.125rem", lineHeight: "1.75rem" },
     xlarge: { fontSize: "1.25rem", lineHeight: "1.6625rem" },
+    paragraphXl: { fontSize: "1.25rem", lineHeight: "1.875rem" },
     section: { fontSize: "1.5rem", lineHeight: "1.995rem" },
     subtitle: { fontSize: "2rem", lineHeight: "2.25rem" },
     hero: { fontSize: "2.375rem", lineHeight: "2.6125rem" },
     sectionLg: { fontSize: "2.5rem", lineHeight: "2.75rem" },
+    heroTitle: { fontSize: "2.875rem", lineHeight: "3.1875rem" },
     title: { fontSize: "3rem", lineHeight: "3rem" },
-    display: { fontSize: "3.5rem", lineHeight: "3.85rem" },
+    display: { fontSize: "3.5rem", lineHeight: "3.875rem" },
     displayLg: { fontSize: "4rem", lineHeight: "4rem" },
     displayXl: { fontSize: "4.5rem", lineHeight: "4.5rem" },
+    heroTitleXl: { fontSize: "6rem", lineHeight: "6rem" },
   },
 } as const
 
