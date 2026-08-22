@@ -107,7 +107,7 @@ export const Hero = () => (
         backgroundImage: "url('/landing/hero-demo-madeira-cliffs.png')",
       }}
     >
-      <div className="absolute inset-0 bg-background/45" />
+      <div className="absolute inset-0 dark:bg-background/45" />
       <div className="relative">
         <HeroDemo />
       </div>

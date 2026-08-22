@@ -4,6 +4,7 @@ import { cn } from "@mavry/ui/lib/utils"
 import { MenuIcon, XIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
+import { ThemeToggle } from "@/components/landing/theme-toggle"
 import {
   FOCUS_EVENT,
   requestEmailFocus,
@@ -68,7 +69,10 @@ export const Navbar = () => (
           orientation="vertical"
         />
       </span>
-      <MobileMenu />
+      <div className="flex items-center">
+        <ThemeToggle />
+        <MobileMenu />
+      </div>
       <Button
         className={cn("hidden h-8 md:inline-flex", ctaClassName)}
         onClick={requestEmailFocus}
@@ -176,7 +180,7 @@ const MobileMenu = () => {
         <MenuIcon
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-100 text-[var(--mavry-white)] opacity-100 transition-[opacity,scale] duration-300 ease-out",
+            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-100 text-foreground opacity-100 transition-[opacity,scale] duration-300 ease-out",
             isOpen && "scale-75 opacity-0"
           )}
           strokeWidth={1}
@@ -184,7 +188,7 @@ const MobileMenu = () => {
         <XIcon
           aria-hidden="true"
           className={cn(
-            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-75 text-[var(--mavry-white)] opacity-0 transition-[opacity,scale] duration-300 ease-out",
+            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-75 text-foreground opacity-0 transition-[opacity,scale] duration-300 ease-out",
             isOpen && "scale-100 opacity-100"
           )}
           strokeWidth={1}

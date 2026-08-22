@@ -3,7 +3,7 @@ import { LandscapeDemoContainer } from "@/components/landing/landscape-demo-cont
 
 export const Readiness = () => (
   <section
-    className="relative pt-16 pb-16 before:absolute before:top-0 before:left-1/2 before:h-px before:w-screen before:-translate-x-1/2 before:bg-[rgba(255,255,255,0.08)] sm:scroll-mt-8 sm:py-32"
+    className="relative pt-16 pb-16 before:absolute before:top-0 before:left-1/2 before:h-px before:w-screen before:-translate-x-1/2 before:bg-border sm:scroll-mt-8 sm:py-32"
     data-section-reveal=""
     id="readiness"
   >
