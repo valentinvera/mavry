@@ -22,10 +22,7 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
   return (
-    <div
-      className="mx-auto flex min-h-svh w-full max-w-7xl flex-col bg-background px-5 pt-5 pb-24 text-foreground sm:px-8 lg:px-10"
-      data-landing-shell
-    >
+    <div className="mx-auto flex min-h-svh w-full max-w-7xl flex-col bg-background px-5 pt-5 pb-4 text-foreground sm:px-8 lg:px-10">
       <SectionReveal />
       <Header />
       <Hero />

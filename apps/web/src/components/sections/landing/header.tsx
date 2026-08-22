@@ -20,7 +20,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 isolate z-50 px-3.5 pt-3.5 pb-2.5 sm:px-8 sm:pt-5 sm:pb-6 lg:px-10">
+      <header className="fixed inset-x-0 top-0 isolate z-50 h-[65px] sm:h-20">
         <span
           aria-hidden="true"
           className={cn(
@@ -39,7 +39,7 @@ export const Header = () => {
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 z-50 h-px bg-border"
         />
-        <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4">
+        <div className="relative z-10 mx-auto mt-3.5 grid h-10 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 sm:mt-5 sm:px-8 lg:px-10">
           <Navbar />
         </div>
       </header>

@@ -12,6 +12,7 @@ import {
 
 const ANIMATION_DURATION = 300
 const ctaClassName = "rounded-md text-action!"
+const mobileRightRailClassName = "translate-x-[11.333px]"
 
 const items = [
   { id: "workspace", label: "Workspace", href: "#workspace" },
@@ -32,7 +33,7 @@ export const Navbar = () => (
   <>
     <a
       aria-label="Mavry home"
-      className="relative z-10 col-start-1 inline-flex justify-self-start rounded-md"
+      className="relative z-10 col-start-1 -ml-1 inline-flex justify-self-start rounded-md"
       href="/"
     >
       <MavryWordmark />
@@ -51,9 +52,9 @@ export const Navbar = () => (
         </a>
       ))}
     </nav>
-    <div className="relative z-10 col-start-3 flex items-center gap-2 justify-self-end">
+    <div className="relative z-10 col-start-3 flex items-center gap-2 justify-self-end md:gap-4">
       <Button
-        className={cn("h-8 md:hidden", ctaClassName)}
+        className={cn("h-8 md:hidden", ctaClassName, mobileRightRailClassName)}
         onClick={requestEmailFocus}
         size="default"
         type="button"
@@ -62,7 +63,10 @@ export const Navbar = () => (
       </Button>
       <span
         aria-hidden="true"
-        className="flex h-9 w-3 items-center justify-center md:hidden"
+        className={cn(
+          "flex h-9 w-3 items-center justify-center md:hidden",
+          mobileRightRailClassName
+        )}
       >
         <Separator
           className="h-5 translate-x-1 bg-foreground/20 data-vertical:self-center"
@@ -70,7 +74,9 @@ export const Navbar = () => (
         />
       </span>
       <div className="flex items-center">
-        <ThemeToggle />
+        <ThemeToggle
+          className={cn(mobileRightRailClassName, "md:translate-x-0")}
+        />
         <MobileMenu />
       </div>
       <Button
@@ -94,15 +100,12 @@ const MobileMenu = () => {
       return
     }
 
-    const { body, documentElement } = document
-    const previousBodyOverflow = body.style.overflow
+    const { documentElement } = document
     const previousDocumentOverflow = documentElement.style.overflow
 
-    body.style.overflow = "hidden"
     documentElement.style.overflow = "hidden"
 
     return () => {
-      body.style.overflow = previousBodyOverflow
       documentElement.style.overflow = previousDocumentOverflow
     }
   }, [isMenuMounted])
@@ -170,7 +173,10 @@ const MobileMenu = () => {
       <Button
         aria-expanded={isOpen}
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-        className="relative rounded-md bg-transparent text-body text-muted-foreground hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent aria-expanded:text-muted-foreground aria-expanded:hover:bg-transparent aria-expanded:hover:text-foreground dark:aria-expanded:bg-transparent dark:hover:bg-transparent dark:aria-expanded:hover:bg-transparent"
+        className={cn(
+          "relative rounded-md bg-transparent text-body text-muted-foreground hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent aria-expanded:text-muted-foreground aria-expanded:hover:bg-transparent aria-expanded:hover:text-foreground dark:aria-expanded:bg-transparent dark:hover:bg-transparent dark:aria-expanded:hover:bg-transparent",
+          mobileRightRailClassName
+        )}
         onClick={toggleMenu}
         size="icon-lg"
         type="button"
