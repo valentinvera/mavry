@@ -1,4 +1,5 @@
 import { cn } from "@mavry/ui/lib/utils"
+import { MavrySymbol } from "@/components/brand/mavry-symbol"
 
 interface MavryWordmarkProps {
   className?: string
@@ -34,14 +35,7 @@ export const MavryWordmark = ({
       )}
       role="img"
     >
-      <img
-        alt=""
-        aria-hidden="true"
-        className={classes.mark}
-        height={128}
-        src="/brand/mavry-symbol-white.svg"
-        width={128}
-      />
+      <MavrySymbol className={classes.mark} />
       <span
         aria-hidden="true"
         className={cn(

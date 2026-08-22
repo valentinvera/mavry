@@ -2,6 +2,7 @@ import { Button } from "@mavry/ui/components/button"
 import { cn } from "@mavry/ui/lib/utils"
 import { ChevronDownIcon, SearchIcon, SquarePenIcon } from "lucide-react"
 import { useState } from "react"
+import { MavrySymbol } from "@/components/brand/mavry-symbol"
 import {
   documents,
   navMain,
@@ -61,13 +62,7 @@ export const Sidebar = ({
           onClick={() => setIsProjectMenuOpen((isOpen) => !isOpen)}
           type="button"
         >
-          <img
-            alt="Mavry"
-            className="size-5 shrink-0"
-            height={128}
-            src="/brand/mavry-symbol-white.svg"
-            width={128}
-          />
+          <MavrySymbol className="size-5" />
           <span className="truncate font-semibold text-demo-control!">
             Mavry
           </span>

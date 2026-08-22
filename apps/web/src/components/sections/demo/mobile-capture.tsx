@@ -75,7 +75,24 @@ export const MobileCapture = ({ content }: { content: Content }) => (
           >
             <QRCodeSVG
               bgColor="transparent"
-              className="size-full"
+              className="size-full dark:hidden"
+              fgColor="var(--mavry-black)"
+              imageSettings={{
+                excavate: true,
+                height: 40,
+                src: "/brand/mavry-symbol-black.svg",
+                width: 40,
+              }}
+              level="H"
+              marginSize={4}
+              minVersion={4}
+              size={224}
+              title="Scan to preview opening this project in Mavry mobile"
+              value={MOBILE_CAPTURE_HANDOFF}
+            />
+            <QRCodeSVG
+              bgColor="transparent"
+              className="hidden size-full dark:block"
               fgColor="var(--mavry-white)"
               imageSettings={{
                 excavate: true,

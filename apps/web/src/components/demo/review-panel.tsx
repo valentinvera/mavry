@@ -10,6 +10,7 @@ import {
   XIcon,
 } from "lucide-react"
 import { useState } from "react"
+import { MavrySymbol } from "@/components/brand/mavry-symbol"
 import type { PageId } from "@/components/demo/data"
 import { contentByPage } from "@/components/demo/page-data"
 
@@ -40,14 +41,7 @@ export const ReviewPanel = ({ activePageId }: Props) => {
         )}
       >
         <div className="flex min-w-0 items-center gap-2">
-          <img
-            alt=""
-            aria-hidden="true"
-            className="size-4 shrink-0"
-            height={128}
-            src="/brand/mavry-symbol-white.svg"
-            width={128}
-          />
+          <MavrySymbol className="size-4" />
           <p className="truncate font-medium text-demo-metadata!">Mavry</p>
           <Badge
             className="rounded-md border-border/80 bg-background/60 text-demo-metadata!"
