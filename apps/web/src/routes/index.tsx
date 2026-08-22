@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { SectionReveal } from "@/components/landing/section-reveal"
 import { Closing } from "@/components/sections/landing/closing"
+import { Faq } from "@/components/sections/landing/faq"
 import { Footer } from "@/components/sections/landing/footer"
 import { Header } from "@/components/sections/landing/header"
 import { Hero } from "@/components/sections/landing/hero"
@@ -32,6 +33,7 @@ function HomeComponent() {
       <Method />
       <Readiness />
       <Waitlist />
+      <Faq />
       <Closing />
       <Footer />
     </div>
