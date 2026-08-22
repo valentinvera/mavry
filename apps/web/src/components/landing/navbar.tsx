@@ -2,13 +2,14 @@ import { Button } from "@mavry/ui/components/button"
 import { Separator } from "@mavry/ui/components/separator"
 import { cn } from "@mavry/ui/lib/utils"
 import { MenuIcon, XIcon } from "lucide-react"
-import { useEffect, useState } from "react"
+import { type MouseEvent, useEffect, useState } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import { ThemeToggle } from "@/components/landing/theme-toggle"
 import {
   FOCUS_EVENT,
   requestEmailFocus,
 } from "@/components/sections/landing/hero"
+import { scrollToLandingSection } from "@/lib/landing-navigation"
 
 const ANIMATION_DURATION = 300
 const ctaClassName = "rounded-md text-action!"
@@ -29,6 +30,15 @@ const groups = [
   },
 ] as const
 
+const navigateToSection = (
+  event: MouseEvent<HTMLAnchorElement>,
+  sectionId: string,
+  href: string
+) => {
+  event.preventDefault()
+  scrollToLandingSection(sectionId, href)
+}
+
 export const Navbar = () => (
   <>
     <a
@@ -47,6 +57,7 @@ export const Navbar = () => (
           className="rounded-md px-2 py-1 transition-colors hover:text-foreground"
           href={item.href}
           key={item.id}
+          onClick={(event) => navigateToSection(event, item.id, item.href)}
         >
           {item.label}
         </a>
@@ -168,6 +179,15 @@ const MobileMenu = () => {
     setIsOpen(false)
   }
 
+  const navigateFromMobileMenu = (
+    event: MouseEvent<HTMLAnchorElement>,
+    sectionId: string,
+    href: string
+  ) => {
+    closeMenu()
+    navigateToSection(event, sectionId, href)
+  }
+
   return (
     <div className="relative md:hidden">
       <Button
@@ -222,7 +242,9 @@ const MobileMenu = () => {
                       className="rounded-md py-1 font-normal text-body text-foreground tracking-normal transition-colors hover:text-muted-foreground"
                       href={item.href}
                       key={item.id}
-                      onClick={closeMenu}
+                      onClick={(event) =>
+                        navigateFromMobileMenu(event, item.id, item.href)
+                      }
                     >
                       {item.label}
                     </a>

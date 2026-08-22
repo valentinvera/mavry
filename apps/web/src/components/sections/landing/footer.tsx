@@ -1,5 +1,7 @@
 import { Separator } from "@mavry/ui/components/separator"
+import type { MouseEvent } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
+import { scrollToLandingSection } from "@/lib/landing-navigation"
 
 const links = [
   ["Workspace", "#workspace"],
@@ -9,6 +11,18 @@ const links = [
   ["GitHub", "https://github.com/valentinvera/mavry"],
   ["X (Twitter)", "https://x.com/mavry_app"],
 ] as const
+
+const navigateToSection = (
+  event: MouseEvent<HTMLAnchorElement>,
+  href: string
+) => {
+  if (!href.startsWith("#")) {
+    return
+  }
+
+  event.preventDefault()
+  scrollToLandingSection(href.slice(1), href)
+}
 
 export const Footer = () => (
   <footer
@@ -28,6 +42,7 @@ export const Footer = () => (
             className="transition-colors hover:text-foreground"
             href={href}
             key={href}
+            onClick={(event) => navigateToSection(event, href)}
             rel={href.startsWith("https://") ? "noopener" : undefined}
             target={href.startsWith("https://") ? "_blank" : undefined}
           >
