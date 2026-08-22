@@ -50,7 +50,7 @@ export const LandscapeDemoContainer = ({
       ...LANDSCAPE_POSITIONS[variant],
     }}
   >
-    <div className="absolute inset-0 bg-background/55" />
+    <div className="absolute inset-0 dark:bg-background/55" />
     <div className={cn("relative", contentClassName)}>{children}</div>
   </div>
 )

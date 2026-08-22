@@ -5,10 +5,13 @@ import {
   createRootRouteWithContext,
   HeadContent,
   Outlet,
+  ScriptOnce,
   Scripts,
 } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import type { TRPCOptionsProxy } from "@trpc/tanstack-react-query"
+import { ThemeProvider } from "@/components/theme-provider"
+import { LANDING_HASH_RESTORATION_SCRIPT } from "@/lib/landing-navigation"
 import appCss from "../styles/globals.css?url"
 
 export interface RouterAppContext {
@@ -86,23 +89,26 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 
 function RootDocument() {
   return (
-    <html className="dark" lang="en">
+    <html className="dark" lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        <div className="min-h-svh">
-          <Outlet />
-        </div>
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <TanStackRouterDevtools position="bottom-left" />
-            <ReactQueryDevtools
-              buttonPosition="bottom-right"
-              position="bottom"
-            />
-          </>
-        ) : null}
+        <ThemeProvider>
+          <div className="min-h-svh">
+            <Outlet />
+            <ScriptOnce>{LANDING_HASH_RESTORATION_SCRIPT}</ScriptOnce>
+          </div>
+          {process.env.NODE_ENV === "development" ? (
+            <>
+              <TanStackRouterDevtools position="bottom-left" />
+              <ReactQueryDevtools
+                buttonPosition="bottom-right"
+                position="bottom"
+              />
+            </>
+          ) : null}
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>
