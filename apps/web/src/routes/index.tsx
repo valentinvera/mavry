@@ -42,17 +42,19 @@ function HomeComponent() {
   }, [])
 
   return (
-    <div className="mx-auto flex min-h-svh w-full max-w-7xl flex-col bg-background px-5 pt-5 pb-4 text-foreground sm:px-8 lg:px-10">
-      <SectionReveal />
-      <Header />
-      <Hero />
-      <Problem />
-      <Method />
-      <Readiness />
-      <Waitlist />
-      <Faq />
-      <Closing />
-      <Footer />
+    <div className="w-full overflow-x-clip">
+      <div className="mx-auto flex min-h-svh w-full max-w-7xl flex-col bg-background px-5 pt-5 pb-4 text-foreground sm:px-8 lg:px-10">
+        <SectionReveal />
+        <Header />
+        <Hero />
+        <Problem />
+        <Method />
+        <Readiness />
+        <Waitlist />
+        <Faq />
+        <Closing />
+        <Footer />
+      </div>
     </div>
   )
 }
