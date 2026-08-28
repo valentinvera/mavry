@@ -26,14 +26,14 @@ export const Closing = () => (
       </h2>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         <Button
-          className="h-8 rounded-md text-action!"
+          className="h-8 cursor-pointer rounded-md text-action!"
           onClick={requestEmailFocus}
           type="button"
         >
           Join waitlist
         </Button>
         <Button
-          className="h-8 rounded-md text-action!"
+          className="h-8 cursor-pointer rounded-md text-action!"
           onClick={requestOpen}
           type="button"
           variant="outline"

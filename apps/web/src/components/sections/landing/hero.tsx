@@ -232,7 +232,7 @@ export const WaitlistForm = ({
               value={email}
             />
             <Button
-              className="h-8 min-w-24 rounded-md text-action!"
+              className="h-8 min-w-24 cursor-pointer rounded-md text-action!"
               disabled={isInputDisabled}
               size="sm"
               type="submit"
