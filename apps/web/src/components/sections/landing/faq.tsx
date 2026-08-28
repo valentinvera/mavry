@@ -65,7 +65,7 @@ export const Faq = () => (
       <Accordion className="border-y">
         {questions.map(({ answer, question }) => (
           <AccordionItem key={question} value={question}>
-            <AccordionTrigger className="py-5 text-body hover:no-underline md:py-6 md:text-paragraph-md">
+            <AccordionTrigger className="cursor-pointer py-5 text-body hover:no-underline md:py-6 md:text-paragraph-md">
               {question}
             </AccordionTrigger>
             <AccordionContent className="max-w-2xl pb-5 text-body text-muted-foreground md:pb-6 md:text-paragraph-md">

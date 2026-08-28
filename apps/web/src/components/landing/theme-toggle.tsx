@@ -14,7 +14,7 @@ export const ThemeToggle = ({ className }: { className?: string }) => {
     <Button
       aria-label="Toggle color theme"
       className={cn(
-        "rounded-md text-muted-foreground hover:text-foreground",
+        "cursor-pointer rounded-md text-muted-foreground hover:text-foreground",
         className
       )}
       onClick={toggleTheme}
