@@ -9,7 +9,10 @@ import {
   FOCUS_EVENT,
   requestEmailFocus,
 } from "@/components/sections/landing/hero"
-import { scrollToLandingSection } from "@/lib/landing-navigation"
+import {
+  reloadLandingAtTop,
+  scrollToLandingSection,
+} from "@/lib/landing-navigation"
 
 const ANIMATION_DURATION = 300
 const ctaClassName = "cursor-pointer rounded-md text-action!"
@@ -45,6 +48,7 @@ export const Navbar = () => (
       aria-label="Mavry home"
       className="relative z-10 col-start-1 -ml-1 inline-flex justify-self-start rounded-md"
       href="/"
+      onClick={reloadLandingAtTop}
     >
       <MavryWordmark />
     </a>

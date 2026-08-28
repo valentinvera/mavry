@@ -1,7 +1,10 @@
 import { Separator } from "@mavry/ui/components/separator"
 import type { MouseEvent } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
-import { scrollToLandingSection } from "@/lib/landing-navigation"
+import {
+  reloadLandingAtTop,
+  scrollToLandingSection,
+} from "@/lib/landing-navigation"
 
 const links = [
   ["Workspace", "#workspace"],
@@ -31,7 +34,14 @@ export const Footer = () => (
   >
     <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
       <div className="flex flex-col items-start gap-3">
-        <MavryWordmark size="sm" />
+        <a
+          aria-label="Mavry home"
+          className="inline-flex rounded-md"
+          href="/"
+          onClick={reloadLandingAtTop}
+        >
+          <MavryWordmark size="sm" />
+        </a>
         <p className="max-w-sm">
           A product clarity workspace for early MVP decisions.
         </p>
