@@ -48,6 +48,62 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         name: "apple-mobile-web-app-title",
         content: "Mavry",
       },
+      {
+        property: "og:type",
+        content: "website",
+      },
+      {
+        property: "og:url",
+        content: "https://mavry.app",
+      },
+      {
+        property: "og:site_name",
+        content: "Mavry",
+      },
+      {
+        property: "og:title",
+        content: "Mavry — Product clarity for focused builders",
+      },
+      {
+        property: "og:description",
+        content: "Know what to build next, what to cut, and when to ship.",
+      },
+      {
+        property: "og:image",
+        content: "https://mavry.app/opengraph-image.png",
+      },
+      {
+        property: "og:image:width",
+        content: "1200",
+      },
+      {
+        property: "og:image:height",
+        content: "630",
+      },
+      {
+        property: "og:image:alt",
+        content: "Mavry product decision workspace on the Madeira coast.",
+      },
+      {
+        name: "twitter:card",
+        content: "summary_large_image",
+      },
+      {
+        name: "twitter:title",
+        content: "Mavry — Product clarity for focused builders",
+      },
+      {
+        name: "twitter:description",
+        content: "Know what to build next, what to cut, and when to ship.",
+      },
+      {
+        name: "twitter:image",
+        content: "https://mavry.app/opengraph-image.png",
+      },
+      {
+        name: "twitter:image:alt",
+        content: "Mavry product decision workspace on the Madeira coast.",
+      },
     ],
     links: [
       {
@@ -80,6 +136,10 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       {
         rel: "manifest",
         href: "/manifest.webmanifest",
+      },
+      {
+        rel: "canonical",
+        href: "https://mavry.app",
       },
     ],
   }),
