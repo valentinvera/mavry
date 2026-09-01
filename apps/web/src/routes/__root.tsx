@@ -1,4 +1,5 @@
 import type { AppRouter } from "@mavry/trpc/generated/server"
+import { TooltipProvider } from "@mavry/ui/components/tooltip"
 import type { QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import {
@@ -95,19 +96,21 @@ function RootDocument() {
       </head>
       <body>
         <ThemeProvider>
-          <div className="min-h-svh">
-            <Outlet />
-            <ScriptOnce>{LANDING_HASH_RESTORATION_SCRIPT}</ScriptOnce>
-          </div>
-          {process.env.NODE_ENV === "development" ? (
-            <>
-              <TanStackRouterDevtools position="bottom-left" />
-              <ReactQueryDevtools
-                buttonPosition="bottom-right"
-                position="bottom"
-              />
-            </>
-          ) : null}
+          <TooltipProvider>
+            <div className="min-h-svh">
+              <Outlet />
+              <ScriptOnce>{LANDING_HASH_RESTORATION_SCRIPT}</ScriptOnce>
+            </div>
+            {process.env.NODE_ENV === "development" ? (
+              <>
+                <TanStackRouterDevtools position="bottom-left" />
+                <ReactQueryDevtools
+                  buttonPosition="bottom-right"
+                  position="bottom"
+                />
+              </>
+            ) : null}
+          </TooltipProvider>
         </ThemeProvider>
         <Scripts />
       </body>

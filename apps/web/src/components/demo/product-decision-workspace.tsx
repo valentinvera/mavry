@@ -19,14 +19,21 @@ import { Sidebar } from "@/components/demo/sidebar"
 
 interface Props {
   className?: string
+  initialPageId?: PageId
   interactive?: boolean
+  viewportClassName?: string
 }
 
-export const Workspace = ({ className, interactive = true }: Props) => {
+export const Workspace = ({
+  className,
+  initialPageId = "home",
+  interactive = true,
+  viewportClassName,
+}: Props) => {
   const [selectedRowId, setSelectedRowId] = useState<ScopeRowId>(defaultRowId)
   const [selectedLaneId, setSelectedLaneId] =
     useState<RoadmapLaneId>(defaultLaneId)
-  const [activePageId, setActivePageId] = useState<PageId>("home")
+  const [activePageId, setActivePageId] = useState<PageId>(initialPageId)
   const [desktopSidebarOpen, setDesktopSidebarOpen] = useState(true)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   const selectedRow =
@@ -66,7 +73,12 @@ export const Workspace = ({ className, interactive = true }: Props) => {
         className
       )}
     >
-      <div className="relative flex h-[44rem] bg-[color-mix(in_oklch,var(--background)_92%,var(--muted))]">
+      <div
+        className={cn(
+          "relative flex h-[44rem] bg-[color-mix(in_oklch,var(--background)_92%,var(--muted))]",
+          viewportClassName
+        )}
+      >
         {mobileSidebarOpen && (
           <button
             aria-label="Close decision workspace sidebar overlay"

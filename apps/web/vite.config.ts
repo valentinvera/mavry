@@ -43,7 +43,14 @@ const config = defineConfig(({ mode }) => {
 
   return {
     resolve: {
+      dedupe: ["react", "react-dom"],
       tsconfigPaths: true,
+    },
+    optimizeDeps: {
+      include: [
+        "@mavry/ui > @base-ui/react/toggle",
+        "@mavry/ui > @base-ui/react/toggle-group",
+      ],
     },
     plugins: [
       tailwindcss({
