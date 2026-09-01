@@ -4,6 +4,10 @@ import type { CSSProperties, ReactNode } from "react"
 const BACKGROUND_IMAGE = "url('/landing/hero-demo-madeira-cliffs.png')"
 
 const LANDSCAPE_POSITIONS = {
+  authPanel: {
+    backgroundPosition: "50% 50%",
+    backgroundSize: "cover",
+  },
   cliffFace: {
     backgroundPosition: "18% 48%",
     backgroundSize: "156% auto",
@@ -47,6 +51,7 @@ export const LandscapeDemoContainer = ({
     data-landscape-demo={variant}
     style={{
       backgroundImage: BACKGROUND_IMAGE,
+      backgroundRepeat: "no-repeat",
       ...LANDSCAPE_POSITIONS[variant],
     }}
   >
