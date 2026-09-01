@@ -43,19 +43,16 @@
   ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "generate"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", ".output/**", ".vercel/output/**"]
     },
     "check-types": {
-      "dependsOn": ["build", "^check-types"]
+      "dependsOn": ["^check-types"]
     },
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "generate": {
-      "outputs": ["src/generated/**"]
     },
     "prod": {
       "cache": false,
