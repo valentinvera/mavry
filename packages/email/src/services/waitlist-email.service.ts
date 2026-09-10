@@ -6,7 +6,6 @@ import {
   createGmailNonThreadingHeaders,
   ReliableResendEmailClient,
   type ResendEmailClient,
-  type ResendEmailError,
   type ResendSendEmailPayload,
 } from "../clients/resend-email.client"
 import {
@@ -40,74 +39,6 @@ export interface WaitlistEmailConfiguration {
   provider: "noop" | "resend"
   replyToEmail?: string
   resendApiKey?: string
-}
-
-const EMAIL_ADDRESS_PATTERN = /[\w%+.-]+@[\d.a-z-]+\.[a-z]{2,}/gi
-const RESEND_REQUEST_ID_HEADERS = [
-  "x-resend-request-id",
-  "x-request-id",
-  "request-id",
-  "cf-ray",
-] as const
-
-const redactEmailAddresses = (message: string): string =>
-  message.replace(EMAIL_ADDRESS_PATTERN, "[redacted-email]")
-
-const getErrorCode = (error: Error): string | undefined => {
-  const code = Reflect.get(error, "code")
-
-  if (typeof code === "string" || typeof code === "number") {
-    return String(code)
-  }
-
-  return
-}
-
-const getUnexpectedErrorDetails = (
-  error: unknown
-): { code?: string; message: string; name: string } => {
-  if (error instanceof Error) {
-    return {
-      code: getErrorCode(error),
-      message: redactEmailAddresses(error.message),
-      name: error.name,
-    }
-  }
-
-  return {
-    message: "A non-Error value was thrown",
-    name: "UnknownError",
-  }
-}
-
-const getResendErrorDetails = (error: ResendEmailError) => ({
-  cause: error.cause
-    ? {
-        ...error.cause,
-        message: redactEmailAddresses(error.cause.message),
-      }
-    : undefined,
-  message: redactEmailAddresses(error.message),
-  name: error.name,
-  statusCode: error.statusCode,
-})
-
-const getProviderRequestId = (
-  headers: Record<string, string> | null | undefined
-): string | undefined => {
-  if (!headers) {
-    return
-  }
-
-  for (const headerName of RESEND_REQUEST_ID_HEADERS) {
-    const requestId = headers[headerName]
-
-    if (requestId) {
-      return requestId
-    }
-  }
-
-  return
 }
 
 interface BuildWaitlistConfirmationEmailInput {
@@ -181,29 +112,13 @@ export class ResendWaitlistEmailService implements WaitlistEmailService {
     idempotencyKey,
     waitlistEntryId,
   }: WaitlistConfirmationEmailInput): Promise<WaitlistConfirmationEmailResult> {
-    const startedAt = Date.now()
-    let message: WaitlistConfirmationEmailMessage
-
-    try {
-      const confirmationUrl = new URL(this.confirmationUrl)
-      confirmationUrl.searchParams.set("token", confirmationToken)
-      message = await buildWaitlistConfirmationEmail({
-        confirmationUrl: confirmationUrl.toString(),
-        email,
-        expirationHours,
-      })
-    } catch (error) {
-      this.logger.error(
-        JSON.stringify({
-          durationMs: Date.now() - startedAt,
-          error: getUnexpectedErrorDetails(error),
-          event: "waitlist_email_prepare_failed",
-          provider: "resend",
-          waitlistEntryId,
-        })
-      )
-      return { status: "failed" }
-    }
+    const confirmationUrl = new URL(this.confirmationUrl)
+    confirmationUrl.searchParams.set("token", confirmationToken)
+    const message = await buildWaitlistConfirmationEmail({
+      confirmationUrl: confirmationUrl.toString(),
+      email,
+      expirationHours,
+    })
 
     const payload: ResendSendEmailPayload = {
       attachments: [MAVRY_EMAIL_LOGO_ATTACHMENT],
@@ -223,40 +138,16 @@ export class ResendWaitlistEmailService implements WaitlistEmailService {
       payload.replyTo = this.replyToEmail
     }
 
-    const { attempts, data, error, headers } = await this.resendEmails.send(
-      payload,
-      {
-        idempotencyKey,
-      }
-    )
-    const providerRequestId = getProviderRequestId(headers)
+    const { attempts, data, error } = await this.resendEmails.send(payload, {
+      idempotencyKey,
+    })
 
     if (error) {
-      this.logger.error(
-        JSON.stringify({
-          attempts,
-          durationMs: Date.now() - startedAt,
-          error: getResendErrorDetails(error),
-          event: "waitlist_email_send_failed",
-          provider: "resend",
-          providerRequestId,
-          waitlistEntryId,
-        })
+      this.logger.warn(
+        `Resend waitlist confirmation failed after ${attempts} attempt(s): ${error.name} (${error.statusCode ?? "network"})`
       )
       return { status: "failed" }
     }
-
-    this.logger.log(
-      JSON.stringify({
-        attempts,
-        durationMs: Date.now() - startedAt,
-        event: "waitlist_email_sent",
-        provider: "resend",
-        providerMessageId: data.id,
-        providerRequestId,
-        waitlistEntryId,
-      })
-    )
 
     return { providerMessageId: data.id, status: "sent" }
   }

@@ -1,4 +1,4 @@
-import { Inject, Logger } from "@nestjs/common"
+import { Inject } from "@nestjs/common"
 import { TRPCError } from "@trpc/server"
 import { Ctx, Input, Mutation, Query, Router } from "nestjs-trpc"
 import type { Context } from "../context"
@@ -18,7 +18,6 @@ import {
 
 @Router({ alias: "waitlist" })
 export class WaitlistRouter {
-  private readonly logger = new Logger(WaitlistRouter.name)
   private readonly waitlistService: WaitlistService
   private readonly rateLimitService: WaitlistRateLimitService
 
@@ -65,14 +64,6 @@ export class WaitlistRouter {
           message: "Unable to join the waitlist. Try again later.",
         })
       }
-
-      this.logger.error(
-        JSON.stringify({
-          errorName: error instanceof Error ? error.name : "UnknownError",
-          event: "waitlist_join_failed",
-          procedure: "waitlist.join",
-        })
-      )
 
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
