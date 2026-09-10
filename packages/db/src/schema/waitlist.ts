@@ -19,6 +19,7 @@ export const waitlistEntry = pgTable(
       .unique(),
     source: varchar("source", { length: WAITLIST_SOURCE_MAX_LENGTH }),
     confirmedAt: timestamp("confirmed_at"),
+    confirmationEmailId: varchar("confirmation_email_id", { length: 64 }),
     confirmationTokenHash: varchar("confirmation_token_hash", { length: 64 }),
     confirmationSentAt: timestamp("confirmation_sent_at"),
     confirmationExpiresAt: timestamp("confirmation_expires_at"),
@@ -29,6 +30,9 @@ export const waitlistEntry = pgTable(
       .notNull(),
   },
   (table) => [
+    uniqueIndex("waitlist_entry_confirmation_email_id_idx").on(
+      table.confirmationEmailId
+    ),
     uniqueIndex("waitlist_entry_confirmation_token_hash_idx").on(
       table.confirmationTokenHash
     ),
