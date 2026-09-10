@@ -57,10 +57,19 @@ const config = defineConfig(({ mode }) => {
         optimize: true,
       }),
       tanstackStart({
+        pages: [
+          {
+            path: "/",
+            sitemap: {
+              changefreq: "weekly",
+              priority: 1,
+            },
+          },
+        ],
         sitemap: {
           enabled: true,
-          outputPath: "./public/sitemap.xml",
-          host: "https://.vercel.app",
+          outputPath: "sitemap.xml",
+          host: "https://mavry.app",
         },
       }),
       nitro(),

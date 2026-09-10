@@ -1,0 +1,2 @@
+ALTER TABLE "waitlist_entry" ADD COLUMN "confirmation_email_id" varchar(64);--> statement-breakpoint
+CREATE UNIQUE INDEX "waitlist_entry_confirmation_email_id_idx" ON "waitlist_entry" USING btree ("confirmation_email_id");

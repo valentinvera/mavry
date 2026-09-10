@@ -22,6 +22,7 @@ Before making decisions about what Mavry is, who it serves, how it should feel, 
 
 - `packages/auth`: Better Auth setup and auth-related server utilities shared by the API and clients.
 - `packages/db`: Drizzle/Neon database client, schema, and database tooling.
+- `packages/email`: React Email templates, Mavry email presentation, and reliable Resend delivery services.
 - `packages/env`: Typed environment validation for API, web, and mobile runtimes.
 - `packages/tokens`: Shared Mavry design tokens for TypeScript, Tailwind CSS, and Uniwind.
 - `packages/trpc`: NestJS tRPC module, routers, context, middleware, and generated tRPC server code.

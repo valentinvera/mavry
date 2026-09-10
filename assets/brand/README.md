@@ -11,6 +11,7 @@ The surrounding planes hold the broader product field while the negative space e
 | Primary wordmark | `mavry-logo.svg` | Default logo across product, marketing, documentation, and presentations |
 | Black wordmark | `mavry-logo-black.svg` | Light backgrounds |
 | White wordmark | `mavry-logo-white.svg` | Dark backgrounds |
+| White email wordmark | `mavry-logo-white.png` | Inline email branding on dark backgrounds |
 | Compact mark / lettermark | `mavry-lettermark.svg` | Compact product surfaces, nav, avatars, favicons, app icons |
 | Black compact mark | `mavry-lettermark-black.svg` | Light backgrounds |
 | White compact mark | `mavry-lettermark-white.svg` | Dark backgrounds |

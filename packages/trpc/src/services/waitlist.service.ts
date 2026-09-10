@@ -1,3 +1,4 @@
+import { WaitlistEmailService } from "@mavry/email"
 import { Inject, Injectable } from "@nestjs/common"
 import type {
   ConfirmWaitlistOutput,
@@ -13,7 +14,6 @@ import {
   createWaitlistConfirmationToken,
   hashWaitlistConfirmationToken,
 } from "./waitlist-confirmation-token"
-import { WaitlistEmailService } from "./waitlist-email.service"
 import { WaitlistStore } from "./waitlist-store.service"
 
 const MILLISECONDS_PER_HOUR = 60 * 60 * 1000
@@ -159,14 +159,21 @@ export class WaitlistService {
     const delivery = await this.emailService.sendWaitlistConfirmationEmail({
       confirmationToken: token,
       email,
-      idempotencyKey: `waitlist-confirmation-${id}-${tokenHash.slice(0, 16)}`,
+      expirationHours: WAITLIST_CONFIRMATION_EXPIRATION_HOURS,
+      idempotencyKey: `waitlist-confirmation/${id}/${tokenHash.slice(0, 16)}`,
+      waitlistEntryId: id,
     })
 
-    if (delivery.status !== "sent") {
+    if (delivery.status === "failed") {
       throw new Error("Unable to send the waitlist confirmation email")
     }
 
+    if (delivery.status === "skipped") {
+      return
+    }
+
     await this.store.markConfirmationSent({
+      confirmationEmailId: delivery.providerMessageId,
       confirmationSentAt: new Date(),
       confirmationTokenHash: tokenHash,
       id,
