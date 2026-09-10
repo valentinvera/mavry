@@ -1,0 +1,38 @@
+{
+  "name": "@mavry/email",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc --noEmit",
+    "preview": "email dev --dir src/templates --port 3001"
+  },
+  "dependencies": {
+    "@mavry/env": "workspace:*",
+    "@mavry/tokens": "workspace:*",
+    "@nestjs/common": "catalog:",
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.1.0",
+    "react": "catalog:",
+    "resend": "^6.26.0"
+  },
+  "devDependencies": {
+    "@mavry/ts-config": "workspace:*",
+    "@react-email/ui": "^6.9.3",
+    "@types/react": "catalog:",
+    "react-email": "^6.9.3",
+    "typescript": "catalog:"
+  }
+}

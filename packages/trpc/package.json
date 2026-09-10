@@ -49,6 +49,7 @@
   "dependencies": {
     "@mavry/auth": "workspace:*",
     "@mavry/db": "workspace:*",
+    "@mavry/email": "workspace:*",
     "@mavry/env": "workspace:*",
     "@nestjs/common": "catalog:",
     "@trpc/client": "catalog:",

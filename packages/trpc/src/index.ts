@@ -28,20 +28,6 @@ export {
   WaitlistConfirmationReceiptService,
 } from "./services/waitlist-confirmation-receipt.service"
 export {
-  buildWaitlistConfirmationEmail,
-  createWaitlistEmailService,
-  NoopWaitlistEmailService,
-  type PlunkEmailClient,
-  PlunkHttpEmailClient,
-  type PlunkSendEmailPayload,
-  PlunkWaitlistEmailService,
-  type WaitlistConfirmationEmailInput,
-  type WaitlistConfirmationEmailMessage,
-  type WaitlistConfirmationEmailResult,
-  type WaitlistEmailConfiguration,
-  WaitlistEmailService,
-} from "./services/waitlist-email.service"
-export {
   WAITLIST_EMAIL_ATTEMPT_LIMIT,
   WAITLIST_IP_ATTEMPT_LIMIT,
   WAITLIST_RATE_LIMIT_WINDOW_MILLISECONDS,

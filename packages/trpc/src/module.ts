@@ -1,3 +1,4 @@
+import { createWaitlistEmailService, WaitlistEmailService } from "@mavry/email"
 import { env } from "@mavry/env/api"
 import { Module } from "@nestjs/common"
 import { TRPCModule } from "nestjs-trpc"
@@ -10,10 +11,6 @@ import {
   createWaitlistConfirmationReceiptService,
   WaitlistConfirmationReceiptService,
 } from "./services/waitlist-confirmation-receipt.service"
-import {
-  createWaitlistEmailService,
-  WaitlistEmailService,
-} from "./services/waitlist-email.service"
 import { WaitlistRateLimitService } from "./services/waitlist-rate-limit.service"
 import { WaitlistStore } from "./services/waitlist-store.service"
 

@@ -1,0 +1,7 @@
+{
+  "extends": "@mavry/ts-config/nestjs-framework",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

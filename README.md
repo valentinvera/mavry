@@ -50,17 +50,32 @@ The API is running at [http://localhost:4040](http://localhost:4040), or `http:/
 
 ## Waitlist Email Confirmation
 
-The API sends waitlist confirmation emails through Plunk when the provider is enabled. Configure `apps/api/.env` with:
+The API sends waitlist confirmation emails through Resend when the provider is enabled. Configure `apps/api/.env` with:
 
 ```dotenv
-WAITLIST_EMAIL_PROVIDER=plunk
-PLUNK_SECRET_KEY=sk_replace_me
+WAITLIST_EMAIL_PROVIDER=resend
+RESEND_API_KEY=re_replace_me
 WAITLIST_FROM_EMAIL=waitlist@your-verified-domain.com
+WAITLIST_REPLY_TO_EMAIL=hello@your-domain.com
 WAITLIST_CONFIRMATION_URL=https://api.your-domain.com/api/waitlist/confirm
 WAITLIST_CONFIRMATION_REDIRECT_URL=https://your-domain.com/waitlist/confirmation
 ```
 
-Create the secret key in Plunk under Settings → API Keys and verify the domain used by `WAITLIST_FROM_EMAIL` before sending. Use `WAITLIST_EMAIL_PROVIDER=noop` only when email delivery should be explicitly disabled, such as local development without provider credentials.
+Create a domain-scoped, sending-only API key in Resend and verify the exact domain used by `WAITLIST_FROM_EMAIL`. `WAITLIST_REPLY_TO_EMAIL` is optional; when omitted, replies go to `WAITLIST_FROM_EMAIL`. Use `WAITLIST_EMAIL_PROVIDER=noop` only when email delivery should be explicitly disabled, such as local development without provider credentials.
+
+The confirmation email is transactional and uses React Email. Its production implementation lives in `packages/email`. Preview it locally with:
+
+```bash
+bun run email:preview
+```
+
+Check the Resend CLI, credentials, and domain status without sending an email with:
+
+```bash
+bun --env-file=apps/api/.env run resend:doctor
+```
+
+For production deliverability, keep SPF and DKIM verified, publish a DMARC policy, use HTTPS confirmation URLs, and leave open/click tracking disabled for this transactional flow. The send includes a deterministic idempotency key and retries only transient Resend failures.
 
 ## UI Customization
 

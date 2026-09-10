@@ -5,6 +5,7 @@ import { and, count, eq, isNotNull, isNull } from "drizzle-orm"
 import type { JoinWaitlistInput } from "../contracts/waitlist"
 
 export interface WaitlistEntryConfirmationState {
+  confirmationEmailId: string | null
   confirmationExpiresAt: Date | null
   confirmationSentAt: Date | null
   confirmationTokenHash: string | null
@@ -27,6 +28,7 @@ interface RefreshPendingWaitlistEntryInput {
 }
 
 interface MarkConfirmationSentInput {
+  confirmationEmailId: string
   confirmationSentAt: Date
   confirmationTokenHash: string
   id: string
@@ -77,6 +79,7 @@ export class WaitlistStore {
   ): Promise<WaitlistEntryConfirmationState | null> {
     const entry = await db.query.waitlistEntry.findFirst({
       columns: {
+        confirmationEmailId: true,
         confirmationExpiresAt: true,
         confirmationSentAt: true,
         confirmationTokenHash: true,
@@ -103,6 +106,7 @@ export class WaitlistStore {
     const refreshedEntries = await db
       .update(waitlistEntry)
       .set({
+        confirmationEmailId: null,
         confirmationExpiresAt,
         confirmationSentAt: null,
         confirmationTokenHash,
@@ -120,13 +124,14 @@ export class WaitlistStore {
   }
 
   async markConfirmationSent({
+    confirmationEmailId,
     confirmationSentAt,
     confirmationTokenHash,
     id,
   }: MarkConfirmationSentInput): Promise<void> {
     await db
       .update(waitlistEntry)
-      .set({ confirmationSentAt })
+      .set({ confirmationEmailId, confirmationSentAt })
       .where(
         and(
           eq(waitlistEntry.id, id),
@@ -141,6 +146,7 @@ export class WaitlistStore {
   ): Promise<WaitlistEntryConfirmationState | null> {
     const entry = await db.query.waitlistEntry.findFirst({
       columns: {
+        confirmationEmailId: true,
         confirmationExpiresAt: true,
         confirmationSentAt: true,
         confirmationTokenHash: true,
@@ -184,6 +190,7 @@ export class WaitlistStore {
   async findById(id: string): Promise<WaitlistEntryConfirmationState | null> {
     const entry = await db.query.waitlistEntry.findFirst({
       columns: {
+        confirmationEmailId: true,
         confirmationExpiresAt: true,
         confirmationSentAt: true,
         confirmationTokenHash: true,
