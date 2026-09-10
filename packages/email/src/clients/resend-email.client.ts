@@ -24,14 +24,29 @@ export interface ResendSendEmailPayload {
 }
 
 export interface ResendEmailError {
+  cause?: ResendEmailErrorCause
   message: string
   name: string
   statusCode: number | null
 }
 
+export interface ResendEmailErrorCause {
+  code?: string
+  message: string
+  name: string
+}
+
 export type ResendTransportResponse =
-  | { data: { id: string }; error: null }
-  | { data: null; error: ResendEmailError }
+  | {
+      data: { id: string }
+      error: null
+      headers?: Record<string, string> | null
+    }
+  | {
+      data: null
+      error: ResendEmailError
+      headers?: Record<string, string> | null
+    }
 
 export interface ResendEmailTransport {
   send(
@@ -75,7 +90,33 @@ const defaultSleep = (milliseconds: number): Promise<void> =>
     setTimeout(resolve, milliseconds)
   })
 
-const createNetworkError = (): ResendEmailError => ({
+const getErrorCode = (error: Error): string | undefined => {
+  const code = Reflect.get(error, "code")
+
+  if (typeof code === "string" || typeof code === "number") {
+    return String(code)
+  }
+
+  return
+}
+
+const getErrorCause = (error: unknown): ResendEmailErrorCause => {
+  if (error instanceof Error) {
+    return {
+      code: getErrorCode(error),
+      message: error.message,
+      name: error.name,
+    }
+  }
+
+  return {
+    message: "A non-Error value was thrown",
+    name: "UnknownError",
+  }
+}
+
+const createNetworkError = (cause?: unknown): ResendEmailError => ({
+  cause: cause === undefined ? undefined : getErrorCause(cause),
   message: "The Resend request failed before receiving a response",
   name: "network_error",
   statusCode: null,
@@ -147,8 +188,8 @@ export class ReliableResendEmailClient implements ResendEmailClient {
   ): Promise<ResendTransportResponse> {
     try {
       return await this.transport.send(payload, options)
-    } catch {
-      return { data: null, error: createNetworkError() }
+    } catch (error) {
+      return { data: null, error: createNetworkError(error) }
     }
   }
 }
