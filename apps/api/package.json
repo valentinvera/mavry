@@ -3,16 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "imports": {
-    "#api/*": {
-      "types": "./src/*.ts",
-      "development": "./src/*.ts",
-      "default": "./dist/src/*.js"
-    }
-  },
   "scripts": {
     "build": "nest build",
-    "dev": "bun --conditions=development --watch src/main.ts",
+    "dev": "bun --watch src/main.ts",
     "prod": "bun dist/src/main.js",
     "check-types": "tsc --noEmit"
   },
