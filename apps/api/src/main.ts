@@ -1,8 +1,8 @@
 import "reflect-metadata"
 import { env, getCorsOrigins } from "@mavry/env/api"
 import { NestFactory } from "@nestjs/core"
-import { AppModule } from "./app.module"
-import { registerWaitlistConfirmationRoute } from "./waitlist-confirmation.middleware"
+import { AppModule } from "#api/app.module"
+import { registerWaitlistConfirmationRoute } from "#api/waitlist-confirmation.middleware"
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule)

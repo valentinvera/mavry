@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "imports": {
+    "#api/*": "./src/*.ts"
+  },
   "scripts": {
     "build": "nest build",
     "dev": "bun --watch src/main.ts",
