@@ -21,6 +21,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@better-auth/expo": "catalog:",
     "@mavry/db": "workspace:*",
     "@mavry/env": "workspace:*",
     "@polar-sh/better-auth": "catalog:",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@mavry/ts-config": "workspace:*",
+    "@types/bun": "catalog:",
     "typescript": "catalog:"
   }
 }
