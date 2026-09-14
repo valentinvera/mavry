@@ -77,6 +77,39 @@ bun --env-file=apps/api/.env run resend:doctor
 
 For production deliverability, keep SPF and DKIM verified, publish a DMARC policy, use HTTPS confirmation URLs, and leave open/click tracking disabled for this transactional flow. The send includes a deterministic idempotency key and retries only transient Resend failures.
 
+## Authentication API
+
+Better Auth is mounted at `/api/auth/*` before NestJS body parsing, while JSON and URL-encoded parsing remain enabled for tRPC and the rest of the API. Email/password sign-up and sign-in remain enabled. Authentication email verification and password-reset delivery are intentionally not configured in this branch.
+
+Keep browser CORS origins separate from native deep-link origins:
+
+```dotenv
+CORS_ORIGIN=https://app.your-domain.com
+```
+
+Configure exact HTTP(S) origins in `CORS_ORIGIN`. Better Auth trusts those web origins and the fixed `mavry://` origin used by the Expo app for native OAuth callbacks, without exposing the custom scheme through browser CORS.
+
+Auth rate limits use Better Auth's built-in in-memory storage. Sensitive auth endpoints keep Better Auth's stricter default rules. Counters are local to each API process, reset when it restarts, and are not shared across replicas.
+
+Google and GitHub are enabled independently when both credentials for a provider are present:
+
+```dotenv
+GOOGLE_CLIENT_ID=replace_me
+GOOGLE_CLIENT_SECRET=replace_me
+GITHUB_CLIENT_ID=replace_me
+GITHUB_CLIENT_SECRET=replace_me
+```
+
+Configure the OAuth callbacks as `https://your-api-domain.com/api/auth/callback/google` and `https://your-api-domain.com/api/auth/callback/github`. GitHub OAuth apps need access to the user email. The auth API includes email sign-up/sign-in, social sign-in, sign-out, session retrieval and revocation, verification email, password reset, and account linking.
+
+Configure one secret of at least 32 characters:
+
+```dotenv
+BETTER_AUTH_SECRET=replace-with-a-secret-of-at-least-32-characters
+```
+
+In production, configure HTTPS origins. The Expo origin is fixed to `mavry://`, and verification identifiers are stored hashed in PostgreSQL.
+
 ## UI Customization
 
 React web apps in this stack share shadcn/ui primitives through `packages/ui`.
