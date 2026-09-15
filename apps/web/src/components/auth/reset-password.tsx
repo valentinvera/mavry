@@ -1,12 +1,19 @@
 import { Alert, AlertDescription } from "@mavry/ui/components/alert"
 import { Button, buttonVariants } from "@mavry/ui/components/button"
 import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
-import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { Link } from "@tanstack/react-router"
-import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react"
+import { CheckCircle2Icon } from "lucide-react"
 import { type FormEvent, useState } from "react"
+import {
+  AuthErrorSummary,
+  AuthFieldError,
+  AuthFormError,
+} from "@/components/auth/auth-form-error"
+import { PasswordInput } from "@/components/auth/password-input"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
+import { authClient } from "@/lib/auth-client"
+import { type AuthErrorDetails, getAuthError } from "@/lib/auth-errors"
 
 interface ResetPasswordProps {
   hasInvalidToken: boolean
@@ -17,16 +24,21 @@ export const ResetPassword = ({
   hasInvalidToken,
   token,
 }: ResetPasswordProps) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
-    setErrorMessage(null)
+    setAuthError(null)
 
     if (!token) {
-      setErrorMessage("This reset link is invalid or has expired.")
+      setAuthError({
+        message: "This reset link is invalid or has expired.",
+        target: "form",
+      })
       return
     }
 
@@ -35,16 +47,37 @@ export const ResetPassword = ({
     const confirmPassword = String(formData.get("confirmPassword") ?? "")
 
     if (newPassword !== confirmPassword) {
-      setErrorMessage("The passwords don’t match.")
+      setAuthError({
+        message: "The passwords don’t match.",
+        target: "confirmPassword",
+      })
       return
     }
 
     setIsSubmitting(true)
 
     try {
+      const { error } = await authClient.resetPassword({
+        newPassword,
+        token,
+      })
+
+      if (error) {
+        setAuthError(
+          getAuthError(
+            error,
+            "Mavry couldn’t update your password. Request a new reset link and try again."
+          )
+        )
+        return
+      }
+
       setIsComplete(true)
     } catch {
-      setErrorMessage("Mavry couldn’t reach the server. Try again.")
+      setAuthError({
+        message: "Mavry couldn’t reach the server. Try again.",
+        target: "form",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -77,6 +110,7 @@ export const ResetPassword = ({
             className={buttonVariants({
               className: "h-12 w-full rounded-full",
             })}
+            search={{ error: undefined }}
             to="/sign-in"
           >
             Log in
@@ -90,54 +124,64 @@ export const ResetPassword = ({
         >
           <FieldGroup className="gap-4">
             {tokenIsUnavailable ? (
-              <Alert className="rounded-lg text-left" variant="destructive">
-                <AlertCircleIcon aria-hidden="true" />
-                <AlertDescription>
-                  This reset link is invalid or has expired. Request a new one
-                  to continue.
-                </AlertDescription>
-              </Alert>
+              <AuthFormError
+                message="This reset link is invalid or has expired. Request a new one to continue."
+                title="Reset link unavailable"
+              />
             ) : (
               <>
-                <Field>
+                <AuthErrorSummary
+                  error={authError}
+                  title="Couldn’t update your password"
+                />
+
+                <Field
+                  data-invalid={authError?.target === "password" || undefined}
+                >
                   <FieldLabel className="sr-only" htmlFor="new-password">
                     New password
                   </FieldLabel>
-                  <Input
+                  <PasswordInput
+                    aria-invalid={authError?.target === "password" || undefined}
                     autoComplete="new-password"
-                    className="h-12 rounded-full border-border/80 bg-card/70 px-5 text-small shadow-sm focus-visible:bg-card"
+                    className="px-5 text-small"
                     disabled={isSubmitting}
                     id="new-password"
                     minLength={8}
                     name="newPassword"
+                    onChange={() => setAuthError(null)}
                     placeholder="New password…"
                     required
-                    type="password"
                   />
+                  <AuthFieldError error={authError} targets={["password"]} />
                 </Field>
-                <Field>
+                <Field
+                  data-invalid={
+                    authError?.target === "confirmPassword" || undefined
+                  }
+                >
                   <FieldLabel className="sr-only" htmlFor="confirm-password">
                     Confirm password
                   </FieldLabel>
-                  <Input
+                  <PasswordInput
+                    aria-invalid={
+                      authError?.target === "confirmPassword" || undefined
+                    }
                     autoComplete="new-password"
-                    className="h-12 rounded-full border-border/80 bg-card/70 px-5 text-small shadow-sm focus-visible:bg-card"
+                    className="px-5 text-small"
                     disabled={isSubmitting}
                     id="confirm-password"
                     minLength={8}
                     name="confirmPassword"
+                    onChange={() => setAuthError(null)}
                     placeholder="Confirm new password…"
                     required
-                    type="password"
+                  />
+                  <AuthFieldError
+                    error={authError}
+                    targets={["confirmPassword"]}
                   />
                 </Field>
-
-                {errorMessage ? (
-                  <Alert className="rounded-lg" variant="destructive">
-                    <AlertCircleIcon aria-hidden="true" />
-                    <AlertDescription>{errorMessage}</AlertDescription>
-                  </Alert>
-                ) : null}
 
                 <Field>
                   <Button

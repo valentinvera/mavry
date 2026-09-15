@@ -17,12 +17,8 @@ export const Route = createFileRoute("/_auth/reset-password")({
 
 function ResetPasswordPage() {
   const { error, token } = Route.useSearch()
-  const previewToken = token ?? "ui-preview"
 
   return (
-    <ResetPassword
-      hasInvalidToken={error === "INVALID_TOKEN"}
-      token={previewToken}
-    />
+    <ResetPassword hasInvalidToken={error === "INVALID_TOKEN"} token={token} />
   )
 }
