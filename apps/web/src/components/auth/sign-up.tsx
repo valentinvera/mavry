@@ -1,29 +1,132 @@
-import { Alert, AlertDescription } from "@mavry/ui/components/alert"
 import { Button } from "@mavry/ui/components/button"
 import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { GithubIcon } from "@mavry/ui/icons/github"
 import { GoogleIcon } from "@mavry/ui/icons/google"
-import { Link } from "@tanstack/react-router"
-import { AlertCircleIcon } from "lucide-react"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { type FormEvent, useState } from "react"
+import {
+  AuthErrorSummary,
+  AuthFieldError,
+} from "@/components/auth/auth-form-error"
+import { PasswordInput } from "@/components/auth/password-input"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
+import { authClient } from "@/lib/auth-client"
+import { type AuthErrorDetails, getAuthError } from "@/lib/auth-errors"
 
-export const SignUp = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+interface SignUpProps {
+  initialErrorCode?: string
+}
+
+type SocialProvider = "github" | "google"
+
+const getSocialErrorCallbackUrl = (): string =>
+  new URL(
+    "/sign-up?error=SOCIAL_SIGN_UP_FAILED",
+    window.location.origin
+  ).toString()
+
+export const SignUp = ({ initialErrorCode }: SignUpProps) => {
+  const navigate = useNavigate()
+  const [authError, setAuthError] = useState<AuthErrorDetails | null>(() =>
+    initialErrorCode
+      ? {
+          message: "Mavry couldn’t complete that social sign-up. Try again.",
+          target: "form",
+        }
+      : null
+  )
   const [isEmailFormVisible, setIsEmailFormVisible] = useState(false)
-  const isFormBusy = false
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [pendingSocialProvider, setPendingSocialProvider] =
+    useState<SocialProvider | null>(null)
+  const isFormBusy = isSubmitting || pendingSocialProvider !== null
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
-    setErrorMessage(null)
+    setAuthError(null)
+
+    const formData = new FormData(event.currentTarget)
+    const name = String(formData.get("name") ?? "")
+    const email = String(formData.get("email") ?? "")
+    const password = String(formData.get("password") ?? "")
+
+    setIsSubmitting(true)
+
+    try {
+      const { error } = await authClient.signUp.email({
+        email,
+        name,
+        password,
+      })
+
+      if (error) {
+        setAuthError(
+          getAuthError(
+            error,
+            "Mavry couldn’t create your account. Check your details and try again."
+          )
+        )
+        return
+      }
+
+      await navigate({ to: "/" })
+    } catch {
+      setAuthError({
+        message: "Mavry couldn’t reach the server. Try again.",
+        target: "form",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleSocialSignUp = async (
+    provider: SocialProvider
+  ): Promise<void> => {
+    setAuthError(null)
+    setPendingSocialProvider(provider)
+
+    try {
+      const { error } = await authClient.signIn.social({
+        callbackURL: window.location.origin,
+        errorCallbackURL: getSocialErrorCallbackUrl(),
+        provider,
+      })
+
+      if (error) {
+        setAuthError(
+          getAuthError(
+            error,
+            `Mavry couldn’t continue with ${provider === "google" ? "Google" : "GitHub"}. Try again.`
+          )
+        )
+      }
+    } catch {
+      setAuthError({
+        message: "Mavry couldn’t reach the server. Try again.",
+        target: "form",
+      })
+    } finally {
+      setPendingSocialProvider(null)
+    }
   }
 
   const handleEmailBack = (): void => {
-    setErrorMessage(null)
+    setAuthError(null)
     setIsEmailFormVisible(false)
   }
+
+  const handleEmailStart = (): void => {
+    setAuthError(null)
+    setIsEmailFormVisible(true)
+  }
+
+  const emailHasError = authError?.target === "email"
+  const passwordHasError = authError?.target === "password"
 
   return (
     <div className="mx-auto flex w-full flex-col items-center text-center">
@@ -49,6 +152,11 @@ export const SignUp = () => {
           onSubmit={handleSubmit}
         >
           <FieldGroup className="gap-4">
+            <AuthErrorSummary
+              error={authError}
+              title="Couldn’t create your account"
+            />
+
             <Field>
               <FieldLabel className="sr-only" htmlFor="name">
                 Name
@@ -60,53 +168,53 @@ export const SignUp = () => {
                 id="name"
                 maxLength={100}
                 name="name"
+                onChange={() => setAuthError(null)}
                 placeholder="Your name…"
                 required
               />
             </Field>
 
-            <Field>
+            <Field data-invalid={emailHasError || undefined}>
               <FieldLabel className="sr-only" htmlFor="email">
                 Email
               </FieldLabel>
               <Input
+                aria-invalid={emailHasError || undefined}
                 autoCapitalize="none"
                 autoComplete="email"
                 className="h-12 rounded-full border-border/80 bg-card/70 px-5 text-small shadow-sm focus-visible:bg-card"
                 disabled={isFormBusy}
                 id="email"
                 inputMode="email"
+                invalidAppearance="message-only"
                 name="email"
+                onChange={() => setAuthError(null)}
                 placeholder="you@example.com…"
                 required
                 spellCheck={false}
                 type="email"
               />
+              <AuthFieldError error={authError} targets={["email"]} />
             </Field>
 
-            <Field>
+            <Field data-invalid={passwordHasError || undefined}>
               <FieldLabel className="sr-only" htmlFor="password">
                 Password
               </FieldLabel>
-              <Input
+              <PasswordInput
+                aria-invalid={passwordHasError || undefined}
                 autoComplete="new-password"
-                className="h-12 rounded-full border-border/80 bg-card/70 px-5 text-small shadow-sm focus-visible:bg-card"
+                className="px-5 text-small"
                 disabled={isFormBusy}
                 id="password"
                 minLength={8}
                 name="password"
+                onChange={() => setAuthError(null)}
                 placeholder="At least 8 characters…"
                 required
-                type="password"
               />
+              <AuthFieldError error={authError} targets={["password"]} />
             </Field>
-
-            {errorMessage ? (
-              <Alert className="rounded-lg" variant="destructive">
-                <AlertCircleIcon aria-hidden="true" />
-                <AlertDescription>{errorMessage}</AlertDescription>
-              </Alert>
-            ) : null}
 
             <Field>
               <Button
@@ -115,7 +223,7 @@ export const SignUp = () => {
                 type="submit"
               >
                 {isFormBusy ? <Spinner data-icon="inline-start" /> : null}
-                Create account
+                {isSubmitting ? "Creating account…" : "Create account"}
               </Button>
             </Field>
 
@@ -137,33 +245,47 @@ export const SignUp = () => {
           aria-label="Authentication methods"
           className="mt-7 flex w-full flex-col gap-4"
         >
+          <AuthErrorSummary
+            error={authError}
+            title="Couldn’t create your account"
+          />
           <Button
-            aria-label="Continue with Google, coming soon"
-            className="h-12 w-full cursor-pointer rounded-full text-small shadow-sm disabled:pointer-events-auto disabled:opacity-100"
-            disabled
-            title="Coming soon"
+            className="h-12 w-full cursor-pointer rounded-full text-small shadow-sm"
+            disabled={isFormBusy}
+            onClick={() => handleSocialSignUp("google")}
             type="button"
           >
-            <GoogleIcon aria-hidden="true" data-icon="inline-start" />
-            Continue with Google
+            {pendingSocialProvider === "google" ? (
+              <Spinner data-icon="inline-start" />
+            ) : (
+              <GoogleIcon aria-hidden="true" data-icon="inline-start" />
+            )}
+            {pendingSocialProvider === "google"
+              ? "Opening Google…"
+              : "Continue with Google"}
           </Button>
           <Button
             className="h-12 w-full cursor-pointer rounded-full text-small disabled:opacity-100"
             disabled={isFormBusy}
-            onClick={() => setIsEmailFormVisible(true)}
+            onClick={handleEmailStart}
             type="button"
           >
             Continue with email
           </Button>
           <Button
-            aria-label="Continue with GitHub, coming soon"
-            className="h-12 w-full cursor-pointer rounded-full text-small disabled:pointer-events-auto disabled:opacity-100"
-            disabled
-            title="Coming soon"
+            className="h-12 w-full cursor-pointer rounded-full text-small"
+            disabled={isFormBusy}
+            onClick={() => handleSocialSignUp("github")}
             type="button"
           >
-            <GithubIcon aria-hidden="true" data-icon="inline-start" />
-            Continue with GitHub
+            {pendingSocialProvider === "github" ? (
+              <Spinner data-icon="inline-start" />
+            ) : (
+              <GithubIcon aria-hidden="true" data-icon="inline-start" />
+            )}
+            {pendingSocialProvider === "github"
+              ? "Opening GitHub…"
+              : "Continue with GitHub"}
           </Button>
         </fieldset>
       )}
@@ -172,6 +294,7 @@ export const SignUp = () => {
         Already have an account?{" "}
         <Link
           className="cursor-pointer font-medium text-foreground underline-offset-4 hover:underline"
+          search={{ error: undefined }}
           to="/sign-in"
         >
           Log in

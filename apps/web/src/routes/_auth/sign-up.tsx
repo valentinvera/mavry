@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router"
 import { SignUp } from "@/components/auth/sign-up"
 
 export const Route = createFileRoute("/_auth/sign-up")({
+  validateSearch: (search) => ({
+    error: typeof search.error === "string" ? search.error : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Create account — Mavry" },
@@ -12,5 +15,7 @@ export const Route = createFileRoute("/_auth/sign-up")({
 })
 
 function SignUpPage() {
-  return <SignUp />
+  const { error } = Route.useSearch()
+
+  return <SignUp initialErrorCode={error} />
 }
