@@ -79,7 +79,7 @@ For production deliverability, keep SPF and DKIM verified, publish a DMARC polic
 
 ## Authentication API
 
-Better Auth is mounted at `/api/auth/*` before NestJS body parsing, while JSON and URL-encoded parsing remain enabled for tRPC and the rest of the API. Email/password sign-up and sign-in remain enabled. Authentication email verification and password-reset delivery are intentionally not configured in this branch.
+Better Auth is mounted at `/api/auth/*` before NestJS body parsing, while JSON and URL-encoded parsing remain enabled for tRPC and the rest of the API. The web auth screens use the Better Auth client for email/password sign-up and sign-in, Google and GitHub OAuth, session cookies, and password-reset requests and submissions. Password-reset email delivery is intentionally not configured in this branch, so requesting a reset does not send an email. The API also exposes Better Auth's sign-out and session-management endpoints. Authentication email verification is not required in this branch.
 
 Keep browser CORS origins separate from native deep-link origins:
 

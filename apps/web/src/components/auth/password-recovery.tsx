@@ -4,24 +4,54 @@ import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { Link } from "@tanstack/react-router"
-import { AlertCircleIcon, CheckCircle2Icon } from "lucide-react"
+import { CheckCircle2Icon } from "lucide-react"
 import { type FormEvent, useState } from "react"
+import {
+  AuthErrorSummary,
+  AuthFieldError,
+} from "@/components/auth/auth-form-error"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
+import { authClient } from "@/lib/auth-client"
+import { type AuthErrorDetails, getAuthError } from "@/lib/auth-errors"
 
 export const PasswordRecovery = () => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
-    setErrorMessage(null)
+    setAuthError(null)
+
+    const formData = new FormData(event.currentTarget)
+    const email = String(formData.get("email") ?? "")
+
     setIsSubmitting(true)
 
     try {
+      const { error } = await authClient.requestPasswordReset({
+        email,
+        redirectTo: new URL(
+          "/reset-password",
+          window.location.origin
+        ).toString(),
+      })
+
+      if (error) {
+        setAuthError(
+          getAuthError(error, "Mavry couldn’t send the reset link. Try again.")
+        )
+        return
+      }
+
       setIsSubmitted(true)
     } catch {
-      setErrorMessage("Mavry couldn’t reach the server. Try again.")
+      setAuthError({
+        message: "Mavry couldn’t reach the server. Try again.",
+        target: "form",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -52,6 +82,7 @@ export const PasswordRecovery = () => {
             className={buttonVariants({
               className: "h-12 w-full rounded-full",
             })}
+            search={{ error: undefined }}
             to="/sign-in"
           >
             Back to log in
@@ -64,31 +95,33 @@ export const PasswordRecovery = () => {
           onSubmit={handleSubmit}
         >
           <FieldGroup className="gap-4">
-            <Field>
+            <AuthErrorSummary
+              error={authError}
+              title="Couldn’t send the reset link"
+            />
+
+            <Field data-invalid={authError?.target === "email" || undefined}>
               <FieldLabel className="sr-only" htmlFor="recovery-email">
                 Email
               </FieldLabel>
               <Input
+                aria-invalid={authError?.target === "email" || undefined}
                 autoCapitalize="none"
                 autoComplete="email"
                 className="h-12 rounded-full border-border/80 bg-card/70 px-5 text-small shadow-sm focus-visible:bg-card"
                 disabled={isSubmitting}
                 id="recovery-email"
                 inputMode="email"
+                invalidAppearance="message-only"
                 name="email"
+                onChange={() => setAuthError(null)}
                 placeholder="you@example.com…"
                 required
                 spellCheck={false}
                 type="email"
               />
+              <AuthFieldError error={authError} targets={["email"]} />
             </Field>
-
-            {errorMessage ? (
-              <Alert className="rounded-lg" variant="destructive">
-                <AlertCircleIcon aria-hidden="true" />
-                <AlertDescription>{errorMessage}</AlertDescription>
-              </Alert>
-            ) : null}
 
             <Field>
               <Button
@@ -109,6 +142,7 @@ export const PasswordRecovery = () => {
           Remembered your password?{" "}
           <Link
             className="font-medium text-foreground underline-offset-4 hover:underline"
+            search={{ error: undefined }}
             to="/sign-in"
           >
             Back to log in

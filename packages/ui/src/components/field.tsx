@@ -215,7 +215,7 @@ function FieldError({
   return (
     <div
       className={cn(
-        "font-normal text-caption text-destructive-foreground",
+        "text-left font-normal text-caption text-destructive-foreground",
         className
       )}
       data-slot="field-error"
