@@ -18,7 +18,7 @@
     "@polar-sh/better-auth": "catalog:",
     "@tailwindcss/vite": "^4.3.1",
     "@tanstack/react-form": "^1.28.0",
-    "@tanstack/react-query": "^5.99.0",
+    "@tanstack/react-query": "5.102.8",
     "@tanstack/react-router": "1.170.41",
     "@tanstack/react-router-ssr-query": "1.167.2",
     "@tanstack/react-start": "1.168.60",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@mavry/ts-config": "workspace:*",
     "@rolldown/plugin-babel": "^0.2.3",
-    "@tanstack/react-query-devtools": "^5.91.1",
+    "@tanstack/react-query-devtools": "5.102.8",
     "@tanstack/react-router-devtools": "1.167.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
