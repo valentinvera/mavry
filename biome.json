@@ -22,11 +22,11 @@
   },
   "linter": {
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "correctness": {
         "useExhaustiveDependencies": "info"
       },
-      "nursery": {
+      "suspicious": {
         "noUndeclaredEnvVars": "error"
       }
     }
