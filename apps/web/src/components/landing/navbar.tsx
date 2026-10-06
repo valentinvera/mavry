@@ -1,37 +1,34 @@
 import { Button } from "@mavry/ui/components/button"
-import { Separator } from "@mavry/ui/components/separator"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@mavry/ui/components/collapsible"
 import { cn } from "@mavry/ui/lib/utils"
-import { MenuIcon, XIcon } from "lucide-react"
-import { type MouseEvent, useEffect, useState } from "react"
+import { type MouseEvent, useEffect, useRef, useState } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
-import { ThemeToggle } from "@/components/landing/theme-toggle"
 import {
-  FOCUS_EVENT,
-  requestEmailFocus,
-} from "@/components/sections/landing/hero"
-import {
+  LANDING_FAQ,
+  LANDING_SECTIONS,
   reloadLandingAtTop,
   scrollToLandingSection,
 } from "@/lib/landing-navigation"
+import { requestEmailFocus } from "@/lib/waitlist-focus"
 
-const ANIMATION_DURATION = 300
-const ctaClassName = "cursor-pointer rounded-md text-action!"
-const mobileRightRailClassName = "translate-x-[11.333px]"
-
-const items = [
-  { id: "workspace", label: "Workspace", href: "#workspace" },
-  { id: "method", label: "Method", href: "#method" },
-  { id: "readiness", label: "Readiness", href: "#readiness" },
-  { id: "review", label: "Review", href: "#review" },
-] as const
-
-const groups = [
+const navItems = [
+  ...LANDING_SECTIONS.map((section) => ({
+    href: `#${section.id}`,
+    id: section.id,
+    label: section.label,
+  })),
   {
-    id: "system",
-    label: "Decision system",
-    items,
+    href: `#${LANDING_FAQ.id}`,
+    id: LANDING_FAQ.id,
+    label: LANDING_FAQ.label,
   },
-] as const
+]
+
+const MOBILE_MENU_CLOSE_DELAY_MS = 320
 
 const navigateToSection = (
   event: MouseEvent<HTMLAnchorElement>,
@@ -42,223 +39,153 @@ const navigateToSection = (
   scrollToLandingSection(sectionId, href)
 }
 
-export const Navbar = () => (
-  <>
-    <a
-      aria-label="Mavry home"
-      className="relative z-10 col-start-1 -ml-1 inline-flex justify-self-start rounded-md"
-      href="/"
-      onClick={reloadLandingAtTop}
-    >
-      <MavryWordmark />
-    </a>
-    <nav
-      aria-label="Landing sections"
-      className="relative z-10 col-start-2 hidden items-center gap-6 justify-self-center text-muted-foreground text-nav md:flex"
-    >
-      {items.map((item) => (
-        <a
-          className="rounded-md px-2 py-1 transition-colors hover:text-foreground"
-          href={item.href}
-          key={item.id}
-          onClick={(event) => navigateToSection(event, item.id, item.href)}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
-    <div className="relative z-10 col-start-3 flex items-center gap-2 justify-self-end md:gap-4">
-      <Button
-        className={cn("h-8 md:hidden", ctaClassName, mobileRightRailClassName)}
-        onClick={requestEmailFocus}
-        size="default"
-        type="button"
-      >
-        Join waitlist
-      </Button>
-      <span
-        aria-hidden="true"
-        className={cn(
-          "flex h-9 w-3 items-center justify-center md:hidden",
-          mobileRightRailClassName
-        )}
-      >
-        <Separator
-          className="h-5 translate-x-1 bg-foreground/20 data-vertical:self-center"
-          orientation="vertical"
-        />
-      </span>
-      <div className="flex items-center">
-        <ThemeToggle
-          className={cn(mobileRightRailClassName, "md:translate-x-0")}
-        />
-        <MobileMenu />
-      </div>
-      <Button
-        className={cn("hidden h-8 md:inline-flex", ctaClassName)}
-        onClick={requestEmailFocus}
-        size="sm"
-        type="button"
-      >
-        Join waitlist
-      </Button>
-    </div>
-  </>
-)
-
-const MobileMenu = () => {
+export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [isMenuMounted, setIsMenuMounted] = useState(false)
+  const navbarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!isMenuMounted) {
-      return
+    const desktop = window.matchMedia("(min-width: 1024px)")
+    const closeOnDesktop = () => {
+      if (desktop.matches) {
+        setIsOpen(false)
+      }
     }
 
-    const { documentElement } = document
-    const previousDocumentOverflow = documentElement.style.overflow
+    desktop.addEventListener("change", closeOnDesktop)
 
-    documentElement.style.overflow = "hidden"
-
-    return () => {
-      documentElement.style.overflow = previousDocumentOverflow
-    }
-  }, [isMenuMounted])
-
-  useEffect(() => {
-    if (!isMenuMounted) {
-      return
-    }
-
-    const animationFrame = requestAnimationFrame(() => {
-      setIsOpen(true)
-    })
-
-    return () => {
-      cancelAnimationFrame(animationFrame)
-    }
-  }, [isMenuMounted])
-
-  useEffect(() => {
-    if (isOpen || !isMenuMounted) {
-      return
-    }
-
-    const timeout = window.setTimeout(() => {
-      setIsMenuMounted(false)
-    }, ANIMATION_DURATION)
-
-    return () => {
-      window.clearTimeout(timeout)
-    }
-  }, [isOpen, isMenuMounted])
-
-  useEffect(() => {
-    const closeMenuOnWaitlistFocus = () => {
-      setIsOpen(false)
-    }
-
-    window.addEventListener(FOCUS_EVENT, closeMenuOnWaitlistFocus)
-
-    return () => {
-      window.removeEventListener(FOCUS_EVENT, closeMenuOnWaitlistFocus)
-    }
+    return () => desktop.removeEventListener("change", closeOnDesktop)
   }, [])
 
-  const toggleMenu = () => {
-    if (isOpen) {
-      setIsOpen(false)
+  useEffect(() => {
+    if (!isOpen) {
       return
     }
 
-    if (isMenuMounted) {
-      setIsOpen(true)
-      return
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !navbarRef.current?.contains(event.target)
+      ) {
+        setIsOpen(false)
+      }
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false)
+      }
     }
 
-    setIsMenuMounted(true)
-  }
+    document.addEventListener("pointerdown", closeOnOutsideClick)
+    document.addEventListener("keydown", closeOnEscape)
 
-  const closeMenu = () => {
-    setIsOpen(false)
-  }
-
-  const navigateFromMobileMenu = (
-    event: MouseEvent<HTMLAnchorElement>,
-    sectionId: string,
-    href: string
-  ) => {
-    closeMenu()
-    navigateToSection(event, sectionId, href)
-  }
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick)
+      document.removeEventListener("keydown", closeOnEscape)
+    }
+  }, [isOpen])
 
   return (
-    <div className="relative md:hidden">
-      <Button
-        aria-expanded={isOpen}
-        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-        className={cn(
-          "relative rounded-md bg-transparent text-body text-muted-foreground hover:bg-transparent hover:text-foreground aria-expanded:bg-transparent aria-expanded:text-muted-foreground aria-expanded:hover:bg-transparent aria-expanded:hover:text-foreground dark:aria-expanded:bg-transparent dark:hover:bg-transparent dark:aria-expanded:hover:bg-transparent",
-          mobileRightRailClassName
-        )}
-        onClick={toggleMenu}
-        size="icon-lg"
-        type="button"
-        variant="ghost"
-      >
-        <span className="sr-only">Open navigation menu</span>
-        <MenuIcon
-          aria-hidden="true"
-          className={cn(
-            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-100 text-foreground opacity-100 transition-[opacity,scale] duration-300 ease-out",
-            isOpen && "scale-75 opacity-0"
-          )}
-          strokeWidth={1}
-        />
-        <XIcon
-          aria-hidden="true"
-          className={cn(
-            "absolute inset-0 m-auto size-5 translate-y-[3px] scale-75 text-foreground opacity-0 transition-[opacity,scale] duration-300 ease-out",
-            isOpen && "scale-100 opacity-100"
-          )}
-          strokeWidth={1}
-        />
-      </Button>
-      {isMenuMounted ? (
-        <nav
-          aria-label="Mobile landing sections"
-          className={cn(
-            "fixed inset-x-0 top-[65px] bottom-0 z-40 overflow-y-auto overscroll-y-contain bg-background/70 px-6 pt-8 pb-10 opacity-0 backdrop-blur-glass transition-[opacity,transform] duration-300 ease-out sm:top-20",
-            isOpen && "translate-y-0 opacity-100"
-          )}
-          data-smooth-scroll=""
-          style={{ WebkitBackdropFilter: "blur(var(--glass-blur))" }}
+    <Collapsible
+      className="pointer-events-auto mx-auto w-full max-w-5xl rounded-2xl border bg-background p-2 pl-3 sm:pl-4"
+      data-intro-item="nav"
+      onOpenChange={setIsOpen}
+      open={isOpen}
+      ref={navbarRef}
+      style={{ transitionDelay: "90ms" }}
+    >
+      <div className="flex min-h-10 items-center justify-between gap-3 sm:gap-6">
+        <a
+          aria-label="Mavry home"
+          className="inline-flex shrink-0 rounded-md"
+          href="/"
+          onClick={reloadLandingAtTop}
         >
-          <div className="flex flex-col gap-8">
-            {groups.map((group) => (
-              <div className="flex flex-col gap-3" key={group.id}>
-                <p className="font-medium text-medium text-muted-foreground">
-                  {group.label}
-                </p>
-                <div className="flex flex-col gap-1">
-                  {group.items.map((item) => (
-                    <a
-                      className="rounded-md py-1 font-normal text-body text-foreground tracking-normal transition-colors hover:text-muted-foreground"
-                      href={item.href}
-                      key={item.id}
-                      onClick={(event) =>
-                        navigateFromMobileMenu(event, item.id, item.href)
-                      }
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
+          <MavryWordmark
+            className="max-[360px]:[&>span:last-child]:hidden"
+            size="md"
+          />
+        </a>
+        <nav
+          aria-label="Landing sections"
+          className="hidden min-w-0 items-center gap-0.5 text-muted-foreground text-nav lg:flex"
+        >
+          {navItems.map((item) => (
+            <a
+              className="whitespace-nowrap rounded-md px-1.5 py-2 transition-colors hover:text-foreground"
+              href={item.href}
+              key={item.id}
+              onClick={(event) => navigateToSection(event, item.id, item.href)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <div className="flex shrink-0 items-center gap-1">
+          <Button
+            className="h-10 cursor-pointer rounded-lg px-4 text-action!"
+            onClick={() => {
+              setIsOpen(false)
+              requestEmailFocus()
+            }}
+            type="button"
+          >
+            Join waitlist
+          </Button>
+          <CollapsibleTrigger
+            render={
+              <Button
+                aria-label={
+                  isOpen ? "Close navigation menu" : "Open navigation menu"
+                }
+                className="size-10 rounded-lg text-foreground lg:hidden"
+                size="icon-lg"
+                type="button"
+                variant="ghost"
+              />
+            }
+          >
+            <span aria-hidden="true" className="relative block size-5">
+              <span
+                className={cn(
+                  "absolute top-1/2 left-1/2 h-px w-5 -translate-x-1/2 bg-current transition-transform duration-300 ease-out motion-reduce:transition-none",
+                  isOpen ? "-translate-y-1/2 rotate-45" : "-translate-y-1"
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute top-1/2 left-1/2 h-px w-5 -translate-x-1/2 bg-current transition-transform duration-300 ease-out motion-reduce:transition-none",
+                  isOpen ? "-translate-y-1/2 -rotate-45" : "translate-y-1"
+                )}
+              />
+            </span>
+          </CollapsibleTrigger>
+        </div>
+      </div>
+      <CollapsibleContent className="h-(--collapsible-panel-height) overflow-hidden transition-[height,opacity] duration-300 ease-out data-ending-style:h-0 data-starting-style:h-0 data-ending-style:opacity-0 data-starting-style:opacity-0 motion-reduce:transition-none lg:hidden">
+        <nav aria-label="Mobile landing sections" className="pt-5 pb-1">
+          <p className="px-2 pb-2 text-caption text-muted-foreground">
+            Explore Mavry
+          </p>
+          <div className="flex flex-col">
+            {navItems.map((item) => (
+              <a
+                className="flex min-h-12 items-center rounded-lg px-2 text-body text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                href={item.href}
+                key={item.id}
+                onClick={(event) => {
+                  event.preventDefault()
+                  setIsOpen(false)
+                  window.setTimeout(() => {
+                    scrollToLandingSection(item.id, item.href)
+                  }, MOBILE_MENU_CLOSE_DELAY_MS)
+                }}
+              >
+                {item.label}
+              </a>
             ))}
           </div>
         </nav>
-      ) : null}
-    </div>
+      </CollapsibleContent>
+    </Collapsible>
   )
 }
