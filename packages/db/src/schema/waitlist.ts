@@ -13,17 +13,17 @@ import {
 export const waitlistEntry = pgTable(
   "waitlist_entry",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    confirmationEmailId: varchar("confirmation_email_id", { length: 64 }),
+    confirmationExpiresAt: timestamp("confirmation_expires_at"),
+    confirmationSentAt: timestamp("confirmation_sent_at"),
+    confirmationTokenHash: varchar("confirmation_token_hash", { length: 64 }),
+    confirmedAt: timestamp("confirmed_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
     email: varchar("email", { length: WAITLIST_EMAIL_MAX_LENGTH })
       .notNull()
       .unique(),
+    id: uuid("id").defaultRandom().primaryKey(),
     source: varchar("source", { length: WAITLIST_SOURCE_MAX_LENGTH }),
-    confirmedAt: timestamp("confirmed_at"),
-    confirmationEmailId: varchar("confirmation_email_id", { length: 64 }),
-    confirmationTokenHash: varchar("confirmation_token_hash", { length: 64 }),
-    confirmationSentAt: timestamp("confirmation_sent_at"),
-    confirmationExpiresAt: timestamp("confirmation_expires_at"),
-    createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
       .$onUpdate(() => /* @__PURE__ */ new Date())
