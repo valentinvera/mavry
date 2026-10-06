@@ -3,18 +3,20 @@ import { createEnv } from "@t3-oss/env-core"
 import { z } from "zod"
 
 export const env = createEnv({
+  emptyStringAsUndefined: true,
+  runtimeEnv: process.env,
   server: {
-    DATABASE_URL: z.string().min(1),
     BETTER_AUTH_SECRET: z.string().min(32),
     BETTER_AUTH_URL: z.url(),
+    CORS_ORIGIN: z.string().min(1),
+    DATABASE_URL: z.string().min(1),
     GITHUB_CLIENT_ID: z.string().trim().min(1).optional(),
     GITHUB_CLIENT_SECRET: z.string().trim().min(1).optional(),
     GOOGLE_CLIENT_ID: z.string().trim().min(1).optional(),
     GOOGLE_CLIENT_SECRET: z.string().trim().min(1).optional(),
+    HOST: z.string().min(1).default("0.0.0.0"),
     POLAR_ACCESS_TOKEN: z.string().min(1).optional(),
     POLAR_SUCCESS_URL: z.url(),
-    CORS_ORIGIN: z.string().min(1),
-    HOST: z.string().min(1).default("0.0.0.0"),
     PORT: z.coerce.number().int().positive(),
     RESEND_API_KEY: z.string().trim().startsWith("re_").optional(),
     WAITLIST_CONFIRMATION_REDIRECT_URL: z.url(),
@@ -23,8 +25,6 @@ export const env = createEnv({
     WAITLIST_FROM_EMAIL: z.string().trim().email().max(320).optional(),
     WAITLIST_REPLY_TO_EMAIL: z.string().trim().email().max(320).optional(),
   },
-  runtimeEnv: process.env,
-  emptyStringAsUndefined: true,
 })
 
 export function getCorsOrigins(): string[] {
