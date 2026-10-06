@@ -374,7 +374,7 @@ const zigzagItems = [
 export const Overview = () => (
   <section
     aria-labelledby="overview-title"
-    className="group relative min-w-0 pt-8 sm:pt-12"
+    className="group relative min-w-0 pt-8 sm:pt-10"
     data-section-reveal=""
     id="overview"
   >

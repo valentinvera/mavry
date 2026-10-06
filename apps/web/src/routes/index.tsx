@@ -18,6 +18,18 @@ import { Readiness } from "@/components/sections/landing/readiness"
 import { scrollToLandingSection } from "@/lib/landing-navigation"
 import { getWaitlistConfirmedCountQueryOptions } from "@/lib/waitlist"
 
+const HERO_FADE_STOPS = [
+  "transparent 0%",
+  "color-mix(in srgb, var(--mavry-white) 22.6%, transparent) 20%",
+  "color-mix(in srgb, var(--mavry-white) 44.4%, transparent) 40%",
+  "color-mix(in srgb, var(--mavry-white) 65.1%, transparent) 60%",
+  "color-mix(in srgb, var(--mavry-white) 84.3%, transparent) 80%",
+  "color-mix(in srgb, var(--mavry-white) 92.9%, transparent) 90%",
+  "var(--mavry-white) 100%",
+] as const
+
+const HERO_FADE_GRADIENT = `linear-gradient(to bottom, ${HERO_FADE_STOPS.join(", ")})`
+
 export const Route = createFileRoute("/")({
   component: HomeComponent,
   loader: async ({ context }) => {
@@ -62,12 +74,13 @@ function HomeComponent() {
           className="pointer-events-none absolute inset-0 z-0 bg-[url('/landing/alpine-clear-sunrise-light.webp')] bg-center bg-cover bg-no-repeat"
           data-intro-item="bg"
           data-landing-background=""
-        >
-          <div
-            className="absolute inset-x-0 bottom-0 h-[88px] bg-linear-to-b from-transparent to-[var(--mavry-white)]"
-            data-hero-fade=""
-          />
-        </div>
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[88px]"
+          data-hero-fade=""
+          style={{ backgroundImage: HERO_FADE_GRADIENT }}
+        />
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col px-5 pt-5 sm:px-8 lg:px-10">
           <Header />
           <Hero />
