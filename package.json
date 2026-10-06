@@ -3,25 +3,65 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "workspaces": {
+    "packages": [
+      "apps/*",
+      "packages/*"
+    ],
+    "catalog": {
+      "dotenv": "^18.0.5",
+      "zod": "^4.6.5",
+      "typescript": "^7.0.2",
+      "@types/bun": "^1.4.2",
+      "@nestjs/common": "^12.1.2",
+      "@nestjs/core": "^12.1.2",
+      "@nestjs/platform-express": "^12.1.2",
+      "@trpc/server": "^11.19.0",
+      "@tanstack/react-form": "^1.33.5",
+      "@tanstack/react-query": "^5.104.1",
+      "@trpc/tanstack-react-query": "^11.19.0",
+      "better-auth": "1.7.7",
+      "lucide-react": "^1.52.0",
+      "next-themes": "^0.4.6",
+      "react": "19.3.0",
+      "react-dom": "19.3.0",
+      "sonner": "^2.0.8",
+      "tailwindcss": "^4.3.3",
+      "@trpc/client": "^11.19.0",
+      "@polar-sh/better-auth": "^2.0.1",
+      "nestjs-trpc": "^2.13.0",
+      "reflect-metadata": "^0.2.2",
+      "rxjs": "7.8.2",
+      "@types/react": "^19.3.0",
+      "@types/react-dom": "^19.3.0",
+      "tailwind-merge": "^3.7.0",
+      "@better-auth/expo": "1.7.7"
+    }
+  },
   "scripts": {
-    "dev": "turbo run dev --filter='./apps/*'",
-    "build": "turbo run build",
-    "prod": "turbo run prod --filter='./apps/*'",
-    "dev:web": "turbo run dev -F @mavry/web",
-    "dev:api": "turbo run dev -F @mavry/api",
-    "dev:mobile": "turbo run dev -F @mavry/mobile",
     "browser:install": "playwright install chromium",
     "browser:open": "playwright cli open",
     "browser:serve-artifacts": "bun scripts/playwright/serve-artifacts.ts",
     "browser:show": "playwright cli show",
+    "build": "turbo run build",
     "check": "ultracite check",
     "check-types": "turbo run check-types",
+    "dev": "turbo run dev --filter='./apps/*'",
+    "dev:api": "turbo run dev -F @mavry/api",
+    "dev:mobile": "turbo run dev -F @mavry/mobile",
+    "dev:web": "turbo run dev -F @mavry/web",
     "email:preview": "bun run --cwd packages/email preview",
-    "resend:doctor": "resend doctor -q",
     "fix": "ultracite fix",
+    "prod": "turbo run prod --filter='./apps/*'",
+    "resend:doctor": "resend doctor -q",
     "test:e2e": "bun scripts/playwright/run.ts test",
     "test:e2e:headed": "bun scripts/playwright/run.ts test --headed",
     "test:e2e:ui": "bun scripts/playwright/run.ts test --ui"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "dependencies": {
     "@mavry/env": "workspace:*",
@@ -29,61 +69,21 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "@commitlint/cli": "latest",
-    "@commitlint/config-conventional": "latest",
+    "@biomejs/biome": "2.5.15",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "@mavry/ts-config": "workspace:*",
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.63.0",
     "@types/bun": "catalog:",
-    "lefthook": "latest",
-    "resend-cli": "^2.19.0",
-    "tsdown": "^0.22.14",
-    "turbo": "^2.10.2",
+    "lefthook": "^2.1.17",
+    "resend-cli": "^2.23.0",
+    "tsdown": "^0.23.0",
+    "turbo": "^2.11.7",
     "typescript": "catalog:",
-    "ultracite": "7.8.3"
+    "ultracite": "7.12.4"
   },
-  "workspaces": {
-    "packages": [
-      "apps/*",
-      "packages/*"
-    ],
-    "catalog": {
-      "dotenv": "^17.2.2",
-      "zod": "^4.1.13",
-      "typescript": "^6",
-      "@types/bun": "^1.3.4",
-      "@nestjs/common": "^11.1.27",
-      "@nestjs/core": "^11.1.27",
-      "@nestjs/platform-express": "^11.1.27",
-      "@trpc/server": "^11.16.0",
-      "@tanstack/react-form": "^1.28.0",
-      "@tanstack/react-query": "^5.99.0",
-      "@trpc/tanstack-react-query": "^11.16.0",
-      "better-auth": "1.7.4",
-      "lucide-react": "^1.21.0",
-      "next-themes": "^0.4.6",
-      "react": "19.2.3",
-      "react-dom": "19.2.3",
-      "sonner": "^2.0.7",
-      "tailwindcss": "^4.3.1",
-      "@trpc/client": "^11.16.0",
-      "@polar-sh/better-auth": "^1.8.4",
-      "nestjs-trpc": "^2.12.0",
-      "reflect-metadata": "^0.2.2",
-      "rxjs": "7.8.1",
-      "@types/react": "^19.2.17",
-      "@types/react-dom": "^19.2.3",
-      "tailwind-merge": "^3.6.0",
-      "@better-auth/expo": "1.6.23"
-    }
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
-  },
+  "packageManager": "bun@1.4.0",
   "engines": {
     "bun": ">=1.3.10"
-  },
-  "packageManager": "bun@1.3.14"
+  }
 }

@@ -2,11 +2,8 @@
   "name": "@mavry/email",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "sideEffects": false,
-  "files": [
-    "dist"
-  ],
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -14,6 +11,9 @@
       "default": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "check-types": "tsc --noEmit",
@@ -27,13 +27,13 @@
     "@react-email/render": "^2.1.0",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "resend": "^6.26.0"
+    "resend": "^6.32.0"
   },
   "devDependencies": {
     "@mavry/ts-config": "workspace:*",
-    "@react-email/ui": "^6.9.3",
+    "@react-email/ui": "^6.11.0",
     "@types/react": "catalog:",
-    "react-email": "^6.9.3",
+    "react-email": "^6.11.0",
     "typescript": "catalog:"
   }
 }

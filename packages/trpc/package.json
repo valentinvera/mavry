@@ -2,8 +2,8 @@
   "name": "@mavry/trpc",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -42,9 +42,9 @@
     }
   },
   "scripts": {
-    "generate": "nestjs-trpc generate --entrypoint ./src/module.ts --router-pattern '**/*.router.ts' --output ./src/generated",
     "build": "tsdown",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "generate": "nestjs-trpc generate --entrypoint ./src/module.ts --router-pattern '**/*.router.ts' --output ./src/generated"
   },
   "dependencies": {
     "@mavry/auth": "workspace:*",
@@ -56,7 +56,7 @@
     "@trpc/server": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
-    "drizzle-orm": "^0.45.1",
+    "drizzle-orm": "^0.45.3",
     "nestjs-trpc": "catalog:",
     "reflect-metadata": "catalog:",
     "zod": "catalog:"
