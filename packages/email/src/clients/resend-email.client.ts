@@ -34,10 +34,10 @@ export type ResendTransportResponse =
   | { data: null; error: ResendEmailError }
 
 export interface ResendEmailTransport {
-  send(
+  send: (
     payload: ResendSendEmailPayload,
     options: { idempotencyKey: string }
-  ): Promise<ResendTransportResponse>
+  ) => Promise<ResendTransportResponse>
 }
 
 export type ResendEmailClientResponse = ResendTransportResponse & {
@@ -45,10 +45,10 @@ export type ResendEmailClientResponse = ResendTransportResponse & {
 }
 
 export interface ResendEmailClient {
-  send(
+  send: (
     payload: ResendSendEmailPayload,
     options: { idempotencyKey: string }
-  ): Promise<ResendEmailClientResponse>
+  ) => Promise<ResendEmailClientResponse>
 }
 
 interface ReliableResendEmailClientOptions {
@@ -120,25 +120,27 @@ export class ReliableResendEmailClient implements ResendEmailClient {
     payload: ResendSendEmailPayload,
     options: { idempotencyKey: string }
   ): Promise<ResendEmailClientResponse> {
-    for (let attempt = 1; attempt <= this.maxAttempts; attempt += 1) {
-      const response = await this.attemptSend(payload, options)
-      const shouldRetry =
-        response.error !== null &&
-        isRetryableResendError(response.error) &&
-        attempt < this.maxAttempts
+    return await this.sendWithRetries(payload, options, 1)
+  }
 
-      if (!shouldRetry) {
-        return { ...response, attempts: attempt }
-      }
+  private async sendWithRetries(
+    payload: ResendSendEmailPayload,
+    options: { idempotencyKey: string },
+    attempt: number
+  ): Promise<ResendEmailClientResponse> {
+    const response = await this.attemptSend(payload, options)
+    const shouldRetry =
+      response.error !== null &&
+      isRetryableResendError(response.error) &&
+      attempt < this.maxAttempts
 
-      await this.sleep(getRetryDelay(attempt, this.random))
+    if (!shouldRetry) {
+      return { ...response, attempts: attempt }
     }
 
-    return {
-      attempts: this.maxAttempts,
-      data: null,
-      error: createNetworkError(),
-    }
+    await this.sleep(getRetryDelay(attempt, this.random))
+
+    return await this.sendWithRetries(payload, options, attempt + 1)
   }
 
   private async attemptSend(

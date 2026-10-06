@@ -189,7 +189,14 @@ WaitlistConfirmationEmail.PreviewProps = {
   logoUrl: "http://localhost:8080/brand/mavry-logo-white.png",
 } satisfies WaitlistConfirmationEmailProps
 
-export default WaitlistConfirmationEmail
+const WaitlistConfirmationEmailPreview = () => (
+  <WaitlistConfirmationEmail {...WaitlistConfirmationEmail.PreviewProps} />
+)
+
+WaitlistConfirmationEmailPreview.PreviewProps =
+  WaitlistConfirmationEmail.PreviewProps
+
+export default WaitlistConfirmationEmailPreview
 
 export interface RenderedWaitlistConfirmationEmail {
   html: string
