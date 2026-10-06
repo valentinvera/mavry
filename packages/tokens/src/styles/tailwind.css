@@ -91,6 +91,42 @@
   --sidebar-ring: var(--mavry-blue-fg);
 }
 
+[data-fixed-color-scheme] {
+  --background: var(--mavry-white);
+  --foreground: var(--mavry-black);
+  --card: #ffffff;
+  --card-foreground: var(--mavry-black);
+  --popover: #ffffff;
+  --popover-foreground: var(--mavry-black);
+  --primary: var(--mavry-black);
+  --primary-foreground: var(--mavry-white);
+  --secondary: #f4f4f5;
+  --secondary-foreground: var(--mavry-black);
+  --muted: #f4f4f5;
+  --muted-foreground: #5f6269;
+  --accent: var(--mavry-blue-bg);
+  --accent-foreground: #005fbf;
+  --destructive: var(--mavry-red-bg);
+  --destructive-foreground: #c91433;
+  --warning: var(--mavry-amber-bg);
+  --warning-foreground: #9a5b00;
+  --success: var(--mavry-green-bg);
+  --success-foreground: #168052;
+  --info: var(--mavry-blue-bg);
+  --info-foreground: #005fbf;
+  --border: rgb(0 0 0 / 0.12);
+  --input: rgb(0 0 0 / 0.16);
+  --ring: var(--mavry-blue-fg);
+  --sidebar: #ffffff;
+  --sidebar-foreground: var(--mavry-black);
+  --sidebar-primary: var(--mavry-black);
+  --sidebar-primary-foreground: var(--mavry-white);
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: var(--mavry-black);
+  --sidebar-border: rgb(0 0 0 / 0.12);
+  --sidebar-ring: var(--mavry-blue-fg);
+}
+
 @theme {
   --spacing: 0.25rem;
 
