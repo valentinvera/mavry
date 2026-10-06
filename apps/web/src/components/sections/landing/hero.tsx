@@ -1,5 +1,13 @@
 import { Button } from "@mavry/ui/components/button"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@mavry/ui/components/dialog"
+import {
   Field,
   FieldDescription,
   FieldError,
@@ -9,21 +17,20 @@ import {
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { Maximize2Icon } from "lucide-react"
 import { type FormEvent, useEffect, useRef, useState } from "react"
-import { HeroDemo } from "@/components/landing/demo"
+import { Workspace } from "@/components/landing/demo/product-decision-workspace"
+import { OPEN_EVENT } from "@/lib/hero-demo"
 import {
   getWaitlistConfirmedCountQueryOptions,
   validateWaitlistInput,
   type WaitlistSubmit,
 } from "@/lib/waitlist"
+import { WAITLIST_EMAIL_INPUT_ID } from "@/lib/waitlist-focus"
 import { useTRPC } from "@/utils/trpc"
 
-export const FOCUS_EVENT = "mavry:focus-waitlist-email"
-
-const INPUT_ID = "hero-waitlist-email"
 const STATUS_ID = "hero-waitlist-status"
 const SUCCESS_RESET_DELAY = 2000
-const UNLOCK_DELAY = 350
 
 type WaitlistStatus =
   | "error"
@@ -61,56 +68,166 @@ const getFounderCountDescription = (confirmedCount?: number): string => {
   return `Join ${founderCountFormatter.format(confirmedCount)} founders shaping focused first releases.`
 }
 
-const focusEmail = () => {
-  const input = document.getElementById(INPUT_ID)
+const ID = "hero-demo"
 
-  if (!(input instanceof HTMLInputElement)) {
-    return
-  }
+const HeroDemo = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
-  input.scrollIntoView({ behavior: "smooth", block: "center" })
+  useEffect(() => {
+    setIsMounted(true)
 
-  window.setTimeout(() => {
-    input.focus({ preventScroll: true })
-  }, 450)
-}
+    const open = () => {
+      const demo = document.getElementById(ID)
+      const shouldOpenDialog = window.matchMedia("(max-width: 767px)").matches
 
-export const requestEmailFocus = () => {
-  const isPageScrollLocked = document.body.style.overflow === "hidden"
-  const focusDelay = isPageScrollLocked ? UNLOCK_DELAY : 0
+      demo?.scrollIntoView({
+        behavior: "smooth",
+        block: shouldOpenDialog ? "center" : "start",
+      })
 
-  window.dispatchEvent(new Event(FOCUS_EVENT))
+      if (!shouldOpenDialog) {
+        return
+      }
 
-  window.setTimeout(() => {
-    focusEmail()
-  }, focusDelay)
+      window.setTimeout(() => {
+        setIsDialogOpen(true)
+      }, 450)
+    }
+
+    window.addEventListener(OPEN_EVENT, open)
+
+    return () => {
+      window.removeEventListener(OPEN_EVENT, open)
+    }
+  }, [])
+
+  return (
+    <div className="w-full text-left md:scroll-mt-28" id={ID}>
+      <div className="hidden md:block">
+        <Workspace viewportClassName="h-[47.5rem]" />
+      </div>
+
+      {isMounted ? (
+        <Dialog onOpenChange={setIsDialogOpen} open={isDialogOpen}>
+          <div className="mx-auto flex w-full max-w-[22rem] flex-col items-center gap-3 md:hidden">
+            <div className="relative h-[18.5rem] w-full overflow-hidden rounded-lg border bg-card/60 shadow-lg sm:h-[19.5rem]">
+              <div className="pointer-events-none h-full overflow-hidden">
+                <Workspace
+                  className="rounded-none border-0 shadow-none"
+                  interactive={false}
+                />
+              </div>
+              <DialogTrigger
+                render={
+                  <Button
+                    aria-label="Open full Mavry dashboard demo"
+                    className="absolute inset-0 h-full w-full rounded-lg bg-transparent p-0 hover:bg-transparent"
+                    type="button"
+                    variant="ghost"
+                  />
+                }
+              />
+            </div>
+            <DialogTrigger
+              render={
+                <Button
+                  aria-label="Open full Mavry dashboard demo"
+                  className="rounded-md text-demo-control!"
+                  size="sm"
+                  type="button"
+                />
+              }
+            >
+              Open Demo
+              <Maximize2Icon data-icon="inline-end" />
+            </DialogTrigger>
+          </div>
+
+          <DialogContent
+            className="max-h-[92svh] max-w-[calc(100vw-1rem)] overflow-hidden rounded-lg p-3 sm:p-4 md:max-w-6xl md:overflow-y-auto"
+            data-smooth-scroll=""
+          >
+            <DialogHeader className="pr-9">
+              <DialogTitle>Mavry decision workspace</DialogTitle>
+              <DialogDescription>
+                Select captured ideas, inspect the scope decision, and review
+                what still blocks launch.
+              </DialogDescription>
+            </DialogHeader>
+            <Workspace className="max-md:h-[calc(92svh-8.75rem)] max-md:[&>div]:h-full" />
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <div className="mx-auto h-[22.5rem] w-full max-w-[22rem] md:hidden">
+          <Workspace
+            className="rounded-none border-0 shadow-none"
+            interactive={false}
+          />
+        </div>
+      )}
+    </div>
+  )
 }
 
 export const Hero = () => (
   <section className="relative isolate flex min-h-[calc(100svh-5rem)] flex-col items-center justify-center gap-10 pt-12 pb-8 text-center sm:scroll-mt-8 sm:gap-12 sm:pt-20 sm:pb-0 md:pt-24 lg:pt-20">
     <div className="relative flex max-w-5xl flex-col items-center gap-6 sm:gap-7">
       <div className="flex flex-col items-center gap-5">
-        <h1 className="text-balance font-medium text-hero-title tracking-normal md:text-display-lg xl:text-hero-title-xl">
-          Know what belongs in your first release.
+        <h1
+          aria-label="Let Codex and Claude know what belongs in version one"
+          className="text-balance font-medium text-[var(--mavry-white)] text-hero-title tracking-normal md:text-display-lg xl:text-hero-title-xl"
+          data-intro-item=""
+          style={{ transitionDelay: "200ms" }}
+        >
+          Let{" "}
+          <span className="-mx-[0.09em] inline-block -translate-y-[0.1em] whitespace-nowrap align-baseline">
+            <span className="sr-only">Codex</span>
+            <img
+              alt=""
+              className="inline-block size-[0.9em] rounded-[0.17em]"
+              height={72}
+              src="/landing/chatgpt-icon.webp"
+              width={72}
+            />
+          </span>{" "}
+          and{" "}
+          <span className="-mx-[0.09em] inline-block -translate-y-[0.1em] whitespace-nowrap align-baseline">
+            <span className="sr-only">Claude</span>
+            <img
+              alt=""
+              className="inline-block size-[0.9em] rounded-[0.17em]"
+              height={72}
+              src="/landing/claude-icon.webp"
+              width={72}
+            />
+          </span>{" "}
+          know what belongs in version one
         </h1>
-        <p className="max-w-3xl text-body text-muted-foreground md:text-paragraph-md xl:text-paragraph-xl">
+        <p
+          className="max-w-3xl text-[var(--mavry-white)] text-body md:text-paragraph-md xl:text-paragraph-xl"
+          data-intro-item=""
+          style={{ transitionDelay: "310ms" }}
+        >
           Mavry helps builders capture product ideas, clarify what each feature
           proves, decide what belongs in the first version, and keep launch
           blockers visible before the backlog grows.
         </p>
       </div>
-      <ConnectedWaitlistForm />
+      <div
+        className="flex w-full justify-center"
+        data-intro-item=""
+        style={{ transitionDelay: "420ms" }}
+      >
+        <ConnectedWaitlistForm />
+      </div>
     </div>
     <div
-      className="relative w-full max-w-7xl overflow-hidden rounded-2xl bg-center bg-cover p-3 text-left shadow-[0_24px_120px_rgba(0,0,0,0.42)] sm:p-5 md:p-7"
-      style={{
-        backgroundImage: "url('/landing/hero-demo-madeira-cliffs.png')",
-      }}
+      className="relative w-full max-w-7xl text-left"
+      data-intro-item="demo"
+      style={{ transitionDelay: "540ms" }}
     >
-      <div className="absolute inset-0 dark:bg-background/45" />
-      <div className="relative">
-        <HeroDemo />
-      </div>
+      <HeroDemo />
     </div>
   </section>
 )
@@ -208,7 +325,7 @@ export const WaitlistForm = ({
           data-disabled={isInputDisabled || undefined}
           data-invalid={isValidationError || undefined}
         >
-          <FieldLabel className="sr-only" htmlFor={INPUT_ID}>
+          <FieldLabel className="sr-only" htmlFor={WAITLIST_EMAIL_INPUT_ID}>
             Email
           </FieldLabel>
           <div className="flex min-w-0 items-center justify-center gap-2">
@@ -221,7 +338,7 @@ export const WaitlistForm = ({
               className="h-8 min-w-0 flex-1 rounded-md bg-background/70 text-control! sm:w-60 sm:flex-none"
               data-waitlist-email
               disabled={isInputDisabled}
-              id={INPUT_ID}
+              id={WAITLIST_EMAIL_INPUT_ID}
               inputMode="email"
               name="email"
               onChange={(event) => handleEmailChange(event.target.value)}

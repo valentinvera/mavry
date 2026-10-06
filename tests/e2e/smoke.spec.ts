@@ -25,7 +25,7 @@ test("loads the app and reaches the API", async ({
   await page.goto("/")
   await expect(
     page.getByRole("heading", {
-      name: "Know what belongs in your first release.",
+      name: "Let Codex and Claude know what belongs in version one",
     })
   ).toBeVisible()
   await expect(

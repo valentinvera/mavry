@@ -1,9 +1,11 @@
 import { lazy, Suspense } from "react"
-import type { PageId } from "@/components/demo/data"
+import type { PageId } from "@/components/landing/demo/data"
 import { LandscapeDemoContainer } from "@/components/landing/landscape-demo-container"
 
 const ProductDecisionWorkspace = lazy(async () => {
-  const module = await import("@/components/demo/product-decision-workspace")
+  const module = await import(
+    "@/components/landing/demo/product-decision-workspace"
+  )
 
   return { default: module.Workspace }
 })

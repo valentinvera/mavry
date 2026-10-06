@@ -1,7 +1,9 @@
 import { cn } from "@mavry/ui/lib/utils"
 import type { CSSProperties, ReactNode } from "react"
 
-const BACKGROUND_IMAGE = "url('/landing/hero-demo-madeira-cliffs.png')"
+const LANDING_BACKGROUND_IMAGE =
+  "url('/landing/alpine-clear-sunrise-light.webp')"
+const AUTH_BACKGROUND_IMAGE = "url('/landing/hero-demo-madeira-cliffs.png')"
 
 const LANDSCAPE_POSITIONS = {
   authPanel: {
@@ -50,12 +52,14 @@ export const LandscapeDemoContainer = ({
     )}
     data-landscape-demo={variant}
     style={{
-      backgroundImage: BACKGROUND_IMAGE,
+      backgroundImage:
+        variant === "authPanel"
+          ? AUTH_BACKGROUND_IMAGE
+          : LANDING_BACKGROUND_IMAGE,
       backgroundRepeat: "no-repeat",
       ...LANDSCAPE_POSITIONS[variant],
     }}
   >
-    <div className="absolute inset-0 dark:bg-background/55" />
     <div className={cn("relative", contentClassName)}>{children}</div>
   </div>
 )

@@ -4,6 +4,18 @@ const LANDING_SECTION_GAP_PX = 16
 const LANDING_SECTION_TITLE_SELECTOR = "[data-landing-section-title]"
 const SCROLL_RESTORATION_STORAGE_KEY = "tsr-scroll-restoration-v1_3"
 
+export const LANDING_SECTIONS = [
+  { id: "overview", label: "Overview" },
+  { id: "clarify", label: "Clarify" },
+  { id: "decisions", label: "Decisions" },
+  { id: "priority", label: "Priority" },
+  { id: "hypothesis", label: "Hypothesis" },
+  { id: "readiness", label: "Readiness" },
+  { id: "mobile", label: "Mobile" },
+] as const
+
+export const LANDING_FAQ = { id: "faq", label: "FAQ" } as const
+
 export const LANDING_HASH_RESTORATION_SCRIPT = `(()=>{try{const hash=location.hash;if(!hash)return;const sectionId=decodeURIComponent(hash.slice(1));const section=document.getElementById(sectionId);const title=section?.querySelector("${LANDING_SECTION_TITLE_SELECTOR}");const header=document.querySelector("header");if(!(title&&header))return;let documentTop=0;let current=title;while(current){documentTop+=current.offsetTop;current=current.offsetParent}scrollTo({behavior:"instant",top:Math.max(0,documentTop-header.offsetHeight-${LANDING_SECTION_GAP_PX})})}catch{}})()`
 
 const getDocumentOffsetTop = (element: HTMLElement): number => {

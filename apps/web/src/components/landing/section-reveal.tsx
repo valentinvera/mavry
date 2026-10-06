@@ -18,6 +18,26 @@ const getRevealSections = (root: ParentNode): HTMLElement[] => {
 
 export const SectionReveal = () => {
   useEffect(() => {
+    const introRoot = document.querySelector("[data-landing-intro]")
+
+    if (!introRoot) {
+      return
+    }
+
+    let secondFrame = 0
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        introRoot.setAttribute("data-intro", "true")
+      })
+    })
+
+    return () => {
+      cancelAnimationFrame(firstFrame)
+      cancelAnimationFrame(secondFrame)
+    }
+  }, [])
+
+  useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches
@@ -188,6 +208,45 @@ export const SectionReveal = () => {
 
           [data-section-reveal][data-revealed="true"] [data-motion-path] {
             stroke-dashoffset: 0;
+          }
+
+          /* Page-load intro for the hero + navbar. The hero is in view on
+             first paint, so the scroll observer can't drive it; we flip
+             data-intro on the intro wrapper right after mount instead. Elements
+             start low, soft and blurred, then settle: the navbar drops from
+             above, the hero content rises, and the demo card lands with a
+             whisper of scale. */
+          [data-landing-intro] [data-intro-item] {
+            opacity: 0;
+            transform: translate3d(0, 1.5rem, 0);
+            filter: blur(8px);
+            transition:
+              opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1180ms cubic-bezier(0.22, 1, 0.36, 1),
+              filter 1180ms cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+          }
+
+          [data-landing-intro] [data-intro-item="nav"] {
+            transform: translate3d(0, -0.75rem, 0);
+          }
+
+          [data-landing-intro] [data-intro-item="demo"] {
+            transform: translate3d(0, 2rem, 0) scale(0.98);
+          }
+
+          [data-landing-intro] [data-intro-item="bg"] {
+            opacity: 1;
+            filter: none;
+            transform: scale(1.04);
+            transition: transform 2000ms cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform;
+          }
+
+          [data-landing-intro][data-intro="true"] [data-intro-item] {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+            filter: blur(0);
           }
 
           @media (max-width: 767px) {
