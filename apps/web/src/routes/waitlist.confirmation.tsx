@@ -30,17 +30,17 @@ const confirmationContent: Record<
     tone: string
   }
 > = {
-  confirmed: {
-    description:
-      "You’re on the Mavry waitlist. We’ll keep you posted as early access gets closer.",
-    heading: "Email confirmed.",
-    label: "Confirmation complete",
-    tone: "text-success-foreground",
-  },
   already_confirmed: {
     description:
       "Your email was already confirmed. There’s nothing else you need to do.",
     heading: "You’re already confirmed.",
+    label: "Confirmation complete",
+    tone: "text-success-foreground",
+  },
+  confirmed: {
+    description:
+      "You’re on the Mavry waitlist. We’ll keep you posted as early access gets closer.",
+    heading: "Email confirmed.",
     label: "Confirmation complete",
     tone: "text-success-foreground",
   },
@@ -86,42 +86,45 @@ const verifyConfirmationResult = async (
   }
 }
 
-export const Route = createFileRoute("/waitlist/confirmation")({
-  validateSearch: (search) => confirmationSearchSchema.parse(search),
-  loaderDeps: ({ search }) => ({ receipt: search.result }),
-  loader: async ({ context, deps }) => {
-    const status = await verifyConfirmationResult(deps.receipt)
+export const Route = createFileRoute("/waitlist/confirmation")(
+  // biome-ignore assist/source/useSortedKeys: loaderDeps must be declared before loader for TanStack Router to infer the loader deps type.
+  {
+    component: WaitlistConfirmationPage,
+    head: () => ({
+      meta: [
+        {
+          title: "Waitlist confirmation — Mavry",
+        },
+        {
+          content: "Your Mavry waitlist confirmation status.",
+          name: "description",
+        },
+        {
+          content: "noindex, nofollow",
+          name: "robots",
+        },
+      ],
+    }),
+    headers: () => ({
+      "Cache-Control": "no-store",
+      "Referrer-Policy": "no-referrer",
+      "X-Robots-Tag": "noindex, nofollow",
+    }),
+    loaderDeps: ({ search }) => ({ receipt: search.result }),
+    validateSearch: confirmationSearchSchema,
+    loader: async ({ context, deps }) => {
+      const status = await verifyConfirmationResult(deps.receipt)
 
-    if (status !== INVALID_CONFIRMATION_STATUS) {
-      await context.queryClient.prefetchQuery(
-        getWaitlistConfirmedCountQueryOptions(context.trpc)
-      )
-    }
+      if (status !== INVALID_CONFIRMATION_STATUS) {
+        await context.queryClient.prefetchQuery(
+          getWaitlistConfirmedCountQueryOptions(context.trpc)
+        )
+      }
 
-    return status
-  },
-  headers: () => ({
-    "Cache-Control": "no-store",
-    "Referrer-Policy": "no-referrer",
-    "X-Robots-Tag": "noindex, nofollow",
-  }),
-  head: () => ({
-    meta: [
-      {
-        title: "Waitlist confirmation — Mavry",
-      },
-      {
-        name: "description",
-        content: "Your Mavry waitlist confirmation status.",
-      },
-      {
-        name: "robots",
-        content: "noindex, nofollow",
-      },
-    ],
-  }),
-  component: WaitlistConfirmationPage,
-})
+      return status
+    },
+  }
+)
 
 function WaitlistConfirmationPage() {
   const status = Route.useLoaderData()
