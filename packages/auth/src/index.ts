@@ -90,6 +90,7 @@ const getAuthPlugins = (): BetterAuthPlugin[] => [
           enableCustomerPortal: true,
           use: [
             checkout({
+              authenticatedUsersOnly: true,
               products: [
                 {
                   productId: "your-product-id",
@@ -97,7 +98,6 @@ const getAuthPlugins = (): BetterAuthPlugin[] => [
                 },
               ],
               successUrl: env.POLAR_SUCCESS_URL,
-              authenticatedUsersOnly: true,
             }),
             portal(),
           ],
@@ -112,32 +112,9 @@ export function createAuth() {
     new URL(env.BETTER_AUTH_URL).protocol === "https:"
 
   return betterAuth({
-    appName: "Mavry",
-    database: drizzleAdapter(db, {
-      provider: "pg",
-
-      schema: authSchema,
-    }),
-    trustedOrigins: getAuthTrustedOrigins(),
-    emailAndPassword: {
-      enabled: true,
-    },
-    socialProviders: getSocialProviders(),
     account: {
       encryptOAuthTokens: true,
     },
-    verification: {
-      storeIdentifier: "hashed",
-    },
-    rateLimit: {
-      enabled: true,
-      customRules: {
-        "/ok": false,
-      },
-      storage: "memory",
-    },
-    secret: env.BETTER_AUTH_SECRET,
-    baseURL: env.BETTER_AUTH_URL,
     advanced: {
       defaultCookieAttributes: {
         httpOnly: true,
@@ -145,7 +122,30 @@ export function createAuth() {
         secure: secureCookiesAreRequired,
       },
     },
+    appName: "Mavry",
+    baseURL: env.BETTER_AUTH_URL,
+    database: drizzleAdapter(db, {
+      provider: "pg",
+
+      schema: authSchema,
+    }),
+    emailAndPassword: {
+      enabled: true,
+    },
     plugins: getAuthPlugins(),
+    rateLimit: {
+      customRules: {
+        "/ok": false,
+      },
+      enabled: true,
+      storage: "memory",
+    },
+    secret: env.BETTER_AUTH_SECRET,
+    socialProviders: getSocialProviders(),
+    trustedOrigins: getAuthTrustedOrigins(),
+    verification: {
+      storeIdentifier: "hashed",
+    },
   })
 }
 
