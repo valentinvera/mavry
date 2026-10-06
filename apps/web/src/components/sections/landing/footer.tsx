@@ -2,18 +2,26 @@ import { Separator } from "@mavry/ui/components/separator"
 import type { MouseEvent } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import {
+  LANDING_FAQ,
+  LANDING_SECTIONS,
   reloadLandingAtTop,
   scrollToLandingSection,
 } from "@/lib/landing-navigation"
 
-const links = [
-  ["Workspace", "#workspace"],
-  ["Method", "#method"],
-  ["Readiness", "#readiness"],
-  ["Review", "#review"],
+type FooterLink = readonly [label: string, href: string]
+
+const productLinks: readonly FooterLink[] = LANDING_SECTIONS.map(
+  (section) => [section.label, `#${section.id}`] as const
+)
+
+const connectLinks: readonly FooterLink[] = [
   ["GitHub", "https://github.com/valentinvera/mavry"],
   ["X (Twitter)", "https://x.com/mavry_app"],
-] as const
+]
+
+const companyLinks: readonly FooterLink[] = [
+  [LANDING_FAQ.label, `#${LANDING_FAQ.id}`],
+]
 
 const navigateToSection = (
   event: MouseEvent<HTMLAnchorElement>,
@@ -27,41 +35,61 @@ const navigateToSection = (
   scrollToLandingSection(href.slice(1), href)
 }
 
-export const Footer = () => (
-  <footer
-    className="relative pt-8 text-footer text-muted-foreground before:absolute before:top-0 before:left-1/2 before:h-px before:w-screen before:-translate-x-1/2 before:bg-border"
-    data-section-reveal=""
-  >
-    <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
-      <div className="flex flex-col items-start gap-3">
+const FooterColumn = ({
+  links,
+  title,
+}: {
+  links: readonly FooterLink[]
+  title: string
+}) => (
+  <div className="flex flex-col gap-3">
+    <p className="font-medium text-footer text-foreground">{title}</p>
+    <nav aria-label={`${title} links`} className="flex flex-col gap-2.5">
+      {links.map(([label, href]) => (
         <a
-          aria-label="Mavry home"
-          className="inline-flex rounded-md"
-          href="/"
-          onClick={reloadLandingAtTop}
+          className="w-fit transition-colors hover:text-foreground"
+          href={href}
+          key={href}
+          onClick={(event) => navigateToSection(event, href)}
+          rel={href.startsWith("https://") ? "noopener" : undefined}
+          target={href.startsWith("https://") ? "_blank" : undefined}
         >
-          <MavryWordmark size="sm" />
+          {label}
         </a>
-        <p className="max-w-sm">
-          A product clarity workspace for early MVP decisions.
-        </p>
-      </div>
-      <nav aria-label="Footer navigation" className="flex flex-wrap gap-4">
-        {links.map(([label, href]) => (
+      ))}
+    </nav>
+  </div>
+)
+
+export const Footer = () => (
+  <footer className="relative pt-8 text-footer text-muted-foreground">
+    <Separator className="absolute inset-x-0 top-0" />
+    <div
+      className="mx-auto w-full max-w-7xl px-5 pb-4 sm:px-8 lg:px-10"
+      data-section-reveal=""
+    >
+      <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-16">
+        <div className="flex flex-col items-start gap-3">
           <a
-            className="transition-colors hover:text-foreground"
-            href={href}
-            key={href}
-            onClick={(event) => navigateToSection(event, href)}
-            rel={href.startsWith("https://") ? "noopener" : undefined}
-            target={href.startsWith("https://") ? "_blank" : undefined}
+            aria-label="Mavry home"
+            className="inline-flex rounded-md"
+            href="/"
+            onClick={reloadLandingAtTop}
           >
-            {label}
+            <MavryWordmark size="sm" />
           </a>
-        ))}
-      </nav>
+          <p className="max-w-sm">
+            A product clarity workspace for early MVP decisions.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3">
+          <FooterColumn links={productLinks} title="Product" />
+          <FooterColumn links={connectLinks} title="Connect" />
+          <FooterColumn links={companyLinks} title="Company" />
+        </div>
+      </div>
+      <Separator className="mt-12 mb-4" />
+      <p>© {new Date().getFullYear()} Mavry.</p>
     </div>
-    <Separator className="mt-12 mb-4" />
-    <p>© {new Date().getFullYear()} Mavry. All rights reserved.</p>
   </footer>
 )

@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@mavry/ui/components/accordion"
+import { Separator } from "@mavry/ui/components/separator"
 
 const questions = [
   {
@@ -40,18 +41,21 @@ const questions = [
 
 export const Faq = () => (
   <section
-    className="relative py-16 before:absolute before:top-0 before:left-1/2 before:h-px before:w-screen before:-translate-x-1/2 before:bg-border sm:scroll-mt-8 sm:py-32"
-    data-section-reveal=""
+    className="relative mt-16 py-16 sm:mt-32 sm:scroll-mt-8 sm:py-32"
     id="faq"
   >
-    <div className="grid gap-12 sm:gap-16">
+    <Separator className="absolute inset-x-0 top-0" />
+    <div
+      className="mx-auto grid w-full max-w-7xl gap-12 px-5 sm:gap-16 sm:px-8 lg:px-10"
+      data-section-reveal=""
+    >
       <div className="max-w-xl">
         <h2
           className="font-medium text-subtitle tracking-normal md:text-section-lg xl:text-title"
           data-landing-section-title=""
         >
           Clear answers
-          <span className="block text-muted-foreground">before you join.</span>
+          <span className="block text-[#6e797b]">before you join.</span>
         </h2>
         <p
           className="mt-6 max-w-lg text-body text-muted-foreground md:text-paragraph-md xl:text-paragraph-xl"
