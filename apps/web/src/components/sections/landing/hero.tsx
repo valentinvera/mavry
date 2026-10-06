@@ -358,6 +358,7 @@ export const WaitlistForm = ({
               placeholder="builder@example.com"
               required
               spellCheck={false}
+              suppressHydrationWarning
               type="email"
               value={email}
             />
