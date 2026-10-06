@@ -18,16 +18,16 @@ async function bootstrap(): Promise<void> {
   app.setGlobalPrefix("api")
 
   app.enableCors({
-    origin: corsOrigins,
-    methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
       "Authorization",
       "expo-origin",
       "x-skip-oauth-proxy",
     ],
-    exposedHeaders: ["X-Retry-After"],
     credentials: true,
+    exposedHeaders: ["X-Retry-After"],
+    methods: ["GET", "POST", "OPTIONS"],
+    origin: corsOrigins,
   })
 
   registerAuthRoute(app)
