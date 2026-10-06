@@ -15,6 +15,17 @@ import { WaitlistRateLimitService } from "./services/waitlist-rate-limit.service
 import { WaitlistStore } from "./services/waitlist-store.service"
 
 @Module({
+  exports: [
+    AppContext,
+    ProtectedMiddleware,
+    TrpcRouter,
+    WaitlistConfirmationReceiptService,
+    WaitlistEmailService,
+    WaitlistRouter,
+    WaitlistRateLimitService,
+    WaitlistService,
+    WaitlistStore,
+  ],
   imports: [
     TRPCModule.forRoot({
       basePath: "/api/trpc",
@@ -34,17 +45,6 @@ import { WaitlistStore } from "./services/waitlist-store.service"
       useFactory: () =>
         createWaitlistConfirmationReceiptService(env.BETTER_AUTH_SECRET),
     },
-    WaitlistRouter,
-    WaitlistRateLimitService,
-    WaitlistService,
-    WaitlistStore,
-  ],
-  exports: [
-    AppContext,
-    ProtectedMiddleware,
-    TrpcRouter,
-    WaitlistConfirmationReceiptService,
-    WaitlistEmailService,
     WaitlistRouter,
     WaitlistRateLimitService,
     WaitlistService,

@@ -74,13 +74,13 @@ export class WaitlistService {
         tokenHash,
       })
 
-      return { success: true, status: "joined" }
+      return { status: "joined", success: true }
     }
 
     const existingEntry = await this.store.findByEmail(input.email)
 
     if (!existingEntry || existingEntry.confirmedAt) {
-      return { success: true, status: "already_joined" }
+      return { status: "already_joined", success: true }
     }
 
     const resendThreshold = createConfirmationResendThreshold(now)
@@ -89,7 +89,7 @@ export class WaitlistService {
       existingEntry.confirmationSentAt > resendThreshold
 
     if (wasConfirmationSentRecently) {
-      return { success: true, status: "already_joined" }
+      return { status: "already_joined", success: true }
     }
 
     const refreshedEntry = await this.store.refreshPending({
@@ -106,10 +106,10 @@ export class WaitlistService {
         tokenHash,
       })
 
-      return { success: true, status: "joined" }
+      return { status: "joined", success: true }
     }
 
-    return { success: true, status: "already_joined" }
+    return { status: "already_joined", success: true }
   }
 
   async confirm(token: string): Promise<ConfirmWaitlistOutput> {
@@ -117,18 +117,18 @@ export class WaitlistService {
     const entry = await this.store.findByTokenHash(tokenHash)
 
     if (!entry) {
-      return { success: false, status: "invalid_or_expired" }
+      return { status: "invalid_or_expired", success: false }
     }
 
     if (entry.confirmedAt) {
-      return { success: true, status: "already_confirmed" }
+      return { status: "already_confirmed", success: true }
     }
 
     if (
       !entry.confirmationExpiresAt ||
       entry.confirmationExpiresAt <= new Date()
     ) {
-      return { success: false, status: "invalid_or_expired" }
+      return { status: "invalid_or_expired", success: false }
     }
 
     const didConfirm = await this.store.confirm({
@@ -138,16 +138,16 @@ export class WaitlistService {
     })
 
     if (didConfirm) {
-      return { success: true, status: "confirmed" }
+      return { status: "confirmed", success: true }
     }
 
     const concurrentlyConfirmedEntry = await this.store.findById(entry.id)
 
     if (concurrentlyConfirmedEntry?.confirmedAt) {
-      return { success: true, status: "already_confirmed" }
+      return { status: "already_confirmed", success: true }
     }
 
-    return { success: false, status: "invalid_or_expired" }
+    return { status: "invalid_or_expired", success: false }
   }
 
   private async sendConfirmation({

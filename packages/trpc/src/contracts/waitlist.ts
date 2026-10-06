@@ -20,8 +20,8 @@ export const joinWaitlistInputSchema = z.object({
 })
 
 export const joinWaitlistOutputSchema = z.object({
-  success: z.literal(true),
   status: z.enum(["joined", "already_joined"]),
+  success: z.literal(true),
 })
 
 export const waitlistConfirmedCountOutputSchema = z.object({
@@ -33,8 +33,8 @@ export const confirmWaitlistInputSchema = z.object({
 })
 
 export const confirmWaitlistOutputSchema = z.object({
-  success: z.boolean(),
   status: waitlistConfirmationStatusSchema,
+  success: z.boolean(),
 })
 
 export const verifyWaitlistConfirmationResultInputSchema = z.object({

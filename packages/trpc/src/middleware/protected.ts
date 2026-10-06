@@ -14,9 +14,9 @@ export class ProtectedMiddleware implements TRPCMiddleware {
 
     if (!context.session) {
       throw new TRPCError({
+        cause: "No session",
         code: "UNAUTHORIZED",
         message: "Authentication required",
-        cause: "No session",
       })
     }
 

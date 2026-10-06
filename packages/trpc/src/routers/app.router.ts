@@ -21,9 +21,9 @@ export class TrpcRouter {
   privateData(@Ctx() ctx: Context): z.infer<typeof privateDataSchema> {
     if (!ctx.session) {
       throw new TRPCError({
+        cause: "No session",
         code: "UNAUTHORIZED",
         message: "Authentication required",
-        cause: "No session",
       })
     }
 
