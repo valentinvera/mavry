@@ -1,7 +1,7 @@
-import { Polar } from "@polar-sh/sdk"
+import { createPolarCore, type PolarCore } from "@polar-sh/sdk/2026-10"
 
-export const createPolarClient = (accessToken: string) =>
-  new Polar({
+export const createPolarClient = (accessToken: string): PolarCore =>
+  createPolarCore({
     accessToken,
-    server: "sandbox",
+    environment: "sandbox",
   })
