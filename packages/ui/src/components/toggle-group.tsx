@@ -13,10 +13,10 @@ const ToggleGroupContext = createContext<
     orientation?: "horizontal" | "vertical"
   }
 >({
-  size: "default",
-  variant: "default",
-  spacing: 2,
   orientation: "horizontal",
+  size: "default",
+  spacing: 2,
+  variant: "default",
 })
 
 function ToggleGroup({
@@ -47,7 +47,7 @@ function ToggleGroup({
       {...props}
     >
       <ToggleGroupContext.Provider
-        value={{ variant, size, spacing, orientation }}
+        value={{ orientation, size, spacing, variant }}
       >
         {children}
       </ToggleGroupContext.Provider>
@@ -69,8 +69,8 @@ function ToggleGroupItem({
       className={cn(
         "shrink-0 focus:z-10 focus-visible:z-10 group-data-[spacing=0]/toggle-group:rounded-none group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0 group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:border-l-0 group-data-[spacing=0]/toggle-group:px-2 group-data-[spacing=0]/toggle-group:has-data-[icon=inline-end]:pr-1.5 group-data-[spacing=0]/toggle-group:has-data-[icon=inline-start]:pl-1.5 group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-none group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-none group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-none group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-none",
         toggleVariants({
-          variant: context.variant || variant,
           size: context.size || size,
+          variant: context.variant || variant,
         }),
         className
       )}
