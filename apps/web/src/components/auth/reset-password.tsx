@@ -4,7 +4,7 @@ import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { Link } from "@tanstack/react-router"
 import { CheckCircle2Icon } from "lucide-react"
-import { type FormEvent, useState } from "react"
+import { type FormEvent, useCallback, useState } from "react"
 import {
   AuthErrorSummary,
   AuthFieldError,
@@ -27,6 +27,10 @@ export const ResetPassword = ({
   const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleInputChange = useCallback((): void => {
+    setAuthError(null)
+  }, [])
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
@@ -149,7 +153,7 @@ export const ResetPassword = ({
                     id="new-password"
                     minLength={8}
                     name="newPassword"
-                    onChange={() => setAuthError(null)}
+                    onChange={handleInputChange}
                     placeholder="New password…"
                     required
                   />
@@ -173,7 +177,7 @@ export const ResetPassword = ({
                     id="confirm-password"
                     minLength={8}
                     name="confirmPassword"
-                    onChange={() => setAuthError(null)}
+                    onChange={handleInputChange}
                     placeholder="Confirm new password…"
                     required
                   />

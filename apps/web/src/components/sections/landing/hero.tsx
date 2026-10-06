@@ -18,7 +18,14 @@ import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { Maximize2Icon } from "lucide-react"
-import { type FormEvent, useEffect, useRef, useState } from "react"
+import {
+  type ChangeEvent,
+  type FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { Workspace } from "@/components/landing/demo/product-decision-workspace"
 import { OPEN_EVENT } from "@/lib/hero-demo"
 import {
@@ -263,6 +270,9 @@ export const WaitlistForm = ({
   const isPending = status === "submitting"
   const isSuccess = status === "success"
   const isInputDisabled = isPending || isSuccess
+  const errorMessage = isValidationError
+    ? VALIDATION_ERROR_MESSAGE
+    : SUBMISSION_ERROR_MESSAGE
 
   useEffect(
     () => () => {
@@ -304,13 +314,16 @@ export const WaitlistForm = ({
     }
   }
 
-  const handleEmailChange = (value: string) => {
-    setEmail(value)
+  const handleEmailChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setEmail(event.target.value)
 
-    if (isError || isValidationError) {
-      setStatus("idle")
-    }
-  }
+      if (isError || isValidationError) {
+        setStatus("idle")
+      }
+    },
+    [isError, isValidationError]
+  )
 
   return (
     <form
@@ -341,7 +354,7 @@ export const WaitlistForm = ({
               id={WAITLIST_EMAIL_INPUT_ID}
               inputMode="email"
               name="email"
-              onChange={(event) => handleEmailChange(event.target.value)}
+              onChange={handleEmailChange}
               placeholder="builder@example.com"
               required
               spellCheck={false}
@@ -370,11 +383,7 @@ export const WaitlistForm = ({
               <span className="sr-only">{CONFIRMATION_PENDING_MESSAGE}</span>
             ) : null}
             {isError || isValidationError ? (
-              <FieldError className="text-center">
-                {isValidationError
-                  ? VALIDATION_ERROR_MESSAGE
-                  : SUBMISSION_ERROR_MESSAGE}
-              </FieldError>
+              <FieldError className="text-center">{errorMessage}</FieldError>
             ) : (
               <FieldDescription className="text-center">
                 {getFounderCountDescription(confirmedCount)}

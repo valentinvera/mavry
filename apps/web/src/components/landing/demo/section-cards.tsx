@@ -12,10 +12,10 @@ import { ArrowUpRightIcon } from "lucide-react"
 import { cards } from "@/components/landing/demo/data"
 
 const badgeClassNames = {
-  readiness: "bg-success text-success-foreground",
+  blocker: "bg-warning text-warning-foreground",
   "build-now": "bg-info text-info-foreground",
   cut: "bg-destructive text-destructive-foreground",
-  blocker: "bg-warning text-warning-foreground",
+  readiness: "bg-success text-success-foreground",
 } satisfies Record<(typeof cards)[number]["id"], string>
 
 export const SectionCards = () => (

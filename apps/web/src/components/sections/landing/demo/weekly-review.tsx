@@ -6,30 +6,30 @@ import type { Content } from "@/components/landing/demo/page-data"
 
 const weeklyReviewChanges = [
   {
-    id: "feedback-hub",
-    title: "Feedback hub requested again",
     from: "Scope pressure",
-    to: "Later",
+    id: "feedback-hub",
     reason:
       "Useful after beta, but the first release only needs one feedback route.",
     status: "Moved",
+    title: "Feedback hub requested again",
+    to: "Later",
   },
   {
-    id: "decision-log",
-    title: "Decision log moved out of Core",
     from: "Core",
-    to: "Support",
+    id: "decision-log",
     reason:
       "Helpful for clarity, but not required as the main proof of the product.",
     status: "Reduced",
+    title: "Decision log moved out of Core",
+    to: "Support",
   },
   {
-    id: "github-sync",
-    title: "GitHub sync stayed cut",
     from: "Reopened",
-    to: "No for now",
+    id: "github-sync",
     reason: "Integration work should wait until manual export becomes painful.",
     status: "Cut",
+    title: "GitHub sync stayed cut",
+    to: "No for now",
   },
 ] as const
 

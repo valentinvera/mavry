@@ -1,5 +1,5 @@
 import { Separator } from "@mavry/ui/components/separator"
-import type { MouseEvent } from "react"
+import { type MouseEvent, useCallback } from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import {
   LANDING_FAQ,
@@ -35,6 +35,32 @@ const navigateToSection = (
   scrollToLandingSection(href.slice(1), href)
 }
 
+interface FooterAnchorProps {
+  href: string
+  label: string
+}
+
+const FooterAnchor = ({ href, label }: FooterAnchorProps) => {
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      navigateToSection(event, href)
+    },
+    [href]
+  )
+
+  return (
+    <a
+      className="w-fit transition-colors hover:text-foreground"
+      href={href}
+      onClick={handleClick}
+      rel={href.startsWith("https://") ? "noopener" : undefined}
+      target={href.startsWith("https://") ? "_blank" : undefined}
+    >
+      {label}
+    </a>
+  )
+}
+
 const FooterColumn = ({
   links,
   title,
@@ -46,16 +72,7 @@ const FooterColumn = ({
     <p className="font-medium text-footer text-foreground">{title}</p>
     <nav aria-label={`${title} links`} className="flex flex-col gap-2.5">
       {links.map(([label, href]) => (
-        <a
-          className="w-fit transition-colors hover:text-foreground"
-          href={href}
-          key={href}
-          onClick={(event) => navigateToSection(event, href)}
-          rel={href.startsWith("https://") ? "noopener" : undefined}
-          target={href.startsWith("https://") ? "_blank" : undefined}
-        >
-          {label}
-        </a>
+        <FooterAnchor href={href} key={href} label={label} />
       ))}
     </nav>
   </div>

@@ -5,7 +5,7 @@ import { Spinner } from "@mavry/ui/components/spinner"
 import { GithubIcon } from "@mavry/ui/icons/github"
 import { GoogleIcon } from "@mavry/ui/icons/google"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { type FormEvent, useState } from "react"
+import { type FormEvent, useCallback, useState } from "react"
 import {
   AuthErrorSummary,
   AuthFieldError,
@@ -84,36 +84,49 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
     }
   }
 
-  const handleSocialSignUp = async (
-    provider: SocialProvider
-  ): Promise<void> => {
-    setAuthError(null)
-    setPendingSocialProvider(provider)
+  const handleSocialSignUp = useCallback(
+    async (provider: SocialProvider): Promise<void> => {
+      setAuthError(null)
+      setPendingSocialProvider(provider)
 
-    try {
-      const { error } = await authClient.signIn.social({
-        callbackURL: window.location.origin,
-        errorCallbackURL: getSocialErrorCallbackUrl(),
-        provider,
-      })
+      try {
+        const { error } = await authClient.signIn.social({
+          callbackURL: window.location.origin,
+          errorCallbackURL: getSocialErrorCallbackUrl(),
+          provider,
+        })
 
-      if (error) {
-        setAuthError(
-          getAuthError(
-            error,
-            `Mavry couldn’t continue with ${provider === "google" ? "Google" : "GitHub"}. Try again.`
+        if (error) {
+          setAuthError(
+            getAuthError(
+              error,
+              `Mavry couldn’t continue with ${provider === "google" ? "Google" : "GitHub"}. Try again.`
+            )
           )
-        )
+        }
+      } catch {
+        setAuthError({
+          message: "Mavry couldn’t reach the server. Try again.",
+          target: "form",
+        })
+      } finally {
+        setPendingSocialProvider(null)
       }
-    } catch {
-      setAuthError({
-        message: "Mavry couldn’t reach the server. Try again.",
-        target: "form",
-      })
-    } finally {
-      setPendingSocialProvider(null)
-    }
-  }
+    },
+    []
+  )
+
+  const handleGoogleSignUp = useCallback(async (): Promise<void> => {
+    await handleSocialSignUp("google")
+  }, [handleSocialSignUp])
+
+  const handleGithubSignUp = useCallback(async (): Promise<void> => {
+    await handleSocialSignUp("github")
+  }, [handleSocialSignUp])
+
+  const handleInputChange = useCallback((): void => {
+    setAuthError(null)
+  }, [])
 
   const handleEmailBack = (): void => {
     setAuthError(null)
@@ -168,7 +181,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
                 id="name"
                 maxLength={100}
                 name="name"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="Your name…"
                 required
               />
@@ -188,7 +201,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
                 inputMode="email"
                 invalidAppearance="message-only"
                 name="email"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="you@example.com…"
                 required
                 spellCheck={false}
@@ -209,7 +222,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
                 id="password"
                 minLength={8}
                 name="password"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="At least 8 characters…"
                 required
               />
@@ -252,7 +265,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
           <Button
             className="h-12 w-full cursor-pointer rounded-full text-small shadow-sm"
             disabled={isFormBusy}
-            onClick={() => handleSocialSignUp("google")}
+            onClick={handleGoogleSignUp}
             type="button"
           >
             {pendingSocialProvider === "google" ? (
@@ -275,7 +288,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
           <Button
             className="h-12 w-full cursor-pointer rounded-full text-small"
             disabled={isFormBusy}
-            onClick={() => handleSocialSignUp("github")}
+            onClick={handleGithubSignUp}
             type="button"
           >
             {pendingSocialProvider === "github" ? (

@@ -5,7 +5,13 @@ import {
   CollapsibleTrigger,
 } from "@mavry/ui/components/collapsible"
 import { cn } from "@mavry/ui/lib/utils"
-import { type MouseEvent, useEffect, useRef, useState } from "react"
+import {
+  type MouseEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { MavryWordmark } from "@/components/brand/mavry-wordmark"
 import {
   LANDING_FAQ,
@@ -37,6 +43,59 @@ const navigateToSection = (
 ) => {
   event.preventDefault()
   scrollToLandingSection(sectionId, href)
+}
+
+type NavItem = (typeof navItems)[number]
+
+interface DesktopNavLinkProps {
+  item: NavItem
+}
+
+const DesktopNavLink = ({ item }: DesktopNavLinkProps) => {
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      navigateToSection(event, item.id, item.href)
+    },
+    [item.href, item.id]
+  )
+
+  return (
+    <a
+      className="whitespace-nowrap rounded-md px-1.5 py-2 transition-colors hover:text-foreground"
+      href={item.href}
+      onClick={handleClick}
+    >
+      {item.label}
+    </a>
+  )
+}
+
+interface MobileNavLinkProps {
+  item: NavItem
+  onClose: () => void
+}
+
+const MobileNavLink = ({ item, onClose }: MobileNavLinkProps) => {
+  const handleClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      onClose()
+      window.setTimeout(() => {
+        scrollToLandingSection(item.id, item.href)
+      }, MOBILE_MENU_CLOSE_DELAY_MS)
+    },
+    [item.href, item.id, onClose]
+  )
+
+  return (
+    <a
+      className="flex min-h-12 items-center rounded-lg px-2 text-body text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+      href={item.href}
+      onClick={handleClick}
+    >
+      {item.label}
+    </a>
+  )
 }
 
 export const Navbar = () => {
@@ -84,6 +143,15 @@ export const Navbar = () => {
     }
   }, [isOpen])
 
+  const closeMenu = useCallback(() => {
+    setIsOpen(false)
+  }, [])
+
+  const handleJoinWaitlist = useCallback(() => {
+    setIsOpen(false)
+    requestEmailFocus()
+  }, [])
+
   return (
     <Collapsible
       className="pointer-events-auto mx-auto w-full max-w-5xl rounded-2xl border bg-background p-2 pl-3 sm:pl-4"
@@ -110,23 +178,13 @@ export const Navbar = () => {
           className="hidden min-w-0 items-center gap-0.5 text-muted-foreground text-nav lg:flex"
         >
           {navItems.map((item) => (
-            <a
-              className="whitespace-nowrap rounded-md px-1.5 py-2 transition-colors hover:text-foreground"
-              href={item.href}
-              key={item.id}
-              onClick={(event) => navigateToSection(event, item.id, item.href)}
-            >
-              {item.label}
-            </a>
+            <DesktopNavLink item={item} key={item.id} />
           ))}
         </nav>
         <div className="flex shrink-0 items-center gap-1">
           <Button
             className="h-10 cursor-pointer rounded-lg px-4 text-action!"
-            onClick={() => {
-              setIsOpen(false)
-              requestEmailFocus()
-            }}
+            onClick={handleJoinWaitlist}
             type="button"
           >
             Join waitlist
@@ -168,20 +226,7 @@ export const Navbar = () => {
           </p>
           <div className="flex flex-col">
             {navItems.map((item) => (
-              <a
-                className="flex min-h-12 items-center rounded-lg px-2 text-body text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                href={item.href}
-                key={item.id}
-                onClick={(event) => {
-                  event.preventDefault()
-                  setIsOpen(false)
-                  window.setTimeout(() => {
-                    scrollToLandingSection(item.id, item.href)
-                  }, MOBILE_MENU_CLOSE_DELAY_MS)
-                }}
-              >
-                {item.label}
-              </a>
+              <MobileNavLink item={item} key={item.id} onClose={closeMenu} />
             ))}
           </div>
         </nav>

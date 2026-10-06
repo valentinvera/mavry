@@ -9,7 +9,7 @@ import {
   PaperclipIcon,
   XIcon,
 } from "lucide-react"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
 import type { PageId } from "@/components/landing/demo/data"
 import { contentByPage } from "@/components/landing/demo/page-data"
@@ -21,6 +21,14 @@ interface Props {
 export const ReviewPanel = ({ activePageId }: Props) => {
   const [isMinimized, setIsMinimized] = useState(false)
   const pageContent = contentByPage[activePageId]
+
+  const handleToggleMinimized = useCallback(() => {
+    setIsMinimized((current) => !current)
+  }, [])
+
+  const handleExpand = useCallback(() => {
+    setIsMinimized(false)
+  }, [])
 
   if (activePageId === "mobile-capture") {
     return null
@@ -54,7 +62,7 @@ export const ReviewPanel = ({ activePageId }: Props) => {
           <Button
             aria-label={isMinimized ? "Open review" : "Minimize review"}
             className="rounded-md text-muted-foreground"
-            onClick={() => setIsMinimized((current) => !current)}
+            onClick={handleToggleMinimized}
             size="icon-xs"
             type="button"
             variant="ghost"
@@ -65,7 +73,7 @@ export const ReviewPanel = ({ activePageId }: Props) => {
             <Button
               aria-label="Expand review"
               className="rounded-md text-muted-foreground"
-              onClick={() => setIsMinimized(false)}
+              onClick={handleExpand}
               size="icon-xs"
               type="button"
               variant="ghost"

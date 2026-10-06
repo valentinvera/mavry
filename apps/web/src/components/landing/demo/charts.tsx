@@ -15,6 +15,7 @@ import {
 } from "@mavry/ui/components/chart"
 import { cn } from "@mavry/ui/lib/utils"
 import { ArrowRightIcon } from "lucide-react"
+import { useCallback } from "react"
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts"
 import {
   type RoadmapLaneId,
@@ -24,8 +25,8 @@ import {
 
 const chartConfig = {
   score: {
-    label: "Readiness",
     color: "var(--success-foreground)",
+    label: "Readiness",
   },
 } satisfies ChartConfig
 
@@ -41,6 +42,49 @@ interface Props {
   interactive: boolean
   onSelectedLaneChange: (laneId: RoadmapLaneId) => void
   selectedLaneId: RoadmapLaneId
+}
+
+type RoadmapLane = (typeof roadmapLanes)[number]
+
+interface LaneButtonProps {
+  interactive: boolean
+  isSelected: boolean
+  lane: RoadmapLane
+  onSelectedLaneChange: (laneId: RoadmapLaneId) => void
+}
+
+const LaneButton = ({
+  interactive,
+  isSelected,
+  lane,
+  onSelectedLaneChange,
+}: LaneButtonProps) => {
+  const handleSelect = useCallback(() => {
+    onSelectedLaneChange(lane.id)
+  }, [lane.id, onSelectedLaneChange])
+
+  return (
+    <button
+      aria-pressed={isSelected}
+      className={cn(
+        "rounded-md border border-border/70 bg-background/60 p-3 text-left transition-colors hover:bg-muted/40 active:translate-y-px disabled:pointer-events-none",
+        isSelected && "border-foreground/70 bg-muted/60"
+      )}
+      disabled={!interactive}
+      onClick={handleSelect}
+      type="button"
+    >
+      <div className="flex items-center justify-between gap-3">
+        <p className="font-medium text-demo-metadata!">{lane.label}</p>
+        {isSelected ? (
+          <Badge className="rounded-md text-demo-metadata!" variant="outline">
+            Selected
+          </Badge>
+        ) : null}
+      </div>
+      <p className="mt-2 text-demo-metadata!">{lane.summary}</p>
+    </button>
+  )
 }
 
 export const Charts = ({
@@ -72,7 +116,7 @@ export const Charts = ({
           <ChartContainer
             className="h-40 w-full"
             config={chartConfig}
-            initialDimension={{ width: 560, height: 190 }}
+            initialDimension={{ height: 190, width: 560 }}
           >
             <BarChart
               accessibilityLayer
@@ -122,38 +166,15 @@ export const Charts = ({
         </button>
 
         <div className="flex flex-col gap-2">
-          {roadmapLanes.map((lane) => {
-            const isSelected = lane.id === selectedLaneId
-
-            return (
-              <button
-                aria-pressed={isSelected}
-                className={cn(
-                  "rounded-md border border-border/70 bg-background/60 p-3 text-left transition-colors hover:bg-muted/40 active:translate-y-px disabled:pointer-events-none",
-                  isSelected && "border-foreground/70 bg-muted/60"
-                )}
-                disabled={!interactive}
-                key={lane.id}
-                onClick={() => onSelectedLaneChange(lane.id)}
-                type="button"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium text-demo-metadata!">
-                    {lane.label}
-                  </p>
-                  {isSelected && (
-                    <Badge
-                      className="rounded-md text-demo-metadata!"
-                      variant="outline"
-                    >
-                      Selected
-                    </Badge>
-                  )}
-                </div>
-                <p className="mt-2 text-demo-metadata!">{lane.summary}</p>
-              </button>
-            )
-          })}
+          {roadmapLanes.map((lane) => (
+            <LaneButton
+              interactive={interactive}
+              isSelected={lane.id === selectedLaneId}
+              key={lane.id}
+              lane={lane}
+              onSelectedLaneChange={onSelectedLaneChange}
+            />
+          ))}
           <div className="rounded-md border bg-muted/30 p-3">
             <p className="font-medium text-demo-metadata!">
               {selectedLane.label}

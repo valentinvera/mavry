@@ -1,7 +1,7 @@
 import { Button } from "@mavry/ui/components/button"
 import { cn } from "@mavry/ui/lib/utils"
 import { ChevronDownIcon, SearchIcon, SquarePenIcon } from "lucide-react"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
 import {
   documents,
@@ -12,19 +12,19 @@ import {
 
 const projects = [
   {
+    description: "MVP scope review",
     id: "atlas-beta",
     name: "Mavry",
-    description: "MVP scope review",
   },
   {
+    description: "Feedback route review",
     id: "signal-kit",
     name: "Signal kit",
-    description: "Feedback route review",
   },
   {
+    description: "Launch readiness review",
     id: "launch-room",
     name: "Launch room",
-    description: "Launch readiness review",
   },
 ] as const
 
@@ -37,6 +37,111 @@ interface Props {
   onPageChange: (pageId: PageId) => void
 }
 
+type MainNavItem = (typeof navMain)[number]
+type DocumentItem = (typeof documents)[number]
+type SecondaryNavItem = (typeof secondaryNav)[number]
+
+interface MainNavItemButtonProps {
+  isActive: boolean
+  item: MainNavItem
+  onPageChange: (pageId: PageId) => void
+}
+
+const MainNavItemButton = ({
+  isActive,
+  item,
+  onPageChange,
+}: MainNavItemButtonProps) => {
+  const Icon = item.icon
+  const handleSelect = useCallback(() => {
+    onPageChange(item.id)
+  }, [item.id, onPageChange])
+
+  return (
+    <button
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
+        isActive && activeItemClass
+      )}
+      onClick={handleSelect}
+      type="button"
+    >
+      <Icon aria-hidden="true" className="size-3.5" />
+      {item.title}
+    </button>
+  )
+}
+
+interface DocumentNavItemButtonProps {
+  isActive: boolean
+  item: DocumentItem
+  onPageChange: (pageId: PageId) => void
+}
+
+const DocumentNavItemButton = ({
+  isActive,
+  item,
+  onPageChange,
+}: DocumentNavItemButtonProps) => {
+  const Icon = item.icon
+  const handleSelect = useCallback(() => {
+    onPageChange(item.id)
+  }, [item.id, onPageChange])
+
+  return (
+    <button
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "grid grid-cols-[1rem_minmax(0,1fr)] gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
+        isActive && activeItemClass
+      )}
+      onClick={handleSelect}
+      type="button"
+    >
+      <Icon aria-hidden="true" className="mt-0.5 size-3.5" />
+      <span className="min-w-0">
+        <span className="block truncate text-foreground">{item.title}</span>
+        <span className="block truncate">{item.value}</span>
+      </span>
+    </button>
+  )
+}
+
+interface SecondaryNavItemButtonProps {
+  isActive: boolean
+  item: SecondaryNavItem
+  onPageChange: (pageId: PageId) => void
+}
+
+const SecondaryNavItemButton = ({
+  isActive,
+  item,
+  onPageChange,
+}: SecondaryNavItemButtonProps) => {
+  const Icon = item.icon
+  const handleSelect = useCallback(() => {
+    onPageChange(item.id)
+  }, [item.id, onPageChange])
+
+  return (
+    <Button
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "justify-start rounded-md text-demo-control!",
+        isActive && activeItemClass
+      )}
+      onClick={handleSelect}
+      size="sm"
+      type="button"
+      variant="ghost"
+    >
+      <Icon data-icon="inline-start" />
+      {item.title}
+    </Button>
+  )
+}
+
 export const Sidebar = ({
   activePageId,
   desktopOpen,
@@ -44,6 +149,14 @@ export const Sidebar = ({
   onPageChange,
 }: Props) => {
   const [isProjectMenuOpen, setIsProjectMenuOpen] = useState(false)
+
+  const handleToggleProjectMenu = useCallback(() => {
+    setIsProjectMenuOpen((isOpen) => !isOpen)
+  }, [])
+
+  const handleSearchOpen = useCallback(() => {
+    onPageChange("search")
+  }, [onPageChange])
 
   return (
     <aside
@@ -59,7 +172,7 @@ export const Sidebar = ({
         <button
           aria-expanded={isProjectMenuOpen}
           className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-1 py-1 text-left transition-colors hover:bg-muted/50 active:translate-y-px"
-          onClick={() => setIsProjectMenuOpen((isOpen) => !isOpen)}
+          onClick={handleToggleProjectMenu}
           type="button"
         >
           <MavrySymbol className="size-5" />
@@ -77,7 +190,7 @@ export const Sidebar = ({
         <Button
           aria-label="Search projects and decisions"
           className="ml-1 rounded-md text-muted-foreground hover:text-foreground"
-          onClick={() => onPageChange("search")}
+          onClick={handleSearchOpen}
           size="icon-sm"
           type="button"
           variant="ghost"
@@ -134,26 +247,14 @@ export const Sidebar = ({
           aria-label="Mavry decision workspace areas"
           className="flex flex-col gap-1"
         >
-          {navMain.map((item) => {
-            const Icon = item.icon
-            const isActive = activePageId === item.id
-
-            return (
-              <button
-                aria-current={isActive ? "page" : undefined}
-                className={cn(
-                  "flex items-center gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
-                  isActive && activeItemClass
-                )}
-                key={item.id}
-                onClick={() => onPageChange(item.id)}
-                type="button"
-              >
-                <Icon aria-hidden="true" className="size-3.5" />
-                {item.title}
-              </button>
-            )
-          })}
+          {navMain.map((item) => (
+            <MainNavItemButton
+              isActive={activePageId === item.id}
+              item={item}
+              key={item.id}
+              onPageChange={onPageChange}
+            />
+          ))}
         </nav>
 
         <div className="flex flex-col gap-2">
@@ -164,59 +265,28 @@ export const Sidebar = ({
             aria-label="Mavry decision workspace documents"
             className="flex flex-col gap-1"
           >
-            {documents.map((item) => {
-              const Icon = item.icon
-              const isActive = activePageId === item.id
-
-              return (
-                <button
-                  aria-current={isActive ? "page" : undefined}
-                  className={cn(
-                    "grid grid-cols-[1rem_minmax(0,1fr)] gap-2 rounded-md px-2 py-1.5 text-left text-demo-control! text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground active:translate-y-px",
-                    isActive && activeItemClass
-                  )}
-                  key={item.id}
-                  onClick={() => onPageChange(item.id)}
-                  type="button"
-                >
-                  <Icon aria-hidden="true" className="mt-0.5 size-3.5" />
-                  <span className="min-w-0">
-                    <span className="block truncate text-foreground">
-                      {item.title}
-                    </span>
-                    <span className="block truncate">{item.value}</span>
-                  </span>
-                </button>
-              )
-            })}
+            {documents.map((item) => (
+              <DocumentNavItemButton
+                isActive={activePageId === item.id}
+                item={item}
+                key={item.id}
+                onPageChange={onPageChange}
+              />
+            ))}
           </nav>
         </div>
       </div>
 
       <div className="border-border/80 border-t p-2">
         <div className="flex flex-col gap-1">
-          {secondaryNav.map((item) => {
-            const Icon = item.icon
-            const isActive = activePageId === item.id
-
-            return (
-              <Button
-                aria-current={isActive ? "page" : undefined}
-                className={cn(
-                  "justify-start rounded-md text-demo-control!",
-                  isActive && activeItemClass
-                )}
-                key={item.id}
-                onClick={() => onPageChange(item.id)}
-                size="sm"
-                type="button"
-                variant="ghost"
-              >
-                <Icon data-icon="inline-start" />
-                {item.title}
-              </Button>
-            )
-          })}
+          {secondaryNav.map((item) => (
+            <SecondaryNavItemButton
+              isActive={activePageId === item.id}
+              item={item}
+              key={item.id}
+              onPageChange={onPageChange}
+            />
+          ))}
         </div>
       </div>
     </aside>

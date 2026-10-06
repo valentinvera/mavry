@@ -6,7 +6,15 @@ import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
 import { Input } from "@mavry/ui/components/input"
 import { cn } from "@mavry/ui/lib/utils"
 import { CheckIcon, CircleDashedIcon, InboxIcon, PlusIcon } from "lucide-react"
-import { type FormEvent, useEffect, useRef, useState } from "react"
+import {
+  type ChangeEvent,
+  type FormEvent,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import {
   DemoCursor,
   type DemoCursorPosition,
@@ -16,32 +24,32 @@ import type { Content } from "@/components/landing/demo/page-data"
 
 const inboxItems = [
   {
+    detail: "Can this capture an idea without committing it to build?",
     id: "mobile-capture",
-    title: "Mobile capture stays lightweight",
     source: "Mobile capture",
     status: "Needs clarity",
-    detail: "Can this capture an idea without committing it to build?",
+    title: "Mobile capture stays lightweight",
   },
   {
+    detail: "One owner and one channel are enough to unblock beta.",
     id: "feedback-route",
-    title: "One beta feedback route",
     source: "Founder note",
     status: "Convert",
-    detail: "One owner and one channel are enough to unblock beta.",
+    title: "One beta feedback route",
   },
   {
+    detail: "Useful after beta, but too early before the MVP has users.",
     id: "public-roadmap",
-    title: "Public roadmap after launch",
     source: "Customer call",
     status: "Later",
-    detail: "Useful after beta, but too early before the MVP has users.",
+    title: "Public roadmap after launch",
   },
   {
+    detail: "It does not help the first version answer its core question.",
     id: "templates",
-    title: "Template marketplace",
     source: "Backlog import",
     status: "Reject",
-    detail: "It does not help the first version answer its core question.",
+    title: "Template marketplace",
   },
 ] as const
 
@@ -118,6 +126,55 @@ const feedbackSignals = [
 interface IdeaInboxProps {
   autoPlay?: boolean
   content: Content
+}
+
+interface InboxItemButtonProps {
+  buttonRef?: RefObject<HTMLButtonElement | null>
+  demoPhase: MethodDemoPhase
+  isCaptured: boolean
+  isSelected: boolean
+  item: (typeof inboxItems)[number] | typeof capturedIdea
+  onSelect: (itemId: string) => void
+}
+
+const InboxItemButton = ({
+  buttonRef,
+  demoPhase,
+  isCaptured,
+  isSelected,
+  item,
+  onSelect,
+}: InboxItemButtonProps) => {
+  const handleSelect = useCallback(() => {
+    onSelect(item.id)
+  }, [item.id, onSelect])
+
+  return (
+    <button
+      aria-pressed={isSelected}
+      className={cn(
+        "flex w-full flex-col gap-2 px-3 py-3 text-left transition-colors hover:bg-muted/35 active:translate-y-px",
+        isSelected && "bg-muted/35",
+        isCaptured &&
+          demoPhase === "selecting" &&
+          "ring-2 ring-ring/50 ring-inset"
+      )}
+      data-captured-idea={isCaptured ? "" : undefined}
+      onClick={handleSelect}
+      ref={isCaptured ? buttonRef : undefined}
+      type="button"
+    >
+      <span className="flex items-start justify-between gap-3">
+        <span className="font-medium text-demo-control!">{item.title}</span>
+        <Badge className="rounded-md text-demo-metadata!" variant="outline">
+          {item.status}
+        </Badge>
+      </span>
+      <span className="text-demo-metadata! text-muted-foreground">
+        {item.source}
+      </span>
+    </button>
+  )
 }
 
 export const IdeaInbox = ({ autoPlay = false, content }: IdeaInboxProps) => {
@@ -321,6 +378,17 @@ export const IdeaInbox = ({ autoPlay = false, content }: IdeaInboxProps) => {
     captureIdea()
   }
 
+  const openCapture = useCallback(() => {
+    setIsCaptureOpen(true)
+  }, [])
+
+  const handleTypedIdeaChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setTypedIdea(event.currentTarget.value)
+    },
+    []
+  )
+
   const isCapturedIdeaSelected = selectedItemId === CAPTURED_IDEA_ID
   const detail = isCapturedIdeaSelected
     ? {
@@ -371,7 +439,7 @@ export const IdeaInbox = ({ autoPlay = false, content }: IdeaInboxProps) => {
                 "rounded-md text-demo-control!",
                 demoPhase === "opening" && "ring-2 ring-ring/50"
               )}
-              onClick={() => setIsCaptureOpen(true)}
+              onClick={openCapture}
               ref={captureButtonRef}
               size="sm"
               type="button"
@@ -401,9 +469,7 @@ export const IdeaInbox = ({ autoPlay = false, content }: IdeaInboxProps) => {
                         "border-ring ring-1 ring-ring/50"
                     )}
                     id="new-idea"
-                    onChange={(event) =>
-                      setTypedIdea(event.currentTarget.value)
-                    }
+                    onChange={handleTypedIdeaChange}
                     placeholder="Write a new idea…"
                     ref={ideaInputRef}
                     value={typedIdea}
@@ -432,36 +498,15 @@ export const IdeaInbox = ({ autoPlay = false, content }: IdeaInboxProps) => {
               const isCaptured = item.id === CAPTURED_IDEA_ID
 
               return (
-                <button
-                  aria-pressed={isSelected}
-                  className={cn(
-                    "flex w-full flex-col gap-2 px-3 py-3 text-left transition-colors hover:bg-muted/35 active:translate-y-px",
-                    isSelected && "bg-muted/35",
-                    isCaptured &&
-                      demoPhase === "selecting" &&
-                      "ring-2 ring-ring/50 ring-inset"
-                  )}
-                  data-captured-idea={isCaptured ? "" : undefined}
+                <InboxItemButton
+                  buttonRef={isCaptured ? capturedIdeaRef : undefined}
+                  demoPhase={demoPhase}
+                  isCaptured={isCaptured}
+                  isSelected={isSelected}
+                  item={item}
                   key={item.id}
-                  onClick={() => setSelectedItemId(item.id)}
-                  ref={isCaptured ? capturedIdeaRef : undefined}
-                  type="button"
-                >
-                  <span className="flex items-start justify-between gap-3">
-                    <span className="font-medium text-demo-control!">
-                      {item.title}
-                    </span>
-                    <Badge
-                      className="rounded-md text-demo-metadata!"
-                      variant="outline"
-                    >
-                      {item.status}
-                    </Badge>
-                  </span>
-                  <span className="text-demo-metadata! text-muted-foreground">
-                    {item.source}
-                  </span>
-                </button>
+                  onSelect={setSelectedItemId}
+                />
               )
             })}
           </div>

@@ -5,7 +5,7 @@ import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { Link } from "@tanstack/react-router"
 import { CheckCircle2Icon } from "lucide-react"
-import { type FormEvent, useState } from "react"
+import { type FormEvent, useCallback, useState } from "react"
 import {
   AuthErrorSummary,
   AuthFieldError,
@@ -18,6 +18,10 @@ export const PasswordRecovery = () => {
   const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleInputChange = useCallback((): void => {
+    setAuthError(null)
+  }, [])
 
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
@@ -114,7 +118,7 @@ export const PasswordRecovery = () => {
                 inputMode="email"
                 invalidAppearance="message-only"
                 name="email"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="you@example.com…"
                 required
                 spellCheck={false}

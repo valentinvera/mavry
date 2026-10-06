@@ -21,131 +21,130 @@ export interface RouterAppContext {
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
+  component: RootDocument,
   head: () => ({
+    links: [
+      {
+        href: appCss,
+        rel: "stylesheet",
+      },
+      {
+        href: "/brand/mavry-favicon.svg",
+        rel: "icon",
+        sizes: "any",
+        type: "image/svg+xml",
+      },
+      {
+        href: "/brand/mavry-favicon-32.png",
+        rel: "icon",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      {
+        href: "/brand/mavry-favicon-16.png",
+        rel: "icon",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        href: "/brand/mavry-touch-icon-180.png",
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+      },
+      {
+        href: "/manifest.webmanifest",
+        rel: "manifest",
+      },
+      {
+        href: "https://mavry.app",
+        rel: "canonical",
+      },
+    ],
     meta: [
       {
         charSet: "utf-8",
       },
       {
-        name: "viewport",
         content: "width=device-width, initial-scale=1",
+        name: "viewport",
       },
       {
         title: "Mavry",
       },
       {
-        name: "description",
         content: "Product clarity for focused builders.",
+        name: "description",
       },
       {
-        name: "theme-color",
         content: "#000000",
+        name: "theme-color",
       },
       {
+        content: "Mavry",
         name: "application-name",
-        content: "Mavry",
       },
       {
+        content: "Mavry",
         name: "apple-mobile-web-app-title",
-        content: "Mavry",
       },
       {
-        property: "og:type",
         content: "website",
+        property: "og:type",
       },
       {
-        property: "og:url",
         content: "https://mavry.app",
+        property: "og:url",
       },
       {
-        property: "og:site_name",
         content: "Mavry",
+        property: "og:site_name",
       },
       {
+        content: "Mavry — Product clarity for focused builders",
         property: "og:title",
-        content: "Mavry — Product clarity for focused builders",
       },
       {
+        content: "Know what to build next, what to cut, and when to ship.",
         property: "og:description",
-        content: "Know what to build next, what to cut, and when to ship.",
       },
       {
+        content: "https://mavry.app/opengraph-image.png",
         property: "og:image",
-        content: "https://mavry.app/opengraph-image.png",
       },
       {
-        property: "og:image:width",
         content: "1200",
+        property: "og:image:width",
       },
       {
-        property: "og:image:height",
         content: "630",
+        property: "og:image:height",
       },
       {
+        content: "Mavry product decision workspace on the Madeira coast.",
         property: "og:image:alt",
-        content: "Mavry product decision workspace on the Madeira coast.",
       },
       {
-        name: "twitter:card",
         content: "summary_large_image",
+        name: "twitter:card",
       },
       {
-        name: "twitter:title",
         content: "Mavry — Product clarity for focused builders",
+        name: "twitter:title",
       },
       {
-        name: "twitter:description",
         content: "Know what to build next, what to cut, and when to ship.",
+        name: "twitter:description",
       },
       {
-        name: "twitter:image",
         content: "https://mavry.app/opengraph-image.png",
+        name: "twitter:image",
       },
       {
-        name: "twitter:image:alt",
         content: "Mavry product decision workspace on the Madeira coast.",
-      },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      {
-        rel: "icon",
-        href: "/brand/mavry-favicon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
-      },
-      {
-        rel: "icon",
-        href: "/brand/mavry-favicon-32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
-      {
-        rel: "icon",
-        href: "/brand/mavry-favicon-16.png",
-        sizes: "16x16",
-        type: "image/png",
-      },
-      {
-        rel: "apple-touch-icon",
-        href: "/brand/mavry-touch-icon-180.png",
-        sizes: "180x180",
-      },
-      {
-        rel: "manifest",
-        href: "/manifest.webmanifest",
-      },
-      {
-        rel: "canonical",
-        href: "https://mavry.app",
+        name: "twitter:image:alt",
       },
     ],
   }),
-
-  component: RootDocument,
 })
 
 function RootDocument() {

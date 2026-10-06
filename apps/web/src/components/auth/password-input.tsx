@@ -5,7 +5,7 @@ import {
   InputGroupInput,
 } from "@mavry/ui/components/input-group"
 import { EyeIcon, EyeOffIcon } from "lucide-react"
-import { type ComponentProps, useState } from "react"
+import { type ComponentProps, useCallback, useState } from "react"
 
 type PasswordInputProps = Omit<ComponentProps<typeof InputGroupInput>, "type">
 
@@ -16,6 +16,10 @@ export const PasswordInput = ({
 }: PasswordInputProps) => {
   const [passwordIsVisible, setPasswordIsVisible] = useState(false)
   const toggleLabel = passwordIsVisible ? "Hide password" : "Show password"
+
+  const handleToggleVisibility = useCallback((): void => {
+    setPasswordIsVisible((isVisible) => !isVisible)
+  }, [])
 
   return (
     <InputGroup
@@ -35,7 +39,7 @@ export const PasswordInput = ({
           aria-pressed={passwordIsVisible}
           className="cursor-pointer hover:bg-transparent dark:hover:bg-transparent"
           disabled={disabled}
-          onClick={() => setPasswordIsVisible((isVisible) => !isVisible)}
+          onClick={handleToggleVisibility}
           size="icon-sm"
           title={toggleLabel}
         >

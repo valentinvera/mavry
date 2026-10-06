@@ -29,7 +29,7 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
   useEffect(() => {
-    const hash = window.location.hash
+    const { hash } = window.location
 
     if (!hash) {
       return

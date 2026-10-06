@@ -14,21 +14,21 @@ const LANDSCAPE_POSITIONS = {
     backgroundPosition: "18% 48%",
     backgroundSize: "156% auto",
   },
-  ridgePath: {
-    backgroundPosition: "48% 56%",
-    backgroundSize: "148% auto",
-  },
   coastline: {
     backgroundPosition: "72% 42%",
     backgroundSize: "162% auto",
+  },
+  forestPass: {
+    backgroundPosition: "57% 68%",
+    backgroundSize: "168% auto",
   },
   lowerTrail: {
     backgroundPosition: "34% 76%",
     backgroundSize: "178% auto",
   },
-  forestPass: {
-    backgroundPosition: "57% 68%",
-    backgroundSize: "168% auto",
+  ridgePath: {
+    backgroundPosition: "48% 56%",
+    backgroundSize: "148% auto",
   },
 } satisfies Record<string, CSSProperties>
 

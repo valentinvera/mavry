@@ -14,30 +14,30 @@ import { SplitIntro, TwoTone } from "@/components/landing/section-intro"
 
 const weeklyReviewChanges = [
   {
-    id: "feedback-hub",
-    title: "Feedback hub requested again",
     from: "Scope pressure",
-    to: "Later",
+    id: "feedback-hub",
     reason:
       "Useful after beta, but the first release only needs one feedback route.",
     status: "Moved",
+    title: "Feedback hub requested again",
+    to: "Later",
   },
   {
-    id: "decision-log",
-    title: "Decision log moved out of Core",
     from: "Core",
-    to: "Support",
+    id: "decision-log",
     reason:
       "Helpful for clarity, but not required as the main proof of the product.",
     status: "Reduced",
+    title: "Decision log moved out of Core",
+    to: "Support",
   },
   {
-    id: "github-sync",
-    title: "GitHub sync stayed cut",
     from: "Reopened",
-    to: "No for now",
+    id: "github-sync",
     reason: "Integration work should wait until manual export becomes painful.",
     status: "Cut",
+    title: "GitHub sync stayed cut",
+    to: "No for now",
   },
 ] as const
 
@@ -125,32 +125,32 @@ const DemoReview = () => (
 
 const inboxItems = [
   {
+    detail: "Can this capture an idea without committing it to build?",
     id: "mobile-capture",
-    title: "Mobile capture stays lightweight",
     source: "Mobile capture",
     status: "Needs clarity",
-    detail: "Can this capture an idea without committing it to build?",
+    title: "Mobile capture stays lightweight",
   },
   {
+    detail: "One owner and one channel are enough to unblock beta.",
     id: "feedback-route",
-    title: "One beta feedback route",
     source: "Founder note",
     status: "Convert",
-    detail: "One owner and one channel are enough to unblock beta.",
+    title: "One beta feedback route",
   },
   {
+    detail: "Useful after beta, but too early before the MVP has users.",
     id: "public-roadmap",
-    title: "Public roadmap after launch",
     source: "Customer call",
     status: "Later",
-    detail: "Useful after beta, but too early before the MVP has users.",
+    title: "Public roadmap after launch",
   },
   {
+    detail: "It does not help the first version answer its core question.",
     id: "templates",
-    title: "Template marketplace",
     source: "Backlog import",
     status: "Reject",
-    detail: "It does not help the first version answer its core question.",
+    title: "Template marketplace",
   },
 ] as const
 

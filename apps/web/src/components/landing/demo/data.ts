@@ -18,68 +18,68 @@ import {
 
 export const navMain = [
   {
+    icon: HomeIcon,
     id: "home",
     title: "Home",
-    icon: HomeIcon,
   },
   {
+    icon: InboxIcon,
     id: "idea-inbox",
     title: "Idea inbox",
-    icon: InboxIcon,
   },
   {
+    icon: ListTodoIcon,
     id: "feature-backlog",
     title: "Feature backlog",
-    icon: ListTodoIcon,
   },
   {
+    icon: ListChecksIcon,
     id: "scope",
     title: "MVP scope",
-    icon: ListChecksIcon,
   },
   {
+    icon: RouteIcon,
     id: "roadmap",
     title: "Roadmap",
-    icon: RouteIcon,
   },
   {
+    icon: CircleGaugeIcon,
     id: "readiness",
     title: "Readiness",
-    icon: CircleGaugeIcon,
   },
   {
+    icon: CalendarCheckIcon,
     id: "weekly-review",
     title: "Weekly review",
-    icon: CalendarCheckIcon,
   },
 ] as const
 
 export const documents = [
   {
+    icon: ScissorsIcon,
     id: "cut-list",
     title: "Cut list",
     value: "2 decisions",
-    icon: ScissorsIcon,
   },
   {
+    icon: NotebookTabsIcon,
     id: "decision-log",
     title: "Decision log",
     value: "18 notes",
-    icon: NotebookTabsIcon,
   },
   {
+    icon: ClipboardCheckIcon,
     id: "launch-review",
     title: "Launch review",
     value: "1 blocker",
-    icon: ClipboardCheckIcon,
   },
 ] as const
 
 export const secondaryNav = [
-  { id: "search", title: "Project search", icon: SearchIcon },
-  { id: "archive", title: "Archived ideas", icon: ArchiveIcon },
-  { id: "projects", title: "Projects", icon: LayoutDashboardIcon },
-  { id: "mobile-capture", title: "Mobile capture", icon: SmartphoneIcon },
+  { icon: SearchIcon, id: "search", title: "Project search" },
+  { icon: ArchiveIcon, id: "archive", title: "Archived ideas" },
+  { icon: LayoutDashboardIcon, id: "projects", title: "Projects" },
+  { icon: SmartphoneIcon, id: "mobile-capture", title: "Mobile capture" },
 ] as const
 
 export type MainPageId = (typeof navMain)[number]["id"]
@@ -89,37 +89,37 @@ export type PageId = MainPageId | DocumentPageId | SecondaryPageId
 
 export const cards = [
   {
-    id: "readiness",
-    label: "MVP readiness",
-    value: "74",
-    suffix: "/100",
     badge: "+8",
     description:
       "Scope and cuts are clear; feedback ownership still blocks beta.",
+    id: "readiness",
+    label: "MVP readiness",
+    suffix: "/100",
+    value: "74",
   },
   {
-    id: "build-now",
-    label: "Build now",
-    value: "6",
-    suffix: "features",
     badge: "Core",
     description: "Features that belong in the first shippable version.",
+    id: "build-now",
+    label: "Build now",
+    suffix: "features",
+    value: "6",
   },
   {
-    id: "cut",
-    label: "Cut from MVP",
-    value: "2",
-    suffix: "ideas",
     badge: "Saved",
     description: "Ideas removed from launch with a saved reason.",
+    id: "cut",
+    label: "Cut from MVP",
+    suffix: "ideas",
+    value: "2",
   },
   {
-    id: "blocker",
-    label: "Launch blocker",
-    value: "1",
-    suffix: "open",
     badge: "Review",
     description: "The beta needs one owner for the feedback route.",
+    id: "blocker",
+    label: "Launch blocker",
+    suffix: "open",
+    value: "1",
   },
 ] as const
 
@@ -133,79 +133,79 @@ export const readinessSeries = [
 
 export const roadmapLanes = [
   {
+    detail: "The first release needs intake, scope, and saved decisions.",
     id: "now",
     label: "Now",
     summary: "Scope board, intake, decision log",
-    detail: "The first release needs intake, scope, and saved decisions.",
   },
   {
+    detail: "Resolve the feedback route before adding more product surface.",
     id: "next",
     label: "Next",
     summary: "Readiness review and beta feedback",
-    detail: "Resolve the feedback route before adding more product surface.",
   },
   {
+    detail: "These are useful after the MVP proves the review workflow.",
     id: "later",
     label: "Later",
     summary: "Feedback hub, integrations, templates",
-    detail: "These are useful after the MVP proves the review workflow.",
   },
 ] as const
 
 export const scopeRows = [
   {
-    id: "quick-capture",
+    decision: "Build now",
     feature: "Quick capture",
+    id: "quick-capture",
+    lane: "Now",
+    owner: "Founder",
     question: "Can founders save ideas without turning them into tasks?",
-    decision: "Build now",
-    lane: "Now",
     readiness: "Ready",
-    owner: "Founder",
   },
   {
-    id: "scope-board",
+    decision: "Build now",
     feature: "MVP scope board",
+    id: "scope-board",
+    lane: "Now",
+    owner: "Product",
     question: "Can the first version stay small enough to ship?",
-    decision: "Build now",
-    lane: "Now",
     readiness: "Ready",
-    owner: "Product",
   },
   {
-    id: "decision-log",
-    feature: "Decision log",
-    question: "Can old reasons stay visible when pressure returns?",
     decision: "Support",
+    feature: "Decision log",
+    id: "decision-log",
     lane: "Now",
-    readiness: "Ready",
     owner: "Product",
+    question: "Can old reasons stay visible when pressure returns?",
+    readiness: "Ready",
   },
   {
-    id: "feedback-hub",
-    feature: "Feedback hub",
-    question: "Does the first beta need a complete feedback system?",
     decision: "Later",
+    feature: "Feedback hub",
+    id: "feedback-hub",
     lane: "Next",
-    readiness: "Blocked",
     owner: "Founder",
+    question: "Does the first beta need a complete feedback system?",
+    readiness: "Blocked",
   },
   {
-    id: "github-sync",
+    decision: "Cut",
     feature: "GitHub sync",
-    question: "Does integration work reduce launch risk before beta?",
-    decision: "Cut",
+    id: "github-sync",
     lane: "Not doing",
-    readiness: "Not needed",
     owner: "Later",
+    question: "Does integration work reduce launch risk before beta?",
+    readiness: "Not needed",
   },
   {
-    id: "templates",
-    feature: "Template marketplace",
-    question: "Does a marketplace validate the product hypothesis?",
     decision: "Cut",
+    feature: "Template marketplace",
+    id: "templates",
     lane: "Not doing",
-    readiness: "Not needed",
     owner: "Later",
+    question: "Does a marketplace validate the product hypothesis?",
+    readiness: "Not needed",
   },
 ] as const
 
@@ -218,15 +218,15 @@ export const defaultLaneId: RoadmapLaneId = "now"
 
 export const decisionClassNames = {
   "Build now": "bg-success text-success-foreground",
-  Support: "bg-info text-info-foreground",
-  Later: "bg-warning text-warning-foreground",
   Cut: "bg-destructive text-destructive-foreground",
+  Later: "bg-warning text-warning-foreground",
+  Support: "bg-info text-info-foreground",
 } as const
 
 export const readinessClassNames = {
-  Ready: "bg-success/20 text-success-foreground",
   Blocked: "bg-warning/20 text-warning-foreground",
   "Not needed": "bg-muted text-muted-foreground",
+  Ready: "bg-success/20 text-success-foreground",
 } as const
 
 export const ProjectIcon = GitPullRequestArrowIcon

@@ -4,26 +4,26 @@ import type { Content } from "@/components/landing/demo/page-data"
 
 const homeDecisionSignals = [
   {
+    className: "border-success/40 bg-success/10 text-success-foreground",
+    detail: "Core stayed limited to the features that define the MVP.",
     id: "scope",
     label: "Scope pressure",
     value: "low",
-    detail: "Core stayed limited to the features that define the MVP.",
-    className: "border-success/40 bg-success/10 text-success-foreground",
   },
   {
+    className: "border-warning/40 bg-warning/10 text-warning-foreground",
+    detail: "The feedback route still needs a responsible owner.",
     id: "launch",
     label: "Launch risk",
     value: "open",
-    detail: "The feedback route still needs a responsible owner.",
-    className: "border-warning/40 bg-warning/10 text-warning-foreground",
   },
   {
+    className:
+      "border-destructive/40 bg-destructive/10 text-destructive-foreground",
+    detail: "Two removed ideas keep their reason and return condition.",
     id: "cuts",
     label: "Cut debt",
     value: "saved",
-    detail: "Two removed ideas keep their reason and return condition.",
-    className:
-      "border-destructive/40 bg-destructive/10 text-destructive-foreground",
   },
 ] as const
 

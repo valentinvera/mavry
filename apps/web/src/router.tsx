@@ -11,6 +11,7 @@ import { TRPCProvider } from "./utils/trpc"
 
 function createQueryClient() {
   return new QueryClient({
+    defaultOptions: { queries: { staleTime: 60 * 1000 } },
     queryCache: new QueryCache({
       onError: (error, query) => {
         if (query.meta?.suppressGlobalError === true) {
@@ -27,20 +28,19 @@ function createQueryClient() {
         })
       },
     }),
-    defaultOptions: { queries: { staleTime: 60 * 1000 } },
   })
 }
 
 const trpcClient = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: `${env.VITE_API_URL}/api/trpc`,
-      fetch(url, options) {
-        return fetch(url, {
+      fetch(_url, options) {
+        return globalThis.fetch(_url, {
           ...options,
           credentials: "include",
         })
       },
+      url: `${env.VITE_API_URL}/api/trpc`,
     }),
   ],
 })
@@ -53,11 +53,11 @@ export const getRouter = () => {
   })
 
   const router = createTanStackRouter({
+    context: { queryClient, trpc },
+    defaultNotFoundComponent: () => <div>Not Found</div>,
+    defaultPreloadStaleTime: 0,
     routeTree,
     scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
-    context: { trpc, queryClient },
-    defaultNotFoundComponent: () => <div>Not Found</div>,
     Wrap: ({ children }) => (
       <TRPCProvider queryClient={queryClient} trpcClient={trpcClient}>
         {children}
@@ -66,8 +66,8 @@ export const getRouter = () => {
   })
 
   setupRouterSsrQueryIntegration({
-    router,
     queryClient,
+    router,
   })
 
   return router

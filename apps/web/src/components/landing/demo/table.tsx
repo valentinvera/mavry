@@ -16,10 +16,12 @@ import {
 } from "@mavry/ui/components/tabs"
 import { cn } from "@mavry/ui/lib/utils"
 import { ChevronDownIcon, Columns3Icon, PlusIcon } from "lucide-react"
+import { useCallback } from "react"
 import {
   decisionClassNames,
   type PageId,
   readinessClassNames,
+  type ScopeRow,
   type ScopeRowId,
   scopeRows,
 } from "@/components/landing/demo/data"
@@ -29,6 +31,74 @@ interface Props {
   interactive: boolean
   onSelectedRowChange: (rowId: ScopeRowId) => void
   selectedRowId: ScopeRowId
+}
+
+interface ScopeTableRowProps {
+  interactive: boolean
+  isSelected: boolean
+  onSelectedRowChange: (rowId: ScopeRowId) => void
+  row: ScopeRow
+}
+
+const ScopeTableRow = ({
+  interactive,
+  isSelected,
+  onSelectedRowChange,
+  row,
+}: ScopeTableRowProps) => {
+  const handleSelect = useCallback(() => {
+    onSelectedRowChange(row.id)
+  }, [row.id, onSelectedRowChange])
+
+  return (
+    <TableRow
+      className={cn(
+        "transition-colors hover:bg-muted/40",
+        isSelected && "bg-muted/60"
+      )}
+      data-state={isSelected ? "selected" : undefined}
+    >
+      <TableCell className="whitespace-normal text-demo-metadata!">
+        <button
+          className="text-left font-medium text-demo-control! text-foreground underline-offset-4 transition-transform hover:underline active:translate-y-px disabled:pointer-events-none"
+          disabled={!interactive}
+          onClick={handleSelect}
+          type="button"
+        >
+          {row.feature}
+        </button>
+      </TableCell>
+      <TableCell className="hidden text-demo-metadata! text-muted-foreground sm:table-cell">
+        {row.question}
+      </TableCell>
+      <TableCell className="text-demo-metadata!">
+        <Badge
+          className={cn(
+            "rounded-md text-demo-metadata!",
+            decisionClassNames[row.decision]
+          )}
+        >
+          {row.decision}
+        </Badge>
+      </TableCell>
+      <TableCell className="hidden text-demo-metadata! md:table-cell">
+        {row.lane}
+      </TableCell>
+      <TableCell className="hidden text-demo-metadata! sm:table-cell">
+        <Badge
+          className={cn(
+            "rounded-md text-demo-metadata!",
+            readinessClassNames[row.readiness]
+          )}
+        >
+          {row.readiness}
+        </Badge>
+      </TableCell>
+      <TableCell className="hidden text-demo-metadata! lg:table-cell">
+        {row.owner}
+      </TableCell>
+    </TableRow>
+  )
 }
 
 export const Table = ({
@@ -113,60 +183,15 @@ export const Table = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {scopeRows.map((row) => {
-              const isSelected = row.id === selectedRowId
-
-              return (
-                <TableRow
-                  className={cn(
-                    "transition-colors hover:bg-muted/40",
-                    isSelected && "bg-muted/60"
-                  )}
-                  data-state={isSelected ? "selected" : undefined}
-                  key={row.id}
-                >
-                  <TableCell className="whitespace-normal text-demo-metadata!">
-                    <button
-                      className="text-left font-medium text-demo-control! text-foreground underline-offset-4 transition-transform hover:underline active:translate-y-px disabled:pointer-events-none"
-                      disabled={!interactive}
-                      onClick={() => onSelectedRowChange(row.id)}
-                      type="button"
-                    >
-                      {row.feature}
-                    </button>
-                  </TableCell>
-                  <TableCell className="hidden text-demo-metadata! text-muted-foreground sm:table-cell">
-                    {row.question}
-                  </TableCell>
-                  <TableCell className="text-demo-metadata!">
-                    <Badge
-                      className={cn(
-                        "rounded-md text-demo-metadata!",
-                        decisionClassNames[row.decision]
-                      )}
-                    >
-                      {row.decision}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden text-demo-metadata! md:table-cell">
-                    {row.lane}
-                  </TableCell>
-                  <TableCell className="hidden text-demo-metadata! sm:table-cell">
-                    <Badge
-                      className={cn(
-                        "rounded-md text-demo-metadata!",
-                        readinessClassNames[row.readiness]
-                      )}
-                    >
-                      {row.readiness}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="hidden text-demo-metadata! lg:table-cell">
-                    {row.owner}
-                  </TableCell>
-                </TableRow>
-              )
-            })}
+            {scopeRows.map((row) => (
+              <ScopeTableRow
+                interactive={interactive}
+                isSelected={row.id === selectedRowId}
+                key={row.id}
+                onSelectedRowChange={onSelectedRowChange}
+                row={row}
+              />
+            ))}
           </TableBody>
         </TablePrimitive>
         <div className="flex flex-col items-start justify-between gap-1 border-border/80 border-t px-3 py-2 text-demo-metadata! text-muted-foreground sm:flex-row sm:items-center sm:gap-3">

@@ -154,7 +154,7 @@ const DemoPriority = () => (
                     : "text-destructive-foreground"
                 )}
               >
-                {value > 0 ? `+${value}` : value}
+                {value > 0 ? `+${value}` : `${value}`}
               </dd>
             </div>
           ))}

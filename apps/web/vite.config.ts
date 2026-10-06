@@ -42,10 +42,6 @@ const config = defineConfig(({ mode }) => {
       : env.VITE_PROXY_COOKIE_DOMAIN_REWRITE || "localhost"
 
   return {
-    resolve: {
-      dedupe: ["react", "react-dom"],
-      tsconfigPaths: true,
-    },
     optimizeDeps: {
       include: [
         "@mavry/ui > @base-ui/react/toggle",
@@ -68,8 +64,8 @@ const config = defineConfig(({ mode }) => {
         ],
         sitemap: {
           enabled: true,
-          outputPath: "sitemap.xml",
           host: "https://mavry.app",
+          outputPath: "sitemap.xml",
         },
       }),
       nitro(),
@@ -78,16 +74,24 @@ const config = defineConfig(({ mode }) => {
         presets: [reactCompilerPreset()],
       }),
     ],
+    preview: {
+      host,
+      port,
+    },
+    resolve: {
+      dedupe: ["react", "react-dom"],
+      tsconfigPaths: true,
+    },
     server: {
       host,
       port,
       proxy: {
         "/api": {
-          target: apiUrl,
-          changeOrigin: true,
-          secure: secureValue,
-          cookieDomainRewrite: cookieDomainRewriteValue,
           autoRewrite: true,
+          changeOrigin: true,
+          cookieDomainRewrite: cookieDomainRewriteValue,
+          secure: secureValue,
+          target: apiUrl,
           timeout: 30_000,
         },
       },
@@ -95,10 +99,6 @@ const config = defineConfig(({ mode }) => {
         interval: 1000,
         usePolling: true,
       },
-    },
-    preview: {
-      host,
-      port,
     },
   }
 })

@@ -13,32 +13,32 @@ import { CheckList, TITLE, TwoTone } from "@/components/landing/section-intro"
 
 const inboxItems = [
   {
+    detail: "Can this capture an idea without committing it to build?",
     id: "mobile-capture",
-    title: "Mobile capture stays lightweight",
     source: "Mobile capture",
     status: "Needs clarity",
-    detail: "Can this capture an idea without committing it to build?",
+    title: "Mobile capture stays lightweight",
   },
   {
+    detail: "One owner and one channel are enough to unblock beta.",
     id: "feedback-route",
-    title: "One beta feedback route",
     source: "Founder note",
     status: "Convert",
-    detail: "One owner and one channel are enough to unblock beta.",
+    title: "One beta feedback route",
   },
   {
+    detail: "Useful after beta, but too early before the MVP has users.",
     id: "public-roadmap",
-    title: "Public roadmap after launch",
     source: "Customer call",
     status: "Later",
-    detail: "Useful after beta, but too early before the MVP has users.",
+    title: "Public roadmap after launch",
   },
   {
+    detail: "It does not help the first version answer its core question.",
     id: "templates",
-    title: "Template marketplace",
     source: "Backlog import",
     status: "Reject",
-    detail: "It does not help the first version answer its core question.",
+    title: "Template marketplace",
   },
 ] as const
 

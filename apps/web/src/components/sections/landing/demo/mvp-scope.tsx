@@ -1,44 +1,45 @@
 import { Badge } from "@mavry/ui/components/badge"
 import { cn } from "@mavry/ui/lib/utils"
+import { useCallback } from "react"
 import { Frame } from "@/components/landing/demo/frame"
 import type { Content } from "@/components/landing/demo/page-data"
 
 const scopeRows = [
   {
-    id: "quick-capture",
+    decision: "Build now",
     feature: "Quick capture",
+    id: "quick-capture",
     question: "Can founders save ideas without turning them into tasks?",
-    decision: "Build now",
   },
   {
-    id: "scope-board",
+    decision: "Build now",
     feature: "MVP scope board",
+    id: "scope-board",
     question: "Can the first version stay small enough to ship?",
-    decision: "Build now",
   },
   {
-    id: "decision-log",
-    feature: "Decision log",
-    question: "Can old reasons stay visible when pressure returns?",
     decision: "Support",
+    feature: "Decision log",
+    id: "decision-log",
+    question: "Can old reasons stay visible when pressure returns?",
   },
   {
-    id: "feedback-hub",
-    feature: "Feedback hub",
-    question: "Does the first beta need a complete feedback system?",
     decision: "Later",
+    feature: "Feedback hub",
+    id: "feedback-hub",
+    question: "Does the first beta need a complete feedback system?",
   },
   {
-    id: "github-sync",
+    decision: "Cut",
     feature: "GitHub sync",
+    id: "github-sync",
     question: "Does integration work reduce launch risk before beta?",
-    decision: "Cut",
   },
   {
-    id: "templates",
-    feature: "Template marketplace",
-    question: "Does a marketplace validate the product hypothesis?",
     decision: "Cut",
+    feature: "Template marketplace",
+    id: "templates",
+    question: "Does a marketplace validate the product hypothesis?",
   },
 ] as const
 
@@ -46,30 +47,70 @@ type ScopeRowId = (typeof scopeRows)[number]["id"]
 
 const scopeColumns = [
   {
-    id: "core",
-    title: "Core",
     description: "Must validate the product hypothesis",
+    id: "core",
     rows: scopeRows.filter((row) => row.decision === "Build now"),
+    title: "Core",
   },
   {
-    id: "support",
-    title: "Support",
     description: "Helps the release without becoming the product",
+    id: "support",
     rows: scopeRows.filter((row) => row.decision === "Support"),
+    title: "Support",
   },
   {
-    id: "later",
-    title: "Later",
     description: "Useful after the first release is working",
+    id: "later",
     rows: scopeRows.filter((row) => row.decision === "Later"),
+    title: "Later",
   },
   {
-    id: "cut",
-    title: "No for now",
     description: "Visible cuts with reasons",
+    id: "cut",
     rows: scopeRows.filter((row) => row.decision === "Cut"),
+    title: "No for now",
   },
 ] as const
+
+type ScopeRow = (typeof scopeRows)[number]
+
+interface ScopeRowButtonProps {
+  interactive: boolean
+  onSelectedRowChange: (rowId: ScopeRowId) => void
+  row: ScopeRow
+  selectedRowId: ScopeRowId
+}
+
+const ScopeRowButton = ({
+  interactive,
+  onSelectedRowChange,
+  row,
+  selectedRowId,
+}: ScopeRowButtonProps) => {
+  const handleSelect = useCallback(() => {
+    onSelectedRowChange(row.id)
+  }, [row.id, onSelectedRowChange])
+
+  return (
+    <button
+      aria-pressed={row.id === selectedRowId}
+      className={cn(
+        "w-full rounded-md border border-transparent px-3 py-2 text-left transition-colors hover:border-border/70 hover:bg-muted/35 active:translate-y-px disabled:pointer-events-none",
+        row.id === selectedRowId && "border-border/80 bg-card/65"
+      )}
+      disabled={!interactive}
+      onClick={handleSelect}
+      type="button"
+    >
+      <span className="block font-medium text-demo-control!">
+        {row.feature}
+      </span>
+      <span className="mt-1 block text-demo-metadata! text-muted-foreground">
+        {row.question}
+      </span>
+    </button>
+  )
+}
 
 export const MvpScope = ({
   content,
@@ -114,24 +155,13 @@ export const MvpScope = ({
             </div>
             <div className="flex flex-col gap-2">
               {column.rows.map((row) => (
-                <button
-                  aria-pressed={row.id === selectedRowId}
-                  className={cn(
-                    "w-full rounded-md border border-transparent px-3 py-2 text-left transition-colors hover:border-border/70 hover:bg-muted/35 active:translate-y-px disabled:pointer-events-none",
-                    row.id === selectedRowId && "border-border/80 bg-card/65"
-                  )}
-                  disabled={!interactive}
+                <ScopeRowButton
+                  interactive={interactive}
                   key={row.id}
-                  onClick={() => onSelectedRowChange(row.id)}
-                  type="button"
-                >
-                  <span className="block font-medium text-demo-control!">
-                    {row.feature}
-                  </span>
-                  <span className="mt-1 block text-demo-metadata! text-muted-foreground">
-                    {row.question}
-                  </span>
-                </button>
+                  onSelectedRowChange={onSelectedRowChange}
+                  row={row}
+                  selectedRowId={selectedRowId}
+                />
               ))}
             </div>
           </section>

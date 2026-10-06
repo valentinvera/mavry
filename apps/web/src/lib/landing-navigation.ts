@@ -90,7 +90,7 @@ export const reloadLandingAtTop = (
   }
 
   event.preventDefault()
-  const href = event.currentTarget.href
+  const { href } = event.currentTarget
 
   window.addEventListener("pagehide", resetSavedLandingScroll, { once: true })
   window.location.assign(href)

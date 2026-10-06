@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@mavry/ui/lib/utils"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import {
   defaultLaneId,
   defaultRowId,
@@ -65,6 +65,14 @@ export const Workspace = ({
     }
   }
 
+  const handleCloseMobileSidebar = useCallback(() => {
+    setMobileSidebarOpen(false)
+  }, [])
+
+  const handleSearchOpen = useCallback(() => {
+    setActivePageId("search")
+  }, [])
+
   return (
     <section
       aria-label="Mavry product decision workspace preview"
@@ -79,15 +87,15 @@ export const Workspace = ({
           viewportClassName
         )}
       >
-        {mobileSidebarOpen && (
+        {mobileSidebarOpen ? (
           <button
             aria-label="Close decision workspace sidebar overlay"
             className="absolute inset-y-0 right-0 left-60 z-10 bg-background/70 backdrop-blur-glass sm:hidden"
-            onClick={() => setMobileSidebarOpen(false)}
+            onClick={handleCloseMobileSidebar}
             style={{ WebkitBackdropFilter: "blur(var(--glass-blur))" }}
             type="button"
           />
-        )}
+        ) : null}
         <Sidebar
           activePageId={activePageId}
           desktopOpen={desktopSidebarOpen}
@@ -96,7 +104,7 @@ export const Workspace = ({
         />
         <div className="flex min-w-0 flex-1 flex-col bg-card">
           <Header
-            onSearchOpen={() => setActivePageId("search")}
+            onSearchOpen={handleSearchOpen}
             onToggleSidebar={handleToggleSidebar}
             pageCode={activePageContent.code}
             pageTitle={activePageContent.title}

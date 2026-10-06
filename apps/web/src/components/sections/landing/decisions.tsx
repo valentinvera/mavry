@@ -167,32 +167,32 @@ const DemoDecisions = () => (
 
 const searchResults = [
   {
-    id: "feedback-route",
-    title: "One beta feedback route",
     area: "Launch review",
-    status: "Blocker",
     detail: "Also appears in Roadmap, Weekly review, and Idea inbox.",
+    id: "feedback-route",
+    status: "Blocker",
+    title: "One beta feedback route",
   },
   {
-    id: "github-sync",
-    title: "GitHub sync cut from MVP",
     area: "Cut list",
-    status: "Cut",
     detail: "Reconsider only after manual export becomes a repeated problem.",
+    id: "github-sync",
+    status: "Cut",
+    title: "GitHub sync cut from MVP",
   },
   {
-    id: "scope-board",
-    title: "MVP scope board",
     area: "MVP scope",
-    status: "Build now",
     detail: "The core view where builders decide what belongs in the MVP.",
+    id: "scope-board",
+    status: "Build now",
+    title: "MVP scope board",
   },
   {
-    id: "next-actions",
-    title: "Assign feedback owner",
     area: "Next actions",
-    status: "Review",
     detail: "The smallest launch action needed before opening beta.",
+    id: "next-actions",
+    status: "Review",
+    title: "Assign feedback owner",
   },
 ] as const
 

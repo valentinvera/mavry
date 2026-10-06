@@ -5,7 +5,7 @@ import { Spinner } from "@mavry/ui/components/spinner"
 import { GithubIcon } from "@mavry/ui/icons/github"
 import { GoogleIcon } from "@mavry/ui/icons/google"
 import { Link, useNavigate } from "@tanstack/react-router"
-import { type FormEvent, useState } from "react"
+import { type FormEvent, useCallback, useState } from "react"
 import {
   AuthErrorSummary,
   AuthFieldError,
@@ -80,36 +80,49 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
     }
   }
 
-  const handleSocialSignIn = async (
-    provider: SocialProvider
-  ): Promise<void> => {
-    setAuthError(null)
-    setPendingSocialProvider(provider)
+  const handleSocialSignIn = useCallback(
+    async (provider: SocialProvider): Promise<void> => {
+      setAuthError(null)
+      setPendingSocialProvider(provider)
 
-    try {
-      const { error } = await authClient.signIn.social({
-        callbackURL: window.location.origin,
-        errorCallbackURL: getSocialErrorCallbackUrl(),
-        provider,
-      })
+      try {
+        const { error } = await authClient.signIn.social({
+          callbackURL: window.location.origin,
+          errorCallbackURL: getSocialErrorCallbackUrl(),
+          provider,
+        })
 
-      if (error) {
-        setAuthError(
-          getAuthError(
-            error,
-            `Mavry couldn’t continue with ${provider === "google" ? "Google" : "GitHub"}. Try again.`
+        if (error) {
+          setAuthError(
+            getAuthError(
+              error,
+              `Mavry couldn’t continue with ${provider === "google" ? "Google" : "GitHub"}. Try again.`
+            )
           )
-        )
+        }
+      } catch {
+        setAuthError({
+          message: "Mavry couldn’t reach the server. Try again.",
+          target: "form",
+        })
+      } finally {
+        setPendingSocialProvider(null)
       }
-    } catch {
-      setAuthError({
-        message: "Mavry couldn’t reach the server. Try again.",
-        target: "form",
-      })
-    } finally {
-      setPendingSocialProvider(null)
-    }
-  }
+    },
+    []
+  )
+
+  const handleGoogleSignIn = useCallback(async (): Promise<void> => {
+    await handleSocialSignIn("google")
+  }, [handleSocialSignIn])
+
+  const handleGithubSignIn = useCallback(async (): Promise<void> => {
+    await handleSocialSignIn("github")
+  }, [handleSocialSignIn])
+
+  const handleInputChange = useCallback((): void => {
+    setAuthError(null)
+  }, [])
 
   const handleEmailBack = (): void => {
     setAuthError(null)
@@ -165,7 +178,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
                 inputMode="email"
                 invalidAppearance="message-only"
                 name="email"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="you@example.com…"
                 required
                 spellCheck={false}
@@ -186,7 +199,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
                 id="password"
                 minLength={8}
                 name="password"
-                onChange={() => setAuthError(null)}
+                onChange={handleInputChange}
                 placeholder="Enter your password…"
                 required
               />
@@ -237,7 +250,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
           <Button
             className="h-12 w-full cursor-pointer rounded-full text-small shadow-sm"
             disabled={isFormBusy}
-            onClick={() => handleSocialSignIn("google")}
+            onClick={handleGoogleSignIn}
             type="button"
           >
             {pendingSocialProvider === "google" ? (
@@ -260,7 +273,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
           <Button
             className="h-12 w-full cursor-pointer rounded-full text-small"
             disabled={isFormBusy}
-            onClick={() => handleSocialSignIn("github")}
+            onClick={handleGithubSignIn}
             type="button"
           >
             {pendingSocialProvider === "github" ? (
