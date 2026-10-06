@@ -6,9 +6,11 @@ import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query"
 
 import { authClient } from "@/lib/auth-client"
 
-function withAuthCookie(headers: HeadersInit | undefined): Headers {
+async function withAuthCookie(
+  headers: HeadersInit | undefined
+): Promise<Headers> {
   const nextHeaders = new Headers(headers)
-  const cookie = authClient.getCookie()
+  const cookie = await authClient.getCookie()
 
   if (cookie) {
     nextHeaders.set("cookie", cookie)
@@ -28,14 +30,15 @@ export const queryClient = new QueryClient({
 export const trpcClient = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
-      url: `${env.EXPO_PUBLIC_API_URL}/api/trpc`,
-      fetch(url, options) {
+      fetch: async (url, options) => {
+        const headers = await withAuthCookie(options?.headers)
         return fetch(url, {
           ...options,
           credentials: "include",
-          headers: withAuthCookie(options?.headers),
+          headers,
         })
       },
+      url: `${env.EXPO_PUBLIC_API_URL}/api/trpc`,
     }),
   ],
 })
