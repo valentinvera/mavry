@@ -16,6 +16,14 @@ import {
   WaitlistRateLimitService,
 } from "../services/waitlist-rate-limit.service"
 
+type WaitlistErrorCode = "INTERNAL_SERVER_ERROR" | "TOO_MANY_REQUESTS"
+
+const createWaitlistError = (
+  code: WaitlistErrorCode,
+  message: string,
+  cause: unknown
+): TRPCError => new TRPCError({ cause, code, message })
+
 @Router({ alias: "waitlist" })
 export class WaitlistRouter {
   private readonly waitlistService: WaitlistService
@@ -34,11 +42,12 @@ export class WaitlistRouter {
   async confirmedCount(): Promise<WaitlistConfirmedCountOutput> {
     try {
       return await this.waitlistService.getConfirmedCount()
-    } catch {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Unable to load the waitlist count",
-      })
+    } catch (error) {
+      throw createWaitlistError(
+        "INTERNAL_SERVER_ERROR",
+        "Unable to load the waitlist count",
+        error
+      )
     }
   }
 
@@ -59,16 +68,18 @@ export class WaitlistRouter {
       return await this.waitlistService.join(input)
     } catch (error) {
       if (error instanceof WaitlistRateLimitExceededError) {
-        throw new TRPCError({
-          code: "TOO_MANY_REQUESTS",
-          message: "Unable to join the waitlist. Try again later.",
-        })
+        throw createWaitlistError(
+          "TOO_MANY_REQUESTS",
+          "Unable to join the waitlist. Try again later.",
+          error
+        )
       }
 
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Unable to join the waitlist",
-      })
+      throw createWaitlistError(
+        "INTERNAL_SERVER_ERROR",
+        "Unable to join the waitlist",
+        error
+      )
     }
   }
 }
