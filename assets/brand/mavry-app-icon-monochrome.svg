@@ -1,4 +1,19 @@
-<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Mavry themed icon foreground</title><desc id="desc">Transparent Android themed icon foreground using the Mavry decision aperture as an alpha mask.</desc>
-  <path d="M192 192H832V352H618.667L458.667 512H192V192ZM192 672H405.333L565.333 512H832V832H192V672Z" fill="#FDFDFD"/>
+<svg
+  aria-labelledby="title desc"
+  fill="none"
+  height="1024"
+  role="img"
+  viewBox="0 0 1024 1024"
+  width="1024"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="title">Mavry themed icon foreground</title>
+  <desc id="desc">
+    Transparent Android themed icon foreground using the Mavry decision aperture
+    as an alpha mask.
+  </desc>
+  <path
+    d="M192 192H832V352H618.667L458.667 512H192V192ZM192 672H405.333L565.333 512H832V832H192V672Z"
+    fill="#FDFDFD"
+  />
 </svg>

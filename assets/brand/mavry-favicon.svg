@@ -1,4 +1,14 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Mavry favicon</title><desc id="desc">Mavry decision aperture on a black browser tile.</desc><rect width="32" height="32" rx="7" fill="#000000"/>
-  <path d="M6 6H26V11H19L14 16H6V6ZM6 21H13L18 16H26V26H6V21Z" fill="#FDFDFD"/>
+<svg
+  aria-labelledby="title desc"
+  fill="none"
+  height="32"
+  role="img"
+  viewBox="0 0 32 32"
+  width="32"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="title">Mavry favicon</title>
+  <desc id="desc">Mavry decision aperture on a black browser tile.</desc>
+  <rect fill="#000000" height="32" rx="7" width="32" />
+  <path d="M6 6H26V11H19L14 16H6V6ZM6 21H13L18 16H26V26H6V21Z" fill="#FDFDFD" />
 </svg>

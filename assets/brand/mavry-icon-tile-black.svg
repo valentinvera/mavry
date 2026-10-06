@@ -1,4 +1,19 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Mavry black icon tile</title><desc id="desc">Mavry decision aperture in white on a rounded black tile.</desc><rect width="128" height="128" rx="28" fill="#000000"/>
-  <path d="M24 24H104V44H77L57 64H24V24ZM24 84H51L71 64H104V104H24V84Z" fill="#FDFDFD"/>
+<svg
+  aria-labelledby="title desc"
+  fill="none"
+  height="128"
+  role="img"
+  viewBox="0 0 128 128"
+  width="128"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="title">Mavry black icon tile</title>
+  <desc id="desc">
+    Mavry decision aperture in white on a rounded black tile.
+  </desc>
+  <rect fill="#000000" height="128" rx="28" width="128" />
+  <path
+    d="M24 24H104V44H77L57 64H24V24ZM24 84H51L71 64H104V104H24V84Z"
+    fill="#FDFDFD"
+  />
 </svg>
