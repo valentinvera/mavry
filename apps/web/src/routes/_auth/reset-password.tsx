@@ -10,15 +10,12 @@ export const Route = createFileRoute("/_auth/reset-password")({
     ],
   }),
   validateSearch: (search) => ({
-    error: typeof search.error === "string" ? search.error : undefined,
-    token: typeof search.token === "string" ? search.token : undefined,
+    email: typeof search.email === "string" ? search.email : undefined,
   }),
 })
 
 function ResetPasswordPage() {
-  const { error, token } = Route.useSearch()
+  const { email } = Route.useSearch()
 
-  return (
-    <ResetPassword hasInvalidToken={error === "INVALID_TOKEN"} token={token} />
-  )
+  return <ResetPassword email={email} />
 }
