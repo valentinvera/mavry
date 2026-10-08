@@ -10,8 +10,12 @@ const ThemeColorSync = () => {
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
+    const usesFixedLightScheme =
+      document.querySelector("[data-fixed-color-scheme]") !== null
     const themeColor =
-      resolvedTheme === "light" ? themeColors.light : themeColors.dark
+      usesFixedLightScheme || resolvedTheme === "light"
+        ? themeColors.light
+        : themeColors.dark
     const themeColorMeta = document.querySelector('meta[name="theme-color"]')
 
     themeColorMeta?.setAttribute("content", themeColor)
@@ -23,7 +27,7 @@ const ThemeColorSync = () => {
 export const ThemeProvider = ({ children }: { children: ReactNode }) => (
   <NextThemesProvider
     attribute="class"
-    defaultTheme="dark"
+    defaultTheme="light"
     disableTransitionOnChange
     enableSystem={false}
     storageKey="mavry-theme"

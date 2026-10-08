@@ -133,7 +133,10 @@ function WaitlistConfirmationPage() {
     status === "invalid_or_expired" ? CircleXIcon : CircleCheckIcon
 
   return (
-    <main className="flex min-h-svh w-full flex-col bg-background text-foreground">
+    <main
+      className="flex min-h-svh w-full flex-col bg-background text-foreground"
+      data-fixed-color-scheme=""
+    >
       <header className="w-full">
         <div className="px-3.5 pt-3.5 pb-2.5 sm:px-8 sm:pt-5 sm:pb-6 lg:px-10">
           <div className="mx-auto flex min-h-10 w-full max-w-7xl items-center sm:min-h-0">
