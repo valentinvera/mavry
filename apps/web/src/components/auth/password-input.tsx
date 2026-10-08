@@ -23,7 +23,7 @@ export const PasswordInput = ({
 
   return (
     <InputGroup
-      className="h-12 rounded-full border-border/80 bg-card/70 shadow-sm"
+      className="h-12 rounded-lg border-border/80 bg-background/70"
       data-disabled={disabled || undefined}
       invalidAppearance="message-only"
     >

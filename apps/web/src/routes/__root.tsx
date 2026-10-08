@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         name: "description",
       },
       {
-        content: "#000000",
+        content: "#fdfdfd",
         name: "theme-color",
       },
       {
@@ -149,7 +149,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 
 function RootDocument() {
   return (
-    <html className="dark" lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

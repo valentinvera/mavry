@@ -1,9 +1,7 @@
 import { cn } from "@mavry/ui/lib/utils"
 import type { CSSProperties, ReactNode } from "react"
 
-const LANDING_BACKGROUND_IMAGE =
-  "url('/landing/alpine-clear-sunrise-light.webp')"
-const AUTH_BACKGROUND_IMAGE = "url('/landing/hero-demo-madeira-cliffs.png')"
+const BACKGROUND_IMAGE = "url('/landing/alpine-clear-sunrise-light.webp')"
 
 const LANDSCAPE_POSITIONS = {
   authPanel: {
@@ -52,10 +50,7 @@ export const LandscapeDemoContainer = ({
     )}
     data-landscape-demo={variant}
     style={{
-      backgroundImage:
-        variant === "authPanel"
-          ? AUTH_BACKGROUND_IMAGE
-          : LANDING_BACKGROUND_IMAGE,
+      backgroundImage: BACKGROUND_IMAGE,
       backgroundRepeat: "no-repeat",
       ...LANDSCAPE_POSITIONS[variant],
     }}

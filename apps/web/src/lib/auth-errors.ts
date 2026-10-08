@@ -8,6 +8,7 @@ export type AuthErrorTarget =
   | "credentials"
   | "email"
   | "form"
+  | "otp"
   | "password"
 
 export interface AuthErrorDetails {
@@ -16,10 +17,6 @@ export interface AuthErrorDetails {
 }
 
 const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
-  EXPIRED_TOKEN: {
-    message: "This reset link has expired. Request a new one to continue.",
-    target: "form",
-  },
   INVALID_EMAIL: {
     message: "Enter a valid email address.",
     target: "email",
@@ -28,14 +25,25 @@ const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
     message: "Incorrect email or password.",
     target: "credentials",
   },
+  INVALID_OTP: {
+    message: "That code is incorrect. Check it and try again.",
+    target: "otp",
+  },
   INVALID_PASSWORD: {
     message: "Incorrect email or password.",
     target: "credentials",
   },
-  INVALID_TOKEN: {
-    message:
-      "This reset link is invalid or has expired. Request a new one to continue.",
-    target: "form",
+  OTP_EXPIRED: {
+    message: "That code has expired. Request a new one.",
+    target: "otp",
+  },
+  OTP_HAS_EXPIRED: {
+    message: "That code has expired. Request a new one.",
+    target: "otp",
+  },
+  OTP_NOT_FOUND: {
+    message: "That code isn’t valid. Request a new one.",
+    target: "otp",
   },
   PASSWORD_TOO_LONG: {
     message: "Use a password with no more than 128 characters.",

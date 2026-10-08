@@ -10,6 +10,9 @@ const ProductDecisionWorkspace = lazy(async () => {
   return { default: module.Workspace }
 })
 
+const RIGHT_FADE_GRADIENT =
+  "linear-gradient(to right, transparent 0%, color-mix(in srgb, var(--background) 65%, transparent) 70%, var(--background) 100%)"
+
 interface DemoPreviewProps {
   pageId?: PageId
 }
@@ -28,13 +31,19 @@ export const DemoPreview = ({ pageId = "home" }: DemoPreviewProps) => (
     >
       <Suspense fallback={null}>
         <ProductDecisionWorkspace
-          className="absolute top-1/2 left-12 w-[64rem] translate-x-4 -translate-y-1/2 rounded-lg shadow-xl"
+          className="absolute top-1/2 left-12 w-[64rem] translate-x-4 -translate-y-1/2 rounded-lg border-border/60 shadow-2xl"
           initialPageId={pageId}
           interactive={false}
           key={pageId}
           viewportClassName="h-[calc(100svh-8rem-2px)]"
         />
       </Suspense>
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-2/5"
+        style={{ backgroundImage: RIGHT_FADE_GRADIENT }}
+      />
     </LandscapeDemoContainer>
   </section>
 )
