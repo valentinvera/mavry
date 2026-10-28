@@ -12,6 +12,8 @@
     "sitemap": "bun run scripts/generate-sitemap.mjs"
   },
   "dependencies": {
+    "@better-auth/passkey": "catalog:",
+    "@marsidev/react-turnstile": "^1.6.2",
     "@mavry/env": "workspace:*",
     "@mavry/trpc": "workspace:*",
     "@mavry/ui": "workspace:*",
