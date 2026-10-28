@@ -11,12 +11,15 @@ import {
 import { CloudflareCaptcha } from "@/components/auth/auth-methods"
 import { useAuthErrorFocus } from "@/components/auth/use-auth-error-focus"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
-import type { AuthErrorDetails } from "@/lib/auth-errors"
+import { authClient, captchaHeaders, isCaptchaEnabled } from "@/lib/auth-client"
+import { type AuthErrorDetails, getAuthError } from "@/lib/auth-errors"
 
 export const PasswordRecovery = () => {
   const navigate = useNavigate()
   const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [captchaResetKey, setCaptchaResetKey] = useState(0)
+  const [captchaReady, setCaptchaReady] = useState(!isCaptchaEnabled)
 
   useAuthErrorFocus(authError)
 
@@ -32,13 +35,34 @@ export const PasswordRecovery = () => {
 
     const formData = new FormData(event.currentTarget)
     const email = String(formData.get("email") ?? "")
+    const captchaToken = String(formData.get("captchaToken") ?? "")
+    setCaptchaResetKey((key) => key + 1)
 
     setIsSubmitting(true)
 
     try {
-      // UI/UX only for now. When the API is ready:
-      // await authClient.emailOtp.requestPasswordReset({ email })
+      const result = await authClient.emailOtp.requestPasswordReset(
+        { email },
+        captchaHeaders(captchaToken)
+      )
+
+      if (result.error) {
+        setAuthError(
+          getAuthError(
+            result.error,
+            "Mavry couldn’t send the code. Try again.",
+            "email"
+          )
+        )
+        return
+      }
+
       await navigate({ search: { email }, to: "/reset-password" })
+    } catch {
+      setAuthError({
+        message: "Mavry couldn’t send the code. Try again.",
+        target: "form",
+      })
     } finally {
       setIsSubmitting(false)
     }
@@ -88,12 +112,15 @@ export const PasswordRecovery = () => {
             <AuthFieldError error={authError} targets={["email"]} />
           </Field>
 
-          <CloudflareCaptcha />
+          <CloudflareCaptcha
+            key={captchaResetKey}
+            onReadyChange={setCaptchaReady}
+          />
 
           <Field>
             <Button
               className="h-12 w-full cursor-pointer rounded-lg text-action!"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !captchaReady}
               type="submit"
             >
               {isSubmitting ? <Spinner data-icon="inline-start" /> : null}

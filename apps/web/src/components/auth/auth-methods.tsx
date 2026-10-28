@@ -1,8 +1,9 @@
+import { Turnstile } from "@marsidev/react-turnstile"
+import { env } from "@mavry/env/web"
 import { Button } from "@mavry/ui/components/button"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { cn } from "@mavry/ui/lib/utils"
-import { Cloud } from "lucide-react"
-import { type ChangeEvent, type ReactNode, useState } from "react"
+import { type ReactNode, useCallback, useEffect, useState } from "react"
 
 interface MethodButtonProps {
   badge?: string
@@ -50,41 +51,57 @@ export const OrDivider = () => (
   </div>
 )
 
-export const CloudflareCaptcha = () => {
-  const [checked, setChecked] = useState(false)
+interface CloudflareCaptchaProps {
+  onReadyChange?: (ready: boolean) => void
+}
 
-  const handleToggle = (event: ChangeEvent<HTMLInputElement>): void => {
-    setChecked(event.target.checked)
+export const CloudflareCaptcha = ({
+  onReadyChange,
+}: CloudflareCaptchaProps) => {
+  const siteKey = env.VITE_TURNSTILE_SITE_KEY
+  const [token, setToken] = useState("")
+
+  useEffect(() => {
+    if (!siteKey) {
+      onReadyChange?.(true)
+      return
+    }
+
+    onReadyChange?.(false)
+  }, [onReadyChange])
+
+  const handleSuccess = useCallback(
+    (nextToken: string): void => {
+      setToken(nextToken)
+      onReadyChange?.(true)
+    },
+    [onReadyChange]
+  )
+
+  const handleError = useCallback((): void => {
+    setToken("")
+    onReadyChange?.(false)
+  }, [onReadyChange])
+
+  const handleExpire = useCallback((): void => {
+    setToken("")
+    onReadyChange?.(false)
+  }, [onReadyChange])
+
+  if (!siteKey) {
+    return null
   }
 
   return (
-    <div className="flex w-full items-center justify-between gap-3 rounded-md border border-border bg-muted/40 p-3">
-      <label className="flex min-w-0 flex-1 cursor-pointer items-center gap-3">
-        <input
-          checked={checked}
-          className="size-5 shrink-0 cursor-pointer accent-foreground"
-          onChange={handleToggle}
-          type="checkbox"
-        />
-        <span className="text-foreground text-small">Verify you are human</span>
-      </label>
-      <div className="flex shrink-0 flex-col items-end gap-0.5">
-        <div className="flex items-center gap-1">
-          <Cloud
-            aria-hidden="true"
-            className="size-4 text-[#F6821F]"
-            fill="currentColor"
-          />
-          <span className="font-semibold text-[0.6rem] tracking-wide">
-            CLOUDFLARE
-          </span>
-        </div>
-        <div className="flex items-center gap-1.5 text-[0.6rem] text-muted-foreground">
-          <span className="underline underline-offset-2">Privacy</span>
-          <span aria-hidden="true">•</span>
-          <span className="underline underline-offset-2">Help</span>
-        </div>
-      </div>
+    <div className="w-full">
+      <Turnstile
+        onError={handleError}
+        onExpire={handleExpire}
+        onSuccess={handleSuccess}
+        options={{ size: "flexible", theme: "light" }}
+        siteKey={siteKey}
+      />
+      <input name="captchaToken" type="hidden" value={token} />
     </div>
   )
 }

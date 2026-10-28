@@ -1,25 +1,21 @@
 import { GithubIcon } from "@mavry/ui/icons/github"
 import { GoogleIcon } from "@mavry/ui/icons/google"
-import { MicrosoftIcon } from "@mavry/ui/icons/microsoft"
-import {
-  FingerprintIcon,
-  KeyRoundIcon,
-  LinkIcon,
-  MailIcon,
-  PhoneIcon,
-} from "lucide-react"
-import type { AuthView, SocialProvider } from "@/components/auth/auth-flow"
+import { FingerprintIcon, KeyRoundIcon, LinkIcon, MailIcon } from "lucide-react"
+import type {
+  AuthMode,
+  AuthView,
+  SocialProvider,
+} from "@/components/auth/auth-flow"
 import { AuthErrorSummary } from "@/components/auth/auth-form-error"
 import { MethodButton, OrDivider } from "@/components/auth/auth-methods"
 import type { AuthErrorDetails } from "@/lib/auth-errors"
-
-type AuthMode = "sign-in" | "sign-up"
 
 interface AuthMethodOptionsProps {
   authError: AuthErrorDetails | null
   errorTitle: string
   isBusy: boolean
   mode: AuthMode
+  onPasskey: () => void
   onSelectView: (view: AuthView) => void
   onSocial: (provider: SocialProvider) => void
   pendingProvider: SocialProvider | null
@@ -31,6 +27,7 @@ export const AuthMethodOptions = ({
   errorTitle,
   isBusy,
   mode,
+  onPasskey,
   onSelectView,
   onSocial,
   pendingProvider,
@@ -40,10 +37,6 @@ export const AuthMethodOptions = ({
 
   const handleGoogleSignIn = async (): Promise<void> => {
     await onSocial("google")
-  }
-
-  const handleMicrosoftSignIn = async (): Promise<void> => {
-    await onSocial("microsoft")
   }
 
   const handleGithubSignIn = async (): Promise<void> => {
@@ -62,8 +55,8 @@ export const AuthMethodOptions = ({
     onSelectView("magic")
   }
 
-  const handlePhoneView = (): void => {
-    onSelectView("phone")
+  const handlePasskeySignIn = (): void => {
+    onPasskey()
   }
 
   return (
@@ -79,13 +72,6 @@ export const AuthMethodOptions = ({
         onClick={handleGoogleSignIn}
       />
       <MethodButton
-        busy={pendingProvider === "microsoft"}
-        disabled={isBusy}
-        icon={<MicrosoftIcon aria-hidden="true" data-icon="inline-start" />}
-        label="Continue with Microsoft"
-        onClick={handleMicrosoftSignIn}
-      />
-      <MethodButton
         busy={pendingProvider === "github"}
         disabled={isBusy}
         icon={<GithubIcon aria-hidden="true" data-icon="inline-start" />}
@@ -96,6 +82,7 @@ export const AuthMethodOptions = ({
         disabled={isBusy}
         icon={<FingerprintIcon aria-hidden="true" data-icon="inline-start" />}
         label={isSignUp ? "Sign up with passkey" : "Continue with passkey"}
+        onClick={handlePasskeySignIn}
       />
 
       <OrDivider />
@@ -117,12 +104,6 @@ export const AuthMethodOptions = ({
         icon={<LinkIcon aria-hidden="true" data-icon="inline-start" />}
         label="Email me a magic link"
         onClick={handleMagicView}
-      />
-      <MethodButton
-        disabled={isBusy}
-        icon={<PhoneIcon aria-hidden="true" data-icon="inline-start" />}
-        label="Continue with phone"
-        onClick={handlePhoneView}
       />
     </div>
   )

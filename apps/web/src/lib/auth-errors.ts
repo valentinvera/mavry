@@ -17,6 +17,19 @@ export interface AuthErrorDetails {
 }
 
 const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
+  ACCOUNT_TEMPORARILY_LOCKED: {
+    message:
+      "Too many failed attempts. Your account is temporarily locked. Try again later.",
+    target: "form",
+  },
+  INVALID_BACKUP_CODE: {
+    message: "That backup code didn’t work. Try again.",
+    target: "otp",
+  },
+  INVALID_CODE: {
+    message: "That code didn’t work. Try again.",
+    target: "otp",
+  },
   INVALID_EMAIL: {
     message: "Enter a valid email address.",
     target: "email",
@@ -32,6 +45,14 @@ const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
   INVALID_PASSWORD: {
     message: "Incorrect email or password.",
     target: "credentials",
+  },
+  INVALID_TWO_FACTOR_COOKIE: {
+    message: "Your verification expired. Sign in again.",
+    target: "form",
+  },
+  MISSING_RESPONSE: {
+    message: "Complete the captcha check and try again.",
+    target: "form",
   },
   OTP_EXPIRED: {
     message: "That code has expired. Request a new one.",
@@ -53,6 +74,18 @@ const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
     message: "Use a password with at least 8 characters.",
     target: "password",
   },
+  TOO_MANY_ATTEMPTS: {
+    message: "Too many attempts. Request a new code and try again.",
+    target: "otp",
+  },
+  TWO_FACTOR_NOT_ENABLED: {
+    message: "Two-factor authentication isn’t enabled on this account.",
+    target: "form",
+  },
+  UNKNOWN_ERROR: {
+    message: "Captcha verification failed. Try again.",
+    target: "form",
+  },
   USER_ALREADY_EXISTS: {
     message: "An account already exists for this email.",
     target: "email",
@@ -60,6 +93,10 @@ const AUTH_ERRORS: Record<string, AuthErrorDetails> = {
   USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL: {
     message: "An account already exists for this email.",
     target: "email",
+  },
+  VERIFICATION_FAILED: {
+    message: "Captcha verification failed. Try again.",
+    target: "form",
   },
 } as const
 

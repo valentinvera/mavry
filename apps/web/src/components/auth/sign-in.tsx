@@ -5,7 +5,6 @@ import { AuthMethodOptions } from "@/components/auth/auth-method-options"
 import {
   EmailCodePanel,
   MagicLinkPanel,
-  PhonePanel,
 } from "@/components/auth/auth-secondary-panels"
 import { AuthFooter, AuthHeader } from "@/components/auth/auth-shell"
 
@@ -17,6 +16,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
   const {
     authError,
     clearError,
+    handlePasskey,
     handleSocial,
     handleSubmit,
     isFormBusy,
@@ -28,6 +28,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
     initialErrorMessage: initialErrorCode
       ? "Mavry couldn’t complete that social login. Try again."
       : undefined,
+    mode: "sign-in",
   })
 
   const handleBackToOptions = useCallback((): void => {
@@ -47,6 +48,7 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
           errorTitle="Couldn’t log in"
           isBusy={isFormBusy}
           mode="sign-in"
+          onPasskey={handlePasskey}
           onSelectView={selectView}
           onSocial={handleSocial}
           pendingProvider={pendingSocialProvider}
@@ -71,7 +73,6 @@ export const SignIn = ({ initialErrorCode }: SignInProps) => {
       {view === "magic" ? (
         <MagicLinkPanel onBack={handleBackToOptions} />
       ) : null}
-      {view === "phone" ? <PhonePanel onBack={handleBackToOptions} /> : null}
 
       {view === "options" ? (
         <AuthFooter

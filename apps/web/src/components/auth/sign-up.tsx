@@ -5,9 +5,9 @@ import { AuthMethodOptions } from "@/components/auth/auth-method-options"
 import {
   EmailCodePanel,
   MagicLinkPanel,
-  PhonePanel,
 } from "@/components/auth/auth-secondary-panels"
 import { AuthFooter, AuthHeader } from "@/components/auth/auth-shell"
+import { PasskeySignupPanel } from "@/components/auth/passkey-signup-panel"
 
 interface SignUpProps {
   initialErrorCode?: string
@@ -17,6 +17,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
   const {
     authError,
     clearError,
+    handlePasskey,
     handleSocial,
     handleSubmit,
     isFormBusy,
@@ -28,6 +29,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
     initialErrorMessage: initialErrorCode
       ? "Mavry couldn’t complete that social sign-up. Try again."
       : undefined,
+    mode: "sign-up",
   })
 
   const handleBackToOptions = useCallback((): void => {
@@ -47,6 +49,7 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
           errorTitle="Couldn’t create your account"
           isBusy={isFormBusy}
           mode="sign-up"
+          onPasskey={handlePasskey}
           onSelectView={selectView}
           onSocial={handleSocial}
           pendingProvider={pendingSocialProvider}
@@ -70,7 +73,9 @@ export const SignUp = ({ initialErrorCode }: SignUpProps) => {
       {view === "magic" ? (
         <MagicLinkPanel onBack={handleBackToOptions} />
       ) : null}
-      {view === "phone" ? <PhonePanel onBack={handleBackToOptions} /> : null}
+      {view === "passkey-signup" ? (
+        <PasskeySignupPanel onBack={handleBackToOptions} />
+      ) : null}
 
       {view === "options" ? (
         <AuthFooter
