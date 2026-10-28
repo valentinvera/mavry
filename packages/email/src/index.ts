@@ -16,6 +16,19 @@ export {
   type ResendTransportResponse,
 } from "./clients/resend-email.client"
 export {
+  type AuthEmailConfiguration,
+  type AuthEmailMessage,
+  type AuthEmailResult,
+  AuthEmailService,
+  type AuthLinkEmailRequest,
+  type AuthOtpEmailRequest,
+  buildAuthLinkEmail,
+  buildAuthOtpEmail,
+  createAuthEmailService,
+  NoopAuthEmailService,
+  ResendAuthEmailService,
+} from "./services/auth-email.service"
+export {
   buildWaitlistConfirmationEmail,
   createWaitlistEmailService,
   NoopWaitlistEmailService,
@@ -26,6 +39,20 @@ export {
   type WaitlistEmailConfiguration,
   WaitlistEmailService,
 } from "./services/waitlist-email.service"
+export {
+  AuthLinkEmail,
+  type AuthLinkEmailProps,
+  type AuthLinkPurpose,
+  getAuthLinkEmailSubject,
+  renderAuthLinkEmail,
+} from "./templates/auth-link"
+export {
+  AuthOtpEmail,
+  type AuthOtpEmailProps,
+  type AuthOtpPurpose,
+  getAuthOtpEmailSubject,
+  renderAuthOtpEmail,
+} from "./templates/auth-otp"
 export {
   type RenderedWaitlistConfirmationEmail,
   renderWaitlistConfirmationEmail,
