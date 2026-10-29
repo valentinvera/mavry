@@ -22,8 +22,11 @@
   },
   "dependencies": {
     "@better-auth/expo": "catalog:",
+    "@better-auth/passkey": "catalog:",
     "@mavry/db": "workspace:*",
+    "@mavry/email": "workspace:*",
     "@mavry/env": "workspace:*",
+    "@nestjs/common": "catalog:",
     "@polar-sh/better-auth": "catalog:",
     "@polar-sh/sdk": "^1.0.2",
     "better-auth": "catalog:",

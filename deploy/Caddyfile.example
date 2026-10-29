@@ -1,0 +1,24 @@
+# Mavry reverse proxy (Caddy example)
+#
+# Caddy terminates TLS and forwards the real client address. Point the
+# upstreams at your deployment (Docker service names, hostnames, or ports).
+#
+# The API resolves the client IP from X-Forwarded-For / X-Real-IP and falls
+# back to the socket address. Overwriting the header with the real remote host
+# keeps it a single trusted value, so no TRUSTED_PROXIES entry is required.
+# If your proxy appends a chain instead, set TRUSTED_PROXIES on the API to the
+# proxy IPs/CIDRs.
+
+api.mavry.app {
+	encode zstd gzip
+
+	reverse_proxy 127.0.0.1:4040 {
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+	}
+}
+
+mavry.app, www.mavry.app {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:8080
+}

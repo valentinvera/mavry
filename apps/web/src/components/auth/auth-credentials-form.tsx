@@ -3,13 +3,14 @@ import { Field, FieldGroup, FieldLabel } from "@mavry/ui/components/field"
 import { Input } from "@mavry/ui/components/input"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { Link } from "@tanstack/react-router"
-import type { FormEvent } from "react"
+import { type FormEvent, useState } from "react"
 import {
   AuthErrorSummary,
   AuthFieldError,
 } from "@/components/auth/auth-form-error"
 import { CloudflareCaptcha } from "@/components/auth/auth-methods"
 import { PasswordInput } from "@/components/auth/password-input"
+import { isCaptchaEnabled } from "@/lib/auth-client"
 import type { AuthErrorDetails } from "@/lib/auth-errors"
 
 type AuthMode = "sign-in" | "sign-up"
@@ -39,6 +40,8 @@ export const AuthCredentialsForm = ({
   onSubmit,
 }: AuthCredentialsFormProps) => {
   const isSignIn = mode === "sign-in"
+  const [captchaResetKey, setCaptchaResetKey] = useState(0)
+  const [captchaReady, setCaptchaReady] = useState(!isCaptchaEnabled)
   const emailHasError =
     authError?.target === "email" ||
     (isSignIn && authError?.target === "credentials")
@@ -48,12 +51,17 @@ export const AuthCredentialsForm = ({
   const submitLabel = isSignIn ? "Log in" : "Create account"
   const busyLabel = isSignIn ? "Logging in…" : "Creating account…"
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    onSubmit(event)
+    setCaptchaResetKey((key) => key + 1)
+  }
+
   return (
     <form
       aria-busy={isBusy}
       aria-label={isSignIn ? "Log in" : "Create account"}
       className="mt-7 w-full"
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit}
     >
       <FieldGroup className="gap-4">
         <AuthErrorSummary error={authError} title={errorTitle} />
@@ -136,12 +144,15 @@ export const AuthCredentialsForm = ({
           )}
         </Field>
 
-        <CloudflareCaptcha />
+        <CloudflareCaptcha
+          key={captchaResetKey}
+          onReadyChange={setCaptchaReady}
+        />
 
         <Field>
           <Button
             className="h-12 w-full cursor-pointer rounded-lg text-action!"
-            disabled={isBusy}
+            disabled={isBusy || !captchaReady}
             type="submit"
           >
             {isBusy ? <Spinner data-icon="inline-start" /> : null}

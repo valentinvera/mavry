@@ -4,6 +4,9 @@ import { NestFactory } from "@nestjs/core"
 import type { NestExpressApplication } from "@nestjs/platform-express"
 import { AppModule } from "./app.module"
 import { registerAuthRoute } from "./auth.middleware"
+import { registerClientAddressFallback } from "./client-address.middleware"
+import { registerHealthRoute } from "./health.middleware"
+import { registerUsersRoute } from "./users.middleware"
 import { registerWaitlistConfirmationRoute } from "./waitlist-confirmation.middleware"
 
 const corsOrigins = env.CORS_ORIGIN.split(",")
@@ -17,11 +20,14 @@ async function bootstrap(): Promise<void> {
 
   app.setGlobalPrefix("api")
 
+  registerClientAddressFallback(app)
+
   app.enableCors({
     allowedHeaders: [
       "Content-Type",
       "Authorization",
       "expo-origin",
+      "x-captcha-response",
       "x-skip-oauth-proxy",
     ],
     credentials: true,
@@ -37,6 +43,8 @@ async function bootstrap(): Promise<void> {
   // biome-ignore lint/correctness/useHookAtTopLevel: NestJS parser registration is not a React hook.
   app.useBodyParser("urlencoded", { extended: true })
 
+  registerHealthRoute(app)
+  registerUsersRoute(app)
   registerWaitlistConfirmationRoute(app)
 
   await app.listen(env.PORT, env.HOST)

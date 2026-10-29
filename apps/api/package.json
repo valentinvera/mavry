@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mavry/auth": "workspace:*",
+    "@mavry/db": "workspace:*",
     "@mavry/env": "workspace:*",
     "@mavry/trpc": "workspace:*",
     "@nestjs/common": "catalog:",
@@ -19,6 +20,7 @@
     "@trpc/server": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "drizzle-orm": "^0.45.3",
     "nestjs-trpc": "catalog:",
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:",

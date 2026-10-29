@@ -22,6 +22,20 @@
       "when": 1788607983038,
       "tag": "0002_ancient_pandemic",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791454633412,
+      "tag": "0003_bent_bulldozer",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791684009772,
+      "tag": "0004_empty_aqueduct",
+      "breakpoints": true
     }
   ]
 }

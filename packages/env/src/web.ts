@@ -8,6 +8,7 @@ export const env = createEnv({
     VITE_API_URL: z.url(),
     VITE_HOST: z.string().min(1),
     VITE_PORT: z.coerce.number().int().positive(),
+    VITE_TURNSTILE_SITE_KEY: z.string().trim().min(1).optional(),
   },
   clientPrefix: "VITE_",
   emptyStringAsUndefined: true,

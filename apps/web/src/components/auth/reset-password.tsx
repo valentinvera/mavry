@@ -13,7 +13,8 @@ import { CloudflareCaptcha, CodeInput } from "@/components/auth/auth-methods"
 import { PasswordInput } from "@/components/auth/password-input"
 import { useAuthErrorFocus } from "@/components/auth/use-auth-error-focus"
 import { MavrySymbol } from "@/components/brand/mavry-symbol"
-import type { AuthErrorDetails } from "@/lib/auth-errors"
+import { authClient, captchaHeaders, isCaptchaEnabled } from "@/lib/auth-client"
+import { type AuthErrorDetails, getAuthError } from "@/lib/auth-errors"
 
 interface ResetPasswordProps {
   email?: string
@@ -27,6 +28,8 @@ interface ResetFormProps {
 const ResetForm = ({ email, onComplete }: ResetFormProps) => {
   const [authError, setAuthError] = useState<AuthErrorDetails | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [captchaResetKey, setCaptchaResetKey] = useState(0)
+  const [captchaReady, setCaptchaReady] = useState(!isCaptchaEnabled)
 
   useAuthErrorFocus(authError)
 
@@ -34,13 +37,17 @@ const ResetForm = ({ email, onComplete }: ResetFormProps) => {
     setAuthError(null)
   }, [])
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault()
     setAuthError(null)
 
     const formData = new FormData(event.currentTarget)
     const newPassword = String(formData.get("newPassword") ?? "")
     const confirmPassword = String(formData.get("confirmPassword") ?? "")
+    const otp = String(formData.get("otp") ?? "")
+    const captchaToken = String(formData.get("captchaToken") ?? "")
 
     if (newPassword !== confirmPassword) {
       setAuthError({
@@ -50,15 +57,39 @@ const ResetForm = ({ email, onComplete }: ResetFormProps) => {
       return
     }
 
+    setCaptchaResetKey((key) => key + 1)
     setIsSubmitting(true)
 
-    // UI/UX only for now. When the API is ready:
-    // await authClient.emailOtp.resetPassword({
-    //   email,
-    //   otp: String(formData.get("otp") ?? ""),
-    //   password: newPassword,
-    // })
-    onComplete()
+    try {
+      const result = await authClient.emailOtp.resetPassword(
+        {
+          email,
+          otp,
+          password: newPassword,
+        },
+        captchaHeaders(captchaToken)
+      )
+
+      if (result.error) {
+        setAuthError(
+          getAuthError(
+            result.error,
+            "Mavry couldn’t reset your password. Try again.",
+            "otp"
+          )
+        )
+        return
+      }
+
+      onComplete()
+    } catch {
+      setAuthError({
+        message: "Mavry couldn’t reset your password. Try again.",
+        target: "form",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -123,12 +154,15 @@ const ResetForm = ({ email, onComplete }: ResetFormProps) => {
           <AuthFieldError error={authError} targets={["confirmPassword"]} />
         </Field>
 
-        <CloudflareCaptcha />
+        <CloudflareCaptcha
+          key={captchaResetKey}
+          onReadyChange={setCaptchaReady}
+        />
 
         <Field>
           <Button
             className="h-12 w-full cursor-pointer rounded-lg text-action!"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !captchaReady}
             type="submit"
           >
             {isSubmitting ? <Spinner data-icon="inline-start" /> : null}

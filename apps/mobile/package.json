@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@better-auth/expo": "catalog:",
+    "@better-auth/passkey": "catalog:",
     "@expo-google-fonts/geist": "^0.4.2",
     "@expo/metro-runtime": "~57.0.16",
     "@expo/vector-icons": "^15.1.1",

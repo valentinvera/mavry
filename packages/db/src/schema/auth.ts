@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm"
-import { boolean, index, pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import {
+  boolean,
+  index,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core"
 
 export const user = pgTable("user", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -8,6 +15,7 @@ export const user = pgTable("user", {
   id: text("id").primaryKey(),
   image: text("image"),
   name: text("name").notNull(),
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
@@ -73,9 +81,53 @@ export const verification = pgTable(
   (table) => [index("verification_identifier_idx").on(table.identifier)]
 )
 
+export const twoFactor = pgTable(
+  "two_factor",
+  {
+    backupCodes: text("backup_codes").notNull(),
+    failedVerificationCount: integer("failed_verification_count").default(0),
+    id: text("id").primaryKey(),
+    lockedUntil: timestamp("locked_until"),
+    secret: text("secret").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    verified: boolean("verified").default(true),
+  },
+  (table) => [
+    index("two_factor_secret_idx").on(table.secret),
+    index("two_factor_userId_idx").on(table.userId),
+  ]
+)
+
+export const passkey = pgTable(
+  "passkey",
+  {
+    aaguid: text("aaguid"),
+    backedUp: boolean("backed_up").notNull(),
+    counter: integer("counter").notNull(),
+    createdAt: timestamp("created_at"),
+    credentialID: text("credential_id").notNull(),
+    deviceType: text("device_type").notNull(),
+    id: text("id").primaryKey(),
+    name: text("name"),
+    publicKey: text("public_key").notNull(),
+    transports: text("transports"),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+  },
+  (table) => [
+    index("passkey_userId_idx").on(table.userId),
+    index("passkey_credentialID_idx").on(table.credentialID),
+  ]
+)
+
 export const userRelations = relations(user, ({ many }) => ({
   accounts: many(account),
+  passkeys: many(passkey),
   sessions: many(session),
+  twoFactors: many(twoFactor),
 }))
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -88,6 +140,20 @@ export const sessionRelations = relations(session, ({ one }) => ({
 export const accountRelations = relations(account, ({ one }) => ({
   user: one(user, {
     fields: [account.userId],
+    references: [user.id],
+  }),
+}))
+
+export const twoFactorRelations = relations(twoFactor, ({ one }) => ({
+  user: one(user, {
+    fields: [twoFactor.userId],
+    references: [user.id],
+  }),
+}))
+
+export const passkeyRelations = relations(passkey, ({ one }) => ({
+  user: one(user, {
+    fields: [passkey.userId],
     references: [user.id],
   }),
 }))
