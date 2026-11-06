@@ -15,12 +15,15 @@ import {
   userRelations,
   verification,
 } from "./schema/auth"
+import { idea, ideaRelations } from "./schema/ideas"
 import { project, projectRelations } from "./schema/projects"
 import { waitlistEntry } from "./schema/waitlist"
 
 const schema = {
   account,
   accountRelations,
+  idea,
+  ideaRelations,
   passkey,
   passkeyRelations,
   project,
