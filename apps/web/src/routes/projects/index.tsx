@@ -83,9 +83,13 @@ function ProjectsPage() {
         <ul className="mt-8 border-border/70 border-t">
           {projects.map((project) => (
             <li className="border-border/70 border-b" key={project.id}>
-              <div className="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+              <Link
+                className="group flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+                params={{ projectId: project.id }}
+                to="/projects/$projectId"
+              >
                 <div className="min-w-0">
-                  <h2 className="truncate font-medium text-body">
+                  <h2 className="truncate font-medium text-body group-hover:underline group-hover:underline-offset-4">
                     {project.name}
                   </h2>
                   <p className="mt-1 line-clamp-2 max-w-2xl text-caption text-muted-foreground">
@@ -100,7 +104,7 @@ function ProjectsPage() {
                     Updated {DATE_FORMATTER.format(new Date(project.updatedAt))}
                   </span>
                 </div>
-              </div>
+              </Link>
             </li>
           ))}
         </ul>
