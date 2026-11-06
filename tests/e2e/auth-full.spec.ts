@@ -12,6 +12,7 @@ const DEVTOOLS_BUTTON_NAME = /Open TanStack Router Devtools/
 const PROJECTS_URL = /\/projects$/u
 const NEW_PROJECT_URL = /\/projects\/new$/u
 const PROJECT_HOME_URL = /\/projects\/[0-9a-f-]{36}$/u
+const PROJECT_INBOX_URL = /\/projects\/[0-9a-f-]{36}\/inbox$/u
 const SIGN_IN_URL = /\/sign-in/u
 const TWO_FACTOR_URL = /\/two-factor/u
 const VERIFY_EMAIL_URL = /\/verify-email/u
@@ -527,6 +528,44 @@ test("creates a project from the intake form", async ({ page }) => {
   await page.screenshot({
     fullPage: true,
     path: ".playwright-output/project-home.png",
+  })
+
+  await page.getByRole("link", { name: "Inbox" }).click()
+  await expect(page).toHaveURL(PROJECT_INBOX_URL, { timeout: 15_000 })
+  await waitForHydration(page)
+
+  await page.locator("#idea-title").fill("Mobile quick capture")
+  await page.locator("#idea-note").fill("Capture ideas from the phone.")
+  await page.getByRole("button", { name: "Add idea" }).click()
+  await expect(
+    page.getByRole("heading", { name: "Mobile quick capture" })
+  ).toBeVisible({ timeout: 15_000 })
+
+  await page
+    .getByRole("combobox", { name: "Status for Mobile quick capture" })
+    .click()
+  await page.getByRole("option", { name: "Needs clarity" }).click()
+  await expect(
+    page.getByRole("combobox", { name: "Status for Mobile quick capture" })
+  ).toContainText("Needs clarity")
+
+  const filters = page.getByRole("group", {
+    name: "Filter ideas by status",
+  })
+  await filters.getByRole("button", { name: "Needs clarity" }).click()
+  await expect(
+    page.getByRole("heading", { name: "Mobile quick capture" })
+  ).toBeVisible()
+  await filters.getByRole("button", { name: "New" }).click()
+  await expect(page.getByText("No ideas with this status yet.")).toBeVisible()
+  await filters.getByRole("button", { name: "All" }).click()
+  await expect(
+    page.getByRole("heading", { name: "Mobile quick capture" })
+  ).toBeVisible()
+
+  await page.screenshot({
+    fullPage: true,
+    path: ".playwright-output/project-inbox.png",
   })
 
   await page.goto("/projects/00000000-0000-4000-8000-000000000000")
