@@ -11,6 +11,7 @@ const CAPTCHA_TOKEN = "XXXX.DUMMY.TOKEN.XXXX"
 const DEVTOOLS_BUTTON_NAME = /Open TanStack Router Devtools/
 const PROJECTS_URL = /\/projects$/u
 const NEW_PROJECT_URL = /\/projects\/new$/u
+const PROJECT_HOME_URL = /\/projects\/[0-9a-f-]{36}$/u
 const SIGN_IN_URL = /\/sign-in/u
 const TWO_FACTOR_URL = /\/two-factor/u
 const VERIFY_EMAIL_URL = /\/verify-email/u
@@ -508,6 +509,30 @@ test("creates a project from the intake form", async ({ page }) => {
     timeout: 15_000,
   })
   await expect(page.getByText("MVP scope", { exact: true })).toBeVisible()
+
+  await page.getByRole("heading", { name: "Mavry" }).click()
+  await expect(page).toHaveURL(PROJECT_HOME_URL, { timeout: 15_000 })
+  await expect(
+    page.getByText("Scope, cuts, and readiness in one place help builders")
+  ).toBeVisible()
+  await expect(page.getByText("Next 30 days")).toBeVisible()
+  await expect(page.getByText("Ship onboarding to 20 builders.")).toBeVisible()
+  await expect(
+    page.getByText("Feedback ownership before opening beta.")
+  ).toBeVisible()
+  await expect(
+    page.getByText("A public roadmap and GitHub sync.")
+  ).toBeVisible()
+
+  await page.screenshot({
+    fullPage: true,
+    path: ".playwright-output/project-home.png",
+  })
+
+  await page.goto("/projects/00000000-0000-4000-8000-000000000000")
+  await expect(page.getByText("Project not found")).toBeVisible({
+    timeout: 15_000,
+  })
 
   await signOut(page)
 })
