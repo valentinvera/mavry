@@ -15,6 +15,7 @@ import {
   userRelations,
   verification,
 } from "./schema/auth"
+import { project, projectRelations } from "./schema/projects"
 import { waitlistEntry } from "./schema/waitlist"
 
 const schema = {
@@ -22,6 +23,8 @@ const schema = {
   accountRelations,
   passkey,
   passkeyRelations,
+  project,
+  projectRelations,
   session,
   sessionRelations,
   twoFactor,
