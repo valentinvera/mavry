@@ -85,7 +85,7 @@ export const useAuthFlow = ({
           return
         }
 
-        await navigate({ to: "/account" })
+        await navigate({ to: "/projects" })
       } catch {
         setAuthError({ message: fallbackMessage, target: "form" })
       } finally {
@@ -103,9 +103,9 @@ export const useAuthFlow = ({
       try {
         const { origin } = window.location
         await authClient.signIn.social({
-          callbackURL: `${origin}/account`,
+          callbackURL: `${origin}/projects`,
           errorCallbackURL: `${origin}/sign-in`,
-          newUserCallbackURL: `${origin}/account`,
+          newUserCallbackURL: `${origin}/projects`,
           provider,
         })
       } catch {
@@ -149,7 +149,7 @@ export const useAuthFlow = ({
         return
       }
 
-      await navigate({ to: "/account" })
+      await navigate({ to: "/projects" })
     } catch {
       setAuthError({
         message: "Mavry couldn’t use a passkey. Try again.",

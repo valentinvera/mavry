@@ -107,7 +107,7 @@ export const EmailCodePanel = ({ onBack }: PanelProps) => {
         return
       }
 
-      await navigate({ to: "/account" })
+      await navigate({ to: "/projects" })
     } catch {
       setAuthError({
         message: "That code didn’t work. Try again.",
@@ -252,7 +252,7 @@ export const MagicLinkPanel = ({ onBack }: PanelProps) => {
       const { origin } = window.location
       const result = await authClient.signIn.magicLink(
         {
-          callbackURL: `${origin}/account`,
+          callbackURL: `${origin}/projects`,
           email: nextEmail,
           errorCallbackURL: `${origin}/sign-in`,
         },

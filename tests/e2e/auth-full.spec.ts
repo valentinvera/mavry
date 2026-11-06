@@ -9,7 +9,7 @@ const API_BASE_URL = process.env.PLAYWRIGHT_API_URL ?? "http://localhost:4040"
 const WEB_BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:8080"
 const CAPTCHA_TOKEN = "XXXX.DUMMY.TOKEN.XXXX"
 const DEVTOOLS_BUTTON_NAME = /Open TanStack Router Devtools/
-const ACCOUNT_URL = /\/account$/u
+const PROJECTS_URL = /\/projects$/u
 const SIGN_IN_URL = /\/sign-in/u
 const TWO_FACTOR_URL = /\/two-factor/u
 const VERIFY_EMAIL_URL = /\/verify-email/u
@@ -128,7 +128,7 @@ const signInWithPassword = async (
   page: Page,
   email: string,
   password: string,
-  expectedUrl: RegExp = ACCOUNT_URL
+  expectedUrl: RegExp = PROJECTS_URL
 ): Promise<void> => {
   await page.goto("/sign-in")
   await waitForHydration(page)
@@ -186,6 +186,8 @@ const getSocialAuthorizeUrl = async (provider: string): Promise<string> => {
 }
 
 const signOut = async (page: Page): Promise<void> => {
+  await page.goto("/account")
+  await waitForHydration(page)
   await page.locator("main > button").filter({ hasText: "Sign out" }).click()
   await expect(page).toHaveURL(SIGN_IN_URL, { timeout: 15_000 })
 }
@@ -215,11 +217,10 @@ test("sign-up, email verification, session persistence and guard", async ({
 
   const signUpCutoff = new Date()
   await page.getByRole("button", { name: "Create account" }).click()
-  await expect(page).toHaveURL(ACCOUNT_URL, { timeout: 20_000 })
-  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+  await expect(page.getByText("Create your first project.")).toBeVisible({
     timeout: 15_000,
   })
-  await expect(page.getByText("Not verified")).toBeVisible()
 
   const otp = await waitForOtp(signUpCutoff)
   await page.getByRole("link", { name: "Verify email" }).click()
@@ -231,6 +232,9 @@ test("sign-up, email verification, session persistence and guard", async ({
   })
 
   await page.goto("/account")
+  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
+    timeout: 15_000,
+  })
   await expect(page.getByText("· Verified")).toBeVisible({ timeout: 15_000 })
 
   const session = (await page.evaluate(async (apiBaseUrl) => {
@@ -256,6 +260,7 @@ test("sign-up, email verification, session persistence and guard", async ({
   await expect(page).toHaveURL(SIGN_IN_URL, { timeout: 15_000 })
 
   await signInWithPassword(page, email, PASSWORD)
+  await page.goto("/account")
   await expect(page.getByText("· Verified")).toBeVisible({ timeout: 15_000 })
 })
 
@@ -287,6 +292,7 @@ test("password reset with emailed code", async ({ page }) => {
   })
 
   await signInWithPassword(page, email, RESET_PASSWORD)
+  await page.goto("/account")
   await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
     timeout: 15_000,
   })
@@ -302,6 +308,8 @@ test("two-factor enable, challenge on sign-in and disable", async ({
   await sleep(1000)
 
   await signInWithPassword(page, email, PASSWORD)
+  await page.goto("/account")
+  await waitForHydration(page)
 
   await page.locator("#enable-2fa-password").fill(PASSWORD)
   const enableResponse = page.waitForResponse(
@@ -333,7 +341,9 @@ test("two-factor enable, challenge on sign-in and disable", async ({
 
   await page.locator("#two-factor-code").fill(totpCode(secret))
   await page.getByRole("button", { exact: true, name: "Verify" }).click()
-  await expect(page).toHaveURL(ACCOUNT_URL, { timeout: 20_000 })
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+
+  await page.goto("/account")
   await expect(
     page.getByText("Two-factor authentication is enabled on this account.")
   ).toBeVisible({ timeout: 15_000 })
@@ -368,8 +378,8 @@ test("sign-in with an emailed one-time code", async ({ page }) => {
   const otp = await waitForOtp(cutoff)
   await page.locator("#signin-code").fill(otp)
   await page.getByRole("button", { name: "Verify code" }).click()
-  await expect(page).toHaveURL(ACCOUNT_URL, { timeout: 20_000 })
-  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+  await expect(page.getByText("Create your first project.")).toBeVisible({
     timeout: 15_000,
   })
 
@@ -404,8 +414,8 @@ test("passkey sign-up and passkey sign-in with a virtual authenticator", async (
   await page
     .getByRole("button", { name: "Create account with passkey" })
     .click()
-  await expect(page).toHaveURL(ACCOUNT_URL, { timeout: 25_000 })
-  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 25_000 })
+  await expect(page.getByText("Create your first project.")).toBeVisible({
     timeout: 15_000,
   })
 
@@ -420,10 +430,34 @@ test("passkey sign-up and passkey sign-in with a virtual authenticator", async (
   await page.getByRole("button", { name: "Continue with passkey" }).click()
   const passkeyResult = await passkeyResponse
   expect(passkeyResult.ok()).toBe(true)
-  await expect(page).toHaveURL(ACCOUNT_URL, { timeout: 20_000 })
-  await expect(page.getByText(`Signed in as ${email}`)).toBeVisible({
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+  await expect(page.getByText("Create your first project.")).toBeVisible({
     timeout: 15_000,
   })
+})
+
+test("projects entry shows the first-project empty state", async ({ page }) => {
+  const email = `e2e-projects-${Date.now()}@example.com`
+  trackedEmails.push(email)
+  await createUserThroughApi(email, "Projects Tester")
+  await sleep(1000)
+
+  await signInWithPassword(page, email, PASSWORD)
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+  await expect(page.getByRole("heading", { name: "Projects" })).toBeVisible()
+  await expect(page.getByText("Create your first project.")).toBeVisible()
+  await expect(
+    page.getByRole("link", { name: "Create project" })
+  ).toHaveAttribute("href", "/projects/new")
+
+  await page.screenshot({
+    fullPage: true,
+    path: ".playwright-output/projects-empty.png",
+  })
+
+  await signOut(page)
+  await page.goto("/projects")
+  await expect(page).toHaveURL(SIGN_IN_URL, { timeout: 15_000 })
 })
 
 test("social providers return an authorize url", async () => {
