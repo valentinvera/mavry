@@ -3,7 +3,7 @@ import { Button } from "@mavry/ui/components/button"
 import { Separator } from "@mavry/ui/components/separator"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { ChangeEmailSection } from "@/components/account/change-email"
 import { ChangePasswordSection } from "@/components/account/change-password"
 import { PasskeySection } from "@/components/account/passkeys"
@@ -25,14 +25,38 @@ export const Route = createFileRoute("/account")({
 function AccountPage() {
   const navigate = useNavigate()
   const { data: session, isPending, refetch } = authClient.useSession()
+  const [isSessionChecked, setIsSessionChecked] = useState(false)
+  const hasRequestedSessionCheck = useRef(false)
+
+  // The session store can hold a stale signed-out value right after a sign-in
+  // method that does not update it synchronously (for example passkeys), so we
+  // confirm the session before deciding that the visitor is signed out.
+  useEffect(() => {
+    if (session) {
+      setIsSessionChecked(true)
+      return
+    }
+
+    if (isPending || hasRequestedSessionCheck.current) {
+      return
+    }
+
+    hasRequestedSessionCheck.current = true
+
+    refetch().finally(() => {
+      setIsSessionChecked(true)
+    })
+  }, [isPending, refetch, session])
 
   useEffect(() => {
-    if (!(isPending || session)) {
-      navigate({ search: { error: undefined }, to: "/sign-in" }).catch(
-        () => undefined
-      )
+    if (!(isSessionChecked && !isPending && !session)) {
+      return
     }
-  }, [isPending, navigate, session])
+
+    navigate({ search: { error: undefined }, to: "/sign-in" }).catch(
+      () => undefined
+    )
+  }, [isPending, isSessionChecked, navigate, session])
 
   const handleChanged = useCallback(async (): Promise<void> => {
     await refetch()
