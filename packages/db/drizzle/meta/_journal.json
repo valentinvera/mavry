@@ -43,6 +43,13 @@
       "when": 1793953125515,
       "tag": "0005_overconfident_jack_power",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793956226552,
+      "tag": "0006_soft_mystique",
+      "breakpoints": true
     }
   ]
 }
