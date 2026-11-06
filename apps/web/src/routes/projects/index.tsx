@@ -1,12 +1,9 @@
 import { buttonVariants } from "@mavry/ui/components/button"
 import { Spinner } from "@mavry/ui/components/spinner"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { PROJECT_STAGE_LABELS } from "@/lib/project-stage"
 import { useTRPC } from "@/utils/trpc"
-
-// The intake form route lands in the next onboarding task.
-const NEW_PROJECT_HREF = "/projects/new"
 
 const DATE_FORMATTER = new Intl.DateTimeFormat("en", {
   day: "numeric",
@@ -34,15 +31,15 @@ function ProjectsPage() {
         </div>
 
         {projects.length > 0 ? (
-          <a
+          <Link
             className={buttonVariants({
               className: "h-9 rounded-md text-small",
               size: "sm",
             })}
-            href={NEW_PROJECT_HREF}
+            to="/projects/new"
           >
             New project
-          </a>
+          </Link>
         ) : null}
       </div>
 
@@ -69,15 +66,15 @@ function ProjectsPage() {
               <li>What is already built and what blocks launch</li>
             </ul>
 
-            <a
+            <Link
               className={buttonVariants({
                 className: "mt-7 h-10 rounded-lg text-action!",
                 size: "sm",
               })}
-              href={NEW_PROJECT_HREF}
+              to="/projects/new"
             >
               Create project
-            </a>
+            </Link>
           </div>
         </div>
       ) : null}

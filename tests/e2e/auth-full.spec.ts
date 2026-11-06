@@ -10,6 +10,7 @@ const WEB_BASE_URL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:8080"
 const CAPTCHA_TOKEN = "XXXX.DUMMY.TOKEN.XXXX"
 const DEVTOOLS_BUTTON_NAME = /Open TanStack Router Devtools/
 const PROJECTS_URL = /\/projects$/u
+const NEW_PROJECT_URL = /\/projects\/new$/u
 const SIGN_IN_URL = /\/sign-in/u
 const TWO_FACTOR_URL = /\/two-factor/u
 const VERIFY_EMAIL_URL = /\/verify-email/u
@@ -458,6 +459,57 @@ test("projects entry shows the first-project empty state", async ({ page }) => {
   await signOut(page)
   await page.goto("/projects")
   await expect(page).toHaveURL(SIGN_IN_URL, { timeout: 15_000 })
+})
+
+test("creates a project from the intake form", async ({ page }) => {
+  const email = `e2e-intake-${Date.now()}@example.com`
+  trackedEmails.push(email)
+  await createUserThroughApi(email, "Intake Tester")
+  await sleep(1000)
+
+  await signInWithPassword(page, email, PASSWORD)
+  await page.getByRole("link", { name: "Create project" }).click()
+  await expect(page).toHaveURL(NEW_PROJECT_URL)
+  await waitForHydration(page)
+
+  await page.locator("#project-name").fill("Mavry")
+  await page
+    .locator("#project-description")
+    .fill("Decision layer for early-stage products.")
+  await page.locator("#project-stage").click()
+  await page.getByRole("option", { name: "MVP scope" }).click()
+  await page.locator("#project-target-user").fill("Solo technical founders")
+  await page
+    .locator("#project-main-problem")
+    .fill("Too many ideas and no clear next step.")
+  await page
+    .locator("#project-hypothesis")
+    .fill("Scope, cuts, and readiness in one place help builders ship sooner.")
+  await page.locator("#project-goal").fill("Ship onboarding to 20 builders.")
+
+  await page.getByRole("button", { name: "Already started" }).click()
+  await expect(page.locator("#project-already-built")).toBeVisible()
+  await page.locator("#project-already-built").fill("Auth and account pages.")
+  await page
+    .locator("#project-launch-blocker")
+    .fill("Feedback ownership before opening beta.")
+  await page
+    .locator("#project-scope-creep")
+    .fill("A public roadmap and GitHub sync.")
+
+  await page.screenshot({
+    fullPage: true,
+    path: ".playwright-output/project-intake.png",
+  })
+
+  await page.getByRole("button", { name: "Create project" }).click()
+  await expect(page).toHaveURL(PROJECTS_URL, { timeout: 20_000 })
+  await expect(page.getByRole("heading", { name: "Mavry" })).toBeVisible({
+    timeout: 15_000,
+  })
+  await expect(page.getByText("MVP scope", { exact: true })).toBeVisible()
+
+  await signOut(page)
 })
 
 test("social providers return an authorize url", async () => {
