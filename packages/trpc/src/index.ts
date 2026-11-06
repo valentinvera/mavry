@@ -1,6 +1,24 @@
 // biome-ignore lint/performance/noBarrelFile: This file is the public package entrypoint.
 export { AppContext, type Context } from "./context"
 export {
+  type ClassifyFeatureInput,
+  type CreateFeatureInput,
+  type CutSummary,
+  classifyFeatureInputSchema,
+  createFeatureInputSchema,
+  cutSummarySchema,
+  type Feature,
+  type FeatureClassification,
+  type FeatureStatus,
+  featureClassificationSchema,
+  featureSchema,
+  featureStatusSchema,
+  type ListCutsInput,
+  type ListFeaturesInput,
+  listCutsInputSchema,
+  listFeaturesInputSchema,
+} from "./contracts/feature"
+export {
   type CreateIdeaInput,
   createIdeaInputSchema,
   type Idea,
@@ -48,9 +66,16 @@ export {
 export { ProtectedMiddleware } from "./middleware/protected"
 export { TrpcModule } from "./module"
 export { TrpcRouter } from "./routers/app.router"
+export { CutsRouter } from "./routers/cuts.router"
+export { FeaturesRouter } from "./routers/features.router"
 export { IdeasRouter } from "./routers/ideas.router"
 export { ProjectsRouter } from "./routers/projects.router"
 export { WaitlistRouter } from "./routers/waitlist.router"
+export {
+  FeatureNotFoundError,
+  FeatureProjectNotAccessibleError,
+  FeaturesService,
+} from "./services/features.service"
 export {
   IdeaNotFoundError,
   IdeasService,

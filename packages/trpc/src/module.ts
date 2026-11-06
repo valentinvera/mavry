@@ -5,9 +5,12 @@ import { TRPCModule } from "nestjs-trpc"
 import { AppContext } from "./context"
 import { ProtectedMiddleware } from "./middleware/protected"
 import { TrpcRouter } from "./routers/app.router"
+import { CutsRouter } from "./routers/cuts.router"
+import { FeaturesRouter } from "./routers/features.router"
 import { IdeasRouter } from "./routers/ideas.router"
 import { ProjectsRouter } from "./routers/projects.router"
 import { WaitlistRouter } from "./routers/waitlist.router"
+import { FeaturesService } from "./services/features.service"
 import { IdeasService } from "./services/ideas.service"
 import { ProjectsService } from "./services/projects.service"
 import { WaitlistService } from "./services/waitlist.service"
@@ -21,6 +24,9 @@ import { WaitlistStore } from "./services/waitlist-store.service"
 @Module({
   exports: [
     AppContext,
+    CutsRouter,
+    FeaturesRouter,
+    FeaturesService,
     IdeasRouter,
     IdeasService,
     ProtectedMiddleware,
@@ -42,6 +48,9 @@ import { WaitlistStore } from "./services/waitlist-store.service"
   ],
   providers: [
     AppContext,
+    CutsRouter,
+    FeaturesRouter,
+    FeaturesService,
     IdeasRouter,
     IdeasService,
     ProtectedMiddleware,
