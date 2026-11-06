@@ -39,5 +39,17 @@
       "semicolons": "asNeeded"
     }
   },
+  "overrides": [
+    {
+      "includes": ["apps/web/src/routes/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    }
+  ],
   "extends": ["ultracite/biome/core", "ultracite/biome/react"]
 }
