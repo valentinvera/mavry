@@ -5,7 +5,9 @@ import { TRPCModule } from "nestjs-trpc"
 import { AppContext } from "./context"
 import { ProtectedMiddleware } from "./middleware/protected"
 import { TrpcRouter } from "./routers/app.router"
+import { ProjectsRouter } from "./routers/projects.router"
 import { WaitlistRouter } from "./routers/waitlist.router"
+import { ProjectsService } from "./services/projects.service"
 import { WaitlistService } from "./services/waitlist.service"
 import {
   createWaitlistConfirmationReceiptService,
@@ -18,6 +20,8 @@ import { WaitlistStore } from "./services/waitlist-store.service"
   exports: [
     AppContext,
     ProtectedMiddleware,
+    ProjectsRouter,
+    ProjectsService,
     TrpcRouter,
     WaitlistConfirmationReceiptService,
     WaitlistEmailService,
@@ -35,6 +39,8 @@ import { WaitlistStore } from "./services/waitlist-store.service"
   providers: [
     AppContext,
     ProtectedMiddleware,
+    ProjectsRouter,
+    ProjectsService,
     TrpcRouter,
     {
       provide: WaitlistEmailService,

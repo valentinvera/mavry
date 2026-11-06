@@ -1,6 +1,17 @@
 // biome-ignore lint/performance/noBarrelFile: This file is the public package entrypoint.
 export { AppContext, type Context } from "./context"
 export {
+  type CreateProjectInput,
+  createProjectInputSchema,
+  type Project,
+  type ProjectStage,
+  type ProjectSummary,
+  projectByIdInputSchema,
+  projectSchema,
+  projectStageSchema,
+  projectSummarySchema,
+} from "./contracts/project"
+export {
   type ConfirmWaitlistInput,
   type ConfirmWaitlistOutput,
   confirmWaitlistInputSchema,
@@ -21,7 +32,9 @@ export {
 export { ProtectedMiddleware } from "./middleware/protected"
 export { TrpcModule } from "./module"
 export { TrpcRouter } from "./routers/app.router"
+export { ProjectsRouter } from "./routers/projects.router"
 export { WaitlistRouter } from "./routers/waitlist.router"
+export { ProjectsService } from "./services/projects.service"
 export { WaitlistService } from "./services/waitlist.service"
 export {
   createWaitlistConfirmationReceiptService,
