@@ -56,7 +56,7 @@ export const TwoFactorChallenge = () => {
         return
       }
 
-      await navigate({ to: "/account" })
+      await navigate({ to: "/projects" })
     } catch {
       setAuthError({
         message: "That code didn’t work. Try again.",

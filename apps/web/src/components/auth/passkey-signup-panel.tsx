@@ -73,7 +73,7 @@ export const PasskeySignupPanel = ({ onBack }: PasskeySignupPanelProps) => {
         return
       }
 
-      await navigate({ to: "/account" })
+      await navigate({ to: "/projects" })
     } catch {
       setErrorMessage(
         "Mavry couldn’t create your passkey. This device may not support passkeys."
